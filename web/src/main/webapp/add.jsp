@@ -36,7 +36,7 @@
 
 			<div>
 				<input type="submit" value="Save" /> <input type="reset"
-					value="Reset" />
+					value="Reset" /> <input type="cancel" value="Cancel">
 			</div>
 		</fieldset>
 	</form>
