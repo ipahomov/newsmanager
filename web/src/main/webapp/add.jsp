@@ -35,8 +35,9 @@
 
 
 			<div>
-				<input type="submit" value="Save" /> <input type="reset"
-					value="Reset" /> <input type="cancel" value="Cancel">
+				<input type="submit" value="Save" />
+				<input type="reset" value="Reset" />
+				<a href="SiteController">Cancel</a>
 			</div>
 		</fieldset>
 	</form>
