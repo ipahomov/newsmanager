@@ -2,7 +2,6 @@ package by.it.academy.dao;
 
 import by.it.academy.model.Category;
 import by.it.academy.model.News;
-import by.it.academy.model.User;
 
 import java.util.List;
 
@@ -20,10 +19,6 @@ public interface DAO {
 	int addCat(Category category);
 
 	List<News> getAllNews();
-
-	User getUserByEmail(String email);
-
-	List<User> getAllUsers();
 
 	List<Category> getAllCategories();
 

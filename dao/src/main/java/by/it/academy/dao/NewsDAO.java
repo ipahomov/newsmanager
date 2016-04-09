@@ -2,7 +2,6 @@ package by.it.academy.dao;
 
 import by.it.academy.model.Category;
 import by.it.academy.model.News;
-import by.it.academy.model.User;
 import by.it.academy.utils.DataSource;
 import org.apache.log4j.Logger;
 
@@ -167,33 +166,6 @@ public class NewsDAO implements DAO {
 		return list;
 	}
 
-	public User getUserByEmail(String email) {
-		User user = null;
-		String query = "SELECT * FROM user WHERE email=?";
-		try {
-			PreparedStatement pStatement = connection.prepareStatement(query);
-			pStatement.setString(1, email);
-			ResultSet result = pStatement.executeQuery();
-
-			if (result.next()) {
-				user = new User();
-				user.setFirstName(result.getString(1));
-				user.setLastName(result.getString(2));
-				user.setEmail(result.getString(3));
-				user.setPassword(result.getString(4));
-			}
-
-		} catch (SQLException e) {
-			logger.error("Error get user by email", e);
-		}
-        try {
-            connection.close();
-        } catch (SQLException e) {
-            logger.error(e);
-        }
-		return user;
-	}
-
 	public List<Category> getAllCategories() {
         Connection connectiona = null;
         try {
@@ -248,33 +220,6 @@ public class NewsDAO implements DAO {
             logger.error(e);
         }
 		return cat;
-	}
-
-	public List<User> getAllUsers() {
-		List<User> list = new ArrayList<User>();
-		String query = "SELECT * FROM user";
-		try {
-			Statement st = connection.createStatement();
-			ResultSet result = st.executeQuery(query);
-			while (result.next()) {
-				User user = new User();
-				user.setFirstName(result.getString(1));
-				user.setLastName(result.getString(2));
-				user.setEmail(result.getString(3));
-				user.setPassword(result.getString(4));
-				list.add(user);
-			}
-			result.close();
-			st.close();
-		} catch (SQLException e) {
-			logger.error("Error get all users", e);
-		}
-        try {
-            connection.close();
-        } catch (SQLException e) {
-            logger.error(e);
-        }
-		return list;
 	}
 
 	public int addCat(Category category) {
