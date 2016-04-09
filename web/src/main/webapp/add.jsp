@@ -16,17 +16,17 @@
 				<input type="hidden" name="id" value="${news.id}" />
 			</div>
 			<div>
-				<label for="categoryId"><b>Category:</b></label> <br> <input
-					type="text" style="width: 200" name="categoryId"
+				<b>Category:</b><br>
+				<input type="text" size="100" name="categoryId"
 					value="${news.categoryId}" />
 			</div>
 			<div>
-				<label for="title"><b>Title</b></label><br> <input type="text"
-					name="title" value="${news.title}" />
+				<b>Title</b><br>
+				<input type="text" name="title" value="${news.title}" />
 			</div>
 			<div>
-				<label for="annotation"><b>Annotation</b></label> <br> <input
-					type="text" name="annotation" value="${news.annotation}" />
+				<b>Annotation</b><br>
+				<input type="text" name="annotation" value="${news.annotation}" />
 			</div>
 			<div>
 				<b>Maintext:</b><br>
