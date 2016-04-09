@@ -1,0 +1,8 @@
+1.Services
+2.Разбить DAO
+ - open/close connection pool
+3.Filter
+4.Comments
+5.Tests 60-80%
+6.Git
+7.Test war

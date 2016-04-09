@@ -90,7 +90,7 @@ public class NewsDAO implements DAO {
 	public int deleteNews(int id) {
 		String query = "DELETE FROM news WHERE id=?";
 		int result = 0;
-		PreparedStatement pStatement = null;
+		PreparedStatement pStatement;
 		try {
 			pStatement = connection.prepareStatement(query);
 			pStatement.setInt(1, id);
@@ -109,7 +109,7 @@ public class NewsDAO implements DAO {
 	public int editNews(News news) {
 		String query = "UPDATE news SET categoryId=?, title=?, author=?, annotation=?, maintext=? WHERE id=?";
 		int result = 0;
-		PreparedStatement pStatement = null;
+		PreparedStatement pStatement;
 		try {
 			pStatement = connection.prepareStatement(query);
 			pStatement.setString(1, news.getCategoryId());

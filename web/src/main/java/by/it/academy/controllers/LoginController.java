@@ -24,7 +24,6 @@ public class LoginController extends HttpServlet {
 	 */
 	public LoginController() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
 
 	/**
@@ -38,6 +37,7 @@ public class LoginController extends HttpServlet {
 		if (action == null) {
 			command = new ShowLoginCommand();
 		}
+
 		command.execute(request, response);
 
 	}

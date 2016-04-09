@@ -17,7 +17,7 @@ public class LoginCommand implements Command {
 
 	public void execute(HttpServletRequest request, HttpServletResponse response) {
 		DAO dao = NewsDAO.getInstance();
-		String page = "";
+		String page;
 
 		String email = request.getParameter("email");
 		String password = request.getParameter("password");
