@@ -33,7 +33,7 @@ public class UserDao implements IUserDao {
      */
     public User getUserByEmail(String email) {
         Connection connection = null;
-        User user = new User();
+        User user = null;
         String query = "SELECT * FROM user WHERE email=?";
 
         try {

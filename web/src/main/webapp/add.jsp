@@ -17,16 +17,16 @@
 			</div>
 			<div>
 				<b>Category:</b><br>
-				<input type="text" size="100" name="categoryId"
+				<input type="text" size="60" name="categoryId"
 					value="${news.categoryId}" />
 			</div>
 			<div>
 				<b>Title</b><br>
-				<input type="text" name="title" value="${news.title}" />
+				<input type="text" size="60" name="title" value="${news.title}" />
 			</div>
 			<div>
 				<b>Annotation</b><br>
-				<input type="text" name="annotation" value="${news.annotation}" />
+				<input type="text" size="60" name="annotation" value="${news.annotation}" />
 			</div>
 			<div>
 				<b>Maintext:</b><br>
@@ -36,6 +36,7 @@
 
 			<div>
 				<input type="submit" value="Save" />
+				<c:if test="${news.id == null}"/>
 				<input type="reset" value="Reset" />
 				<a href="SiteController">Cancel</a>
 			</div>
