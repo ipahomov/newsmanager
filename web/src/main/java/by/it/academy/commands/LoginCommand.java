@@ -1,7 +1,7 @@
 package by.it.academy.commands;
 
-import by.it.academy.dao.DAO;
-import by.it.academy.dao.NewsDAO;
+import by.it.academy.dao.IUserDao;
+import by.it.academy.dao.UserDao;
 import by.it.academy.model.User;
 import org.apache.log4j.Logger;
 
@@ -16,7 +16,7 @@ public class LoginCommand implements Command {
 	final static Logger logger = Logger.getLogger(LoginCommand.class);
 
 	public void execute(HttpServletRequest request, HttpServletResponse response) {
-		DAO dao = NewsDAO.getInstance();
+		IUserDao dao = UserDao.getInstance();
 		String page;
 
 		String email = request.getParameter("email");

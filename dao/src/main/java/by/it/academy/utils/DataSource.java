@@ -36,7 +36,7 @@ public class DataSource {
             cpds.setAcquireIncrement(5);
             cpds.setMaxPoolSize(20);
             cpds.setMaxStatements(150);
-            cpds.setMaxStatementsPerConnection(100);
+            cpds.setMaxStatementsPerConnection(80);
 
         } catch (PropertyVetoException e) {
             logger.info(e);

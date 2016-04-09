@@ -1,6 +1,5 @@
 package by.it.academy.dao;
 
-import by.it.academy.model.Category;
 import by.it.academy.model.News;
 
 import java.util.List;
@@ -16,13 +15,7 @@ public interface DAO {
 
 	int editNews(News news);
 
-	int addCat(Category category);
-
 	List<News> getAllNews();
-
-	List<Category> getAllCategories();
-
-	Category getCategoryById(String id);
 
 	List<News> getNewsByCategoryId(String category);
 
