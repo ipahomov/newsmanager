@@ -1,7 +1,7 @@
 package by.it.academy.commands;
 
-import by.it.academy.dao.DAO;
-import by.it.academy.dao.NewsDAO;
+import by.it.academy.dao.CategoryDao;
+import by.it.academy.dao.NewsDao;
 import by.it.academy.model.Category;
 import by.it.academy.model.News;
 import org.apache.log4j.Logger;
@@ -19,11 +19,10 @@ public class ShowMenuCommand implements Command {
 
 
 	public void execute(HttpServletRequest request, HttpServletResponse response) {
-		DAO dao = NewsDAO.getInstance();
 		String menuPage = "/menu.jsp";
 
-		List<Category> catList = dao.getAllCategories();
-		List<News> newsList = dao.getAllNews();
+		List<Category> catList = CategoryDao.getInstance().getAllCategories();
+		List<News> newsList = NewsDao.getInstance().getAllNews();
 
 		request.setAttribute("categories", catList);
 		request.setAttribute("allnews", newsList);

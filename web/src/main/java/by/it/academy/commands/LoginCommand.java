@@ -16,14 +16,14 @@ public class LoginCommand implements Command {
 	final static Logger logger = Logger.getLogger(LoginCommand.class);
 
 	public void execute(HttpServletRequest request, HttpServletResponse response) {
-		IUserDao dao = UserDao.getInstance();
+		IUserDao userDao = UserDao.getInstance();
 		String page;
 
 		String email = request.getParameter("email");
 		String password = request.getParameter("password");
 
 		if ((email != null) && (!email.isEmpty()) || (password != null) && (!password.isEmpty())) {
-			User user = dao.getUserByEmail(email);
+			User user = userDao.getUserByEmail(email);
 			if (user != null) {
 				try {
 					HttpSession session = request.getSession();

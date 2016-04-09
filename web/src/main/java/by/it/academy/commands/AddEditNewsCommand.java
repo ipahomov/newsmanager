@@ -1,7 +1,7 @@
 package by.it.academy.commands;
 
-import by.it.academy.dao.DAO;
-import by.it.academy.dao.NewsDAO;
+import by.it.academy.dao.INewsDao;
+import by.it.academy.dao.NewsDao;
 import by.it.academy.model.News;
 import by.it.academy.model.User;
 import org.apache.log4j.Logger;
@@ -21,7 +21,7 @@ public class AddEditNewsCommand implements Command {
 	final static Logger logger = Logger.getLogger(AddEditNewsCommand.class);
 
 	public void execute(HttpServletRequest request, HttpServletResponse response) {
-		DAO dao = NewsDAO.getInstance();
+		INewsDao newsDao = NewsDao.getInstance();
 
 		boolean run = true;
 		String categoryId = request.getParameter("categoryId");
@@ -51,12 +51,12 @@ public class AddEditNewsCommand implements Command {
 
 			String id = request.getParameter("id");
 			if ((id == null) || id.isEmpty()) {
-				int n = dao.addNews(news);
+				int n = newsDao.addNews(news);
 				if (n > 0)
 					logger.info("New news added: "+ news.toString());
 			} else {
 				news.setId(Integer.parseInt(id));
-				int n = dao.editNews(news);
+				int n = newsDao.editNews(news);
 				if (n > 0)
 					logger.info("News edited: "+ news.toString());
 			}

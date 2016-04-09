@@ -1,8 +1,8 @@
 package by.it.academy.controllers;
 
 
-import by.it.academy.dao.DAO;
-import by.it.academy.dao.NewsDAO;
+import by.it.academy.dao.INewsDao;
+import by.it.academy.dao.NewsDao;
 import by.it.academy.model.News;
 
 import javax.servlet.RequestDispatcher;
@@ -20,14 +20,14 @@ import java.util.List;
 @WebServlet("/ListNews")
 public class ListNewsController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	DAO dao;
+	INewsDao newsDao;
 
 	/**
 	 * @see HttpServlet#HttpServlet()
 	 */
 	public ListNewsController() {
 		super();
-		dao = NewsDAO.getInstance();
+		newsDao = NewsDao.getInstance();
 	}
 
 	/**
@@ -41,12 +41,12 @@ public class ListNewsController extends HttpServlet {
 		String action = request.getParameter("action");
 		if (action == null) {
 			page = "/listnews.jsp";
-			List<News> listNews = dao.getAllNews();
+			List<News> listNews = newsDao.getAllNews();
 			request.setAttribute("listNews", listNews);
 		} else if (action.equals("shownews")) {
 			page = "/shownews.jsp";
 			int id = Integer.parseInt(request.getParameter("id"));
-			News news = dao.getNews(id);
+			News news = newsDao.getNews(id);
 			request.setAttribute("news", news);
 		}
 

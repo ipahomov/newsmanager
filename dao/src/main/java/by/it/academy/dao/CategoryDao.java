@@ -11,17 +11,18 @@ import java.util.List;
 /**
  * Operations with categories table
  */
-public class CategoryDao implements ICategoryDao{
+public class CategoryDao implements ICategoryDao {
     final static Logger logger = Logger.getLogger(UserDao.class);
     public static CategoryDao instance;
 
     /**
      * Singleton pattern
      */
-    private CategoryDao(){}
+    private CategoryDao() {
+    }
 
-    public static CategoryDao getInstance(){
-        if(instance==null){
+    public static CategoryDao getInstance() {
+        if (instance == null) {
             instance = new CategoryDao();
         }
         return instance;
@@ -29,6 +30,7 @@ public class CategoryDao implements ICategoryDao{
 
     /**
      * get all categories from table
+     *
      * @return List<Category>
      */
     public List<Category> getAllCategories() {
@@ -58,13 +60,14 @@ public class CategoryDao implements ICategoryDao{
 
     /**
      * Get category from table by id
+     *
      * @param id
      * @return category by id
      */
     public Category getCategoryById(String id) {
         Category cat = new Category();
         String query = "SELECT * FROM category WHERE catId=?";
-        Connection connection=null;
+        Connection connection = null;
         try {
             connection = DataSource.getInstance().getConnection();
             PreparedStatement pStatement = connection.prepareStatement(query);
@@ -90,6 +93,7 @@ public class CategoryDao implements ICategoryDao{
 
     /**
      * Add new Category
+     *
      * @param category
      * @return affected rows (int)
      */

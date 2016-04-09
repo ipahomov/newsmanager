@@ -1,7 +1,7 @@
 package by.it.academy.commands;
 
-import by.it.academy.dao.DAO;
-import by.it.academy.dao.NewsDAO;
+import by.it.academy.dao.CategoryDao;
+import by.it.academy.dao.NewsDao;
 import by.it.academy.model.Category;
 import by.it.academy.model.News;
 import org.apache.log4j.Logger;
@@ -17,12 +17,11 @@ public class ShowNewsByCategory implements Command {
 	final static Logger logger = Logger.getLogger(ShowNewsByCategory.class);
 
 	public void execute(HttpServletRequest request, HttpServletResponse response) {
-		DAO dao = NewsDAO.getInstance();
 		String menuPage = "/menu.jsp";
 
-		List<Category> catList = dao.getAllCategories();
+		List<Category> catList = CategoryDao.getInstance().getAllCategories();
 		String category = request.getParameter("catId");
-		List<News> newsList = dao.getNewsByCategoryId(category);
+		List<News> newsList = NewsDao.getInstance().getNewsByCategoryId(category);
 
 		request.setAttribute("categories", catList);
 		request.setAttribute("allnews", newsList);

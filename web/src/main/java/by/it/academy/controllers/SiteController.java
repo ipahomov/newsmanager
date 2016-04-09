@@ -1,8 +1,6 @@
 package by.it.academy.controllers;
 
 import by.it.academy.commands.*;
-import by.it.academy.dao.DAO;
-import by.it.academy.dao.NewsDAO;
 import by.it.academy.model.User;
 
 import javax.servlet.ServletException;
@@ -20,14 +18,12 @@ import java.io.IOException;
 @WebServlet("/SiteController")
 public class SiteController extends HttpServlet {
     private static final long serialVersionUID = 1L;
-    DAO dao;
 
     /**
      * Default constructor.
      */
     public SiteController() {
         super();
-        dao = NewsDAO.getInstance();
     }
 
     /**

@@ -1,7 +1,7 @@
 package by.it.academy.commands;
 
-import by.it.academy.dao.DAO;
-import by.it.academy.dao.NewsDAO;
+import by.it.academy.dao.INewsDao;
+import by.it.academy.dao.NewsDao;
 import by.it.academy.model.News;
 import org.apache.log4j.Logger;
 
@@ -15,9 +15,9 @@ public class ShowNewsPageCommand implements Command {
 	final static Logger logger = Logger.getLogger(ShowNewsPageCommand.class);
 
 	public void execute(HttpServletRequest request, HttpServletResponse response) {
-		DAO dao = NewsDAO.getInstance();
+		INewsDao newsDao = NewsDao.getInstance();
 		int id = Integer.parseInt(request.getParameter("id"));
-		News news = dao.getNews(id);
+		News news = newsDao.getNews(id);
 
 		request.setAttribute("news", news);
 		RequestDispatcher dispatcher = request.getRequestDispatcher("/news.jsp");
