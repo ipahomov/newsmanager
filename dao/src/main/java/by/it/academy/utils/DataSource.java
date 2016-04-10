@@ -36,7 +36,7 @@ public class DataSource {
             cpds.setAcquireIncrement(5);
             cpds.setMaxPoolSize(20);
             cpds.setMaxStatements(150);
-            cpds.setMaxStatementsPerConnection(80);
+            cpds.setMaxStatementsPerConnection(50);
 
         } catch (PropertyVetoException e) {
             logger.info(e);
@@ -44,7 +44,7 @@ public class DataSource {
 
     }
 
-    public static DataSource getInstance() {
+    public static synchronized DataSource getInstance() {
         if (dataSource == null) {
             dataSource = new DataSource();
         }
@@ -52,7 +52,14 @@ public class DataSource {
     }
 
     public Connection getConnection() throws SQLException {
-        return this.cpds.getConnection();
+        Connection connection = null;
+        try {
+            connection = this.cpds.getConnection();
+        } catch (SQLException e) {
+            logger.error(e);
+        }
+        return connection;
     }
+
 
 }

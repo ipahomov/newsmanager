@@ -7,7 +7,7 @@ import by.it.academy.model.News;
 import java.util.List;
 
 /**
- * Realisation of INewsSerice interface
+ * Realisation of INewsService interface
  */
 public class NewsService implements INewsService {
     private INewsDao newsDao;

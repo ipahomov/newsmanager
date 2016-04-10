@@ -143,10 +143,12 @@ public class NewsDao implements INewsDao {
         List<News> list = new ArrayList<News>();
         String query = "SELECT * FROM news";
         Connection connection = null;
+        Statement st=null;
+        ResultSet result=null;
         try {
             connection = DataSource.getInstance().getConnection();
-            Statement st = connection.createStatement();
-            ResultSet result = st.executeQuery(query);
+            st = connection.createStatement();
+            result = st.executeQuery(query);
             while (result.next()) {
                 News news = new News();
                 news.setId(result.getInt(1));
@@ -160,12 +162,7 @@ public class NewsDao implements INewsDao {
             }
         } catch (SQLException e) {
             logger.error("Error get all news", e);
-        } finally {
-            try {
-                connection.close();
-            } catch (SQLException e) {
-                logger.error(e);
-            }
+        } finally {closeConnection(connection,st,result);
         }
 
         return list;
@@ -175,10 +172,12 @@ public class NewsDao implements INewsDao {
         List<News> list = new ArrayList<News>();
         String query = "SELECT * FROM news WHERE categoryId=" + "'" + category + "'";
         Connection connection = null;
+        Statement statement=null;
+        ResultSet result=null;
         try {
             connection = DataSource.getInstance().getConnection();
-            Statement statement = connection.prepareStatement(query);
-            ResultSet result = statement.executeQuery(query);
+            statement = connection.prepareStatement(query);
+            result = statement.executeQuery(query);
             while (result.next()) {
                 News news = new News();
                 news.setId(result.getInt(1));
@@ -193,14 +192,34 @@ public class NewsDao implements INewsDao {
         } catch (SQLException e) {
             logger.error("Error get news by category", e);
         } finally {
-            try {
-                connection.close();
-            } catch (SQLException e) {
-                logger.error(e);
-            }
+            closeConnection(connection,statement, result);
         }
 
         return list;
+    }
+
+    public void closeConnection(Connection connection, Statement statement, ResultSet resultSet ){
+        if(resultSet!=null){
+            try {
+                resultSet.close();
+            } catch (SQLException e) {
+                logger.error("Error close resultSet", e);
+            }
+        }
+        if(statement!=null){
+            try {
+                statement.close();
+            } catch (SQLException e) {
+                logger.error("Error close statement", e);
+            }
+        }
+        if(connection!=null){
+            try {
+                connection.close();
+            } catch (SQLException e) {
+                logger.error("Error close connection", e);
+            }
+        }
     }
 
 }

@@ -49,12 +49,14 @@ public class CategoryDao implements ICategoryDao {
             }
         } catch (SQLException e) {
             logger.error("Error get all categories", e);
+        } finally {
+            try {
+                connection.close();
+            } catch (SQLException e) {
+                logger.error(e);
+            }
         }
-        try {
-            connection.close();
-        } catch (SQLException e) {
-            logger.error(e);
-        }
+
         return list;
     }
 
@@ -82,12 +84,14 @@ public class CategoryDao implements ICategoryDao {
 
         } catch (SQLException e) {
             logger.error("Error get category by id", e);
+        } finally {
+            try {
+                connection.close();
+            } catch (SQLException e) {
+                logger.error(e);
+            }
         }
-        try {
-            connection.close();
-        } catch (SQLException e) {
-            logger.error(e);
-        }
+
         return cat;
     }
 
@@ -111,12 +115,14 @@ public class CategoryDao implements ICategoryDao {
 
         } catch (SQLException e) {
             logger.error("Error get add category", e);
+        } finally {
+            try {
+                connection.close();
+            } catch (SQLException e) {
+                logger.error(e);
+            }
         }
-        try {
-            connection.close();
-        } catch (SQLException e) {
-            logger.error(e);
-        }
+
         return result;
     }
 }
