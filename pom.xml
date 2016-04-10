@@ -32,10 +32,13 @@
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>tomcat-maven-plugin</artifactId>
+                <version>1.1</version>
                 <configuration>
-                    <url>http://localhost:8080/newsmanager</url>
+                    <url>http://localhost:8080/manager/html</url>
+                    <username>manager-gui</username>
+                    <password>tomcat</password>
                     <path>/${project.build.finalName}</path>
-                    <warFile>target/${project.build.finalName}</warFile>
+                    <warFile>target/${project.build.finalName}.war</warFile>
                 </configuration>
                 <executions>
                     <execution>

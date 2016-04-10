@@ -15,10 +15,25 @@ public interface ICategoryService {
      */
     List<Category> getAllCategories();
 
+    /**
+     * Get all categories sorted by parent category
+     * @param parentId parent category
+     * @return List Collection of all categories sorted by parent category
+     */
     List<Category> getCategoriesByParentId(String parentId);
 
+    /**
+     * Get one category by id
+     * @param id of category
+     * @return category
+     */
     Category getCategory(String id);
 
+    /**
+     * Add a new category of news
+     * @param category of news
+     * @return
+     */
     int addCategory(Category category);
 
 }
