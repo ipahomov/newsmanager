@@ -52,6 +52,7 @@
 			<br>
 
 		</c:forEach>
+		<hr>
 		<a href="#">Add Category</a>
 	</div>
 

@@ -14,6 +14,7 @@ import java.io.IOException;
 
 /**
  * Servlet implementation class LoginController
+ * Controller for users login operations
  */
 @WebServlet("/LoginController")
 public class LoginController extends HttpServlet {

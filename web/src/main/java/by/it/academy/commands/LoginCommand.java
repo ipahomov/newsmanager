@@ -1,8 +1,8 @@
 package by.it.academy.commands;
 
-import by.it.academy.dao.IUserDao;
-import by.it.academy.dao.UserDao;
 import by.it.academy.model.User;
+import by.it.academy.services.IUserService;
+import by.it.academy.services.UserService;
 import org.apache.log4j.Logger;
 
 import javax.servlet.RequestDispatcher;
@@ -16,14 +16,14 @@ public class LoginCommand implements Command {
 	final static Logger logger = Logger.getLogger(LoginCommand.class);
 
 	public void execute(HttpServletRequest request, HttpServletResponse response) {
-		IUserDao userDao = UserDao.getInstance();
+		IUserService userService = UserService.getUserService();
 		String page;
 
 		String email = request.getParameter("email");
 		String password = request.getParameter("password");
 
 		if ((email != null) && (!email.isEmpty()) || (password != null) && (!password.isEmpty())) {
-			User user = userDao.getUserByEmail(email);
+			User user = userService.getUserByEmail(email);
 			if (user != null) {
 				try {
 					HttpSession session = request.getSession();

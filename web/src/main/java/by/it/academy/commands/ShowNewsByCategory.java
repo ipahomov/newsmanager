@@ -1,9 +1,11 @@
 package by.it.academy.commands;
 
-import by.it.academy.dao.CategoryDao;
-import by.it.academy.dao.NewsDao;
 import by.it.academy.model.Category;
 import by.it.academy.model.News;
+import by.it.academy.services.CategoryService;
+import by.it.academy.services.ICategoryService;
+import by.it.academy.services.INewsService;
+import by.it.academy.services.NewsService;
 import org.apache.log4j.Logger;
 
 import javax.servlet.RequestDispatcher;
@@ -19,9 +21,12 @@ public class ShowNewsByCategory implements Command {
 	public void execute(HttpServletRequest request, HttpServletResponse response) {
 		String menuPage = "/menu.jsp";
 
-		List<Category> catList = CategoryDao.getInstance().getAllCategories();
+		ICategoryService categoryService = CategoryService.getCategoryService();
+		INewsService newsService = NewsService.getNewsService();
+
+		List<Category> catList = categoryService.getCategoriesByParentId("main");
 		String category = request.getParameter("catId");
-		List<News> newsList = NewsDao.getInstance().getNewsByCategoryId(category);
+		List<News> newsList = newsService.getNewsByCategoryId(category);
 
 		request.setAttribute("categories", catList);
 		request.setAttribute("allnews", newsList);

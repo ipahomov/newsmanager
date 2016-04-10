@@ -9,9 +9,16 @@ import by.it.academy.model.User;
  */
 public class UserService implements IUserService {
     private IUserDao userDao;
+    private static UserService userService;
 
-    public UserService(){
-        userDao = UserDao.getInstance();
+    private UserService(){
+        userDao = UserDao.getUserDao();
+    }
+
+    public static UserService getUserService(){
+        if(userService==null)
+            userService=new UserService();
+        return userService;
     }
 
     public User getUserByEmail(String email) {

@@ -24,8 +24,8 @@ public class DataSource {
         } catch (IOException e) {
             logger.error("Error load properties", e);
         }
+        cpds = new ComboPooledDataSource();
         try {
-            cpds = new ComboPooledDataSource();
             cpds.setDriverClass(properties.getProperty("driver"));
             cpds.setJdbcUrl(properties.getProperty("dbURL"));
             cpds.setUser(properties.getProperty("username"));
@@ -51,7 +51,7 @@ public class DataSource {
         return dataSource;
     }
 
-    public Connection getConnection() throws SQLException {
+    public Connection getConnection() {
         Connection connection = null;
         try {
             connection = this.cpds.getConnection();

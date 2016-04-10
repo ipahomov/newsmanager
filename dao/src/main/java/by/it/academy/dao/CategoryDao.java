@@ -13,7 +13,7 @@ import java.util.List;
  */
 public class CategoryDao implements ICategoryDao {
     final static Logger logger = Logger.getLogger(UserDao.class);
-    public static CategoryDao instance;
+    public static CategoryDao categoryDao;
 
     /**
      * Singleton pattern
@@ -21,11 +21,11 @@ public class CategoryDao implements ICategoryDao {
     private CategoryDao() {
     }
 
-    public static CategoryDao getInstance() {
-        if (instance == null) {
-            instance = new CategoryDao();
+    public static CategoryDao getCategoryDao() {
+        if (categoryDao == null) {
+            categoryDao = new CategoryDao();
         }
-        return instance;
+        return categoryDao;
     }
 
     /**
@@ -36,11 +36,10 @@ public class CategoryDao implements ICategoryDao {
     public List<Category> getAllCategories() {
         List<Category> list = new ArrayList<Category>();
         String query = "SELECT * FROM category";
-        Connection connection = null;
+        Connection connection = DataSource.getInstance().getConnection();
         try {
-            connection = DataSource.getInstance().getConnection();
-            Statement st = connection.createStatement();
-            ResultSet result = st.executeQuery(query);
+            Statement statement = connection.createStatement();
+            ResultSet result = statement.executeQuery(query);
             while (result.next()) {
                 Category category = new Category();
                 category.setCatId(result.getString(1));
@@ -63,23 +62,22 @@ public class CategoryDao implements ICategoryDao {
     /**
      * Get category from table by id
      *
-     * @param id
+     * @param parentId
      * @return category by id
      */
-    public Category getCategoryById(String id) {
-        Category cat = new Category();
-        String query = "SELECT * FROM category WHERE catId=?";
-        Connection connection = null;
+    public List<Category> getCategoriesByParentId(String parentId) {
+        List<Category> list = new ArrayList<Category>();
+        String query = "SELECT * FROM category WHERE parentId=" + "'" + parentId + "'";
+        Connection connection = DataSource.getInstance().getConnection();
         try {
-            connection = DataSource.getInstance().getConnection();
-            PreparedStatement pStatement = connection.prepareStatement(query);
-            pStatement.setString(1, id);
-            ResultSet result = pStatement.executeQuery();
+            Statement statement = connection.createStatement();
+            ResultSet result = statement.executeQuery(query);
 
-            if (result.next()) {
-                cat = new Category();
-                cat.setCatId(result.getString(1));
-                cat.setParentId(result.getString(2));
+            while (result.next()) {
+                Category category = new Category();
+                category.setCatId(result.getString(1));
+                category.setParentId(result.getString(2));
+                list.add(category);
             }
 
         } catch (SQLException e) {
@@ -92,7 +90,7 @@ public class CategoryDao implements ICategoryDao {
             }
         }
 
-        return cat;
+        return list;
     }
 
     /**
@@ -105,9 +103,8 @@ public class CategoryDao implements ICategoryDao {
         String query = "INSERT INTO category VALUES (?,?)";
         int result = 0;
         PreparedStatement pStatement;
-        Connection connection = null;
+        Connection connection = DataSource.getInstance().getConnection();
         try {
-            connection = DataSource.getInstance().getConnection();
             pStatement = connection.prepareStatement(query);
             pStatement.setString(1, category.getCatId());
             pStatement.setString(2, category.getParentId());
@@ -124,5 +121,32 @@ public class CategoryDao implements ICategoryDao {
         }
 
         return result;
+    }
+
+    public Category getCategory(String id) {
+        Category category = new Category();
+        String query = "SELECT * FROM category WHERE catId=?";
+        Connection connection = DataSource.getInstance().getConnection();
+        try {
+            PreparedStatement pStatement = connection.prepareStatement(query);
+            pStatement.setString(1, id);
+            ResultSet result = pStatement.executeQuery();
+
+            if (result.next()) {
+                category.setCatId(result.getString(1));
+                category.setParentId(result.getString(2));
+            }
+
+        } catch (SQLException e) {
+            logger.error("Error get category by id", e);
+        } finally {
+            try {
+                connection.close();
+            } catch (SQLException e) {
+                logger.error(e);
+            }
+        }
+
+        return category;
     }
 }

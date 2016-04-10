@@ -11,9 +11,12 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
-
 /**
  * Servlet implementation class SiteController
+ * Controller for authors/admin operations.
+ * Operations is available if user registered as a author or admin.
+ * So before each action user is checked in session.
+ * Else - redirecting to LoginController via ReLogin command
  */
 @WebServlet("/SiteController")
 public class SiteController extends HttpServlet {
@@ -33,15 +36,15 @@ public class SiteController extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        Command command = null;
+        // getting user from session
         String action = request.getParameter("action");
         HttpSession session = request.getSession();
         User user = (User) session.getAttribute("user");
+        Command command = null;
 
+        //if user is login
         if (user != null) {
             if (action == null) {
-                command = new ShowMenuCommand();
-            } else if (action.equals("mainmenu")) {
                 command = new ShowMenuCommand();
             } else if (action.equals("addnewsPage")) {
                 command = new ShowAddPageCommand();
@@ -56,10 +59,11 @@ public class SiteController extends HttpServlet {
             } else if (action.equals("showbycat")) {
                 command = new ShowNewsByCategory();
             }
-
+        // user is not in session, he must login
         } else
             command = new ReLoginCommand();
 
+        //execute command of chosen action
         command.execute(request, response);
 
     }

@@ -10,27 +10,25 @@ import java.util.List;
 
 public class NewsDao implements INewsDao {
     final static Logger logger = Logger.getLogger(NewsDao.class);
-    public static NewsDao instance;
-
-    public static NewsDao getInstance() {
-        if (instance == null) {
-            instance = new NewsDao();
-        }
-        return instance;
-    }
+    public static NewsDao newsDao;
 
     private NewsDao() {
     }
 
+    public static NewsDao getNewsDao() {
+        if (newsDao == null) {
+            newsDao = new NewsDao();
+        }
+        return newsDao;
+    }
 
     public News getNews(int id) {
         News news = new News();
         String query = "SELECT * FROM news WHERE id=?";
         PreparedStatement pStatement;
         ResultSet result;
-        Connection connection = null;
+        Connection connection = DataSource.getInstance().getConnection();
         try {
-            connection = DataSource.getInstance().getConnection();
             pStatement = connection.prepareStatement(query);
             pStatement.setInt(1, id);
             result = pStatement.executeQuery();
@@ -63,9 +61,8 @@ public class NewsDao implements INewsDao {
         int result = 0;
         String query = "INSERT INTO news (categoryId, title, author, annotation, maintext) VALUES (?,?,?,?,?)";
         PreparedStatement pStatement;
-        Connection connection = null;
+        Connection connection = DataSource.getInstance().getConnection();
         try {
-            connection = DataSource.getInstance().getConnection();
             pStatement = connection.prepareStatement(query);
             pStatement.setString(1, news.getCategoryId());
             pStatement.setString(2, news.getTitle());
@@ -91,9 +88,8 @@ public class NewsDao implements INewsDao {
         int result = 0;
         String query = "DELETE FROM news WHERE id=?";
         PreparedStatement pStatement;
-        Connection connection = null;
+        Connection connection = DataSource.getInstance().getConnection();
         try {
-            connection = DataSource.getInstance().getConnection();
             pStatement = connection.prepareStatement(query);
             pStatement.setInt(1, id);
             result = pStatement.executeUpdate();
@@ -114,9 +110,8 @@ public class NewsDao implements INewsDao {
         int result = 0;
         String query = "UPDATE news SET categoryId=?, title=?, author=?, annotation=?, maintext=? WHERE id=?";
         PreparedStatement pStatement;
-        Connection connection = null;
+        Connection connection = DataSource.getInstance().getConnection();
         try {
-            connection = DataSource.getInstance().getConnection();
             pStatement = connection.prepareStatement(query);
             pStatement.setString(1, news.getCategoryId());
             pStatement.setString(2, news.getTitle());
@@ -142,13 +137,10 @@ public class NewsDao implements INewsDao {
     public List<News> getAllNews() {
         List<News> list = new ArrayList<News>();
         String query = "SELECT * FROM news";
-        Connection connection = null;
-        Statement st=null;
-        ResultSet result=null;
+        Connection connection = DataSource.getInstance().getConnection();
         try {
-            connection = DataSource.getInstance().getConnection();
-            st = connection.createStatement();
-            result = st.executeQuery(query);
+            Statement statement = connection.createStatement();
+            ResultSet result = statement.executeQuery(query);
             while (result.next()) {
                 News news = new News();
                 news.setId(result.getInt(1));
@@ -162,7 +154,12 @@ public class NewsDao implements INewsDao {
             }
         } catch (SQLException e) {
             logger.error("Error get all news", e);
-        } finally {closeConnection(connection,st,result);
+        } finally {
+            try {
+                connection.close();
+            } catch (SQLException e) {
+                logger.error(e);
+            }
         }
 
         return list;
@@ -171,13 +168,10 @@ public class NewsDao implements INewsDao {
     public List<News> getNewsByCategoryId(String category) {
         List<News> list = new ArrayList<News>();
         String query = "SELECT * FROM news WHERE categoryId=" + "'" + category + "'";
-        Connection connection = null;
-        Statement statement=null;
-        ResultSet result=null;
+        Connection connection = DataSource.getInstance().getConnection();
         try {
-            connection = DataSource.getInstance().getConnection();
-            statement = connection.prepareStatement(query);
-            result = statement.executeQuery(query);
+            Statement statement = connection.createStatement();
+            ResultSet result = statement.executeQuery(query);
             while (result.next()) {
                 News news = new News();
                 news.setId(result.getInt(1));
@@ -192,34 +186,14 @@ public class NewsDao implements INewsDao {
         } catch (SQLException e) {
             logger.error("Error get news by category", e);
         } finally {
-            closeConnection(connection,statement, result);
-        }
-
-        return list;
-    }
-
-    public void closeConnection(Connection connection, Statement statement, ResultSet resultSet ){
-        if(resultSet!=null){
-            try {
-                resultSet.close();
-            } catch (SQLException e) {
-                logger.error("Error close resultSet", e);
-            }
-        }
-        if(statement!=null){
-            try {
-                statement.close();
-            } catch (SQLException e) {
-                logger.error("Error close statement", e);
-            }
-        }
-        if(connection!=null){
             try {
                 connection.close();
             } catch (SQLException e) {
-                logger.error("Error close connection", e);
+                logger.error(e);
             }
         }
+
+        return list;
     }
 
 }

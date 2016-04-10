@@ -1,7 +1,7 @@
 package by.it.academy.commands;
 
-import by.it.academy.dao.INewsDao;
-import by.it.academy.dao.NewsDao;
+import by.it.academy.services.INewsService;
+import by.it.academy.services.NewsService;
 import org.apache.log4j.Logger;
 
 import javax.servlet.RequestDispatcher;
@@ -15,9 +15,9 @@ public class EditNewsCommand implements Command {
 
 	public void execute(HttpServletRequest request, HttpServletResponse response) {
 		response.setContentType("text/html; charset=UTF-8");
-		INewsDao newsDao = NewsDao.getInstance();
+		INewsService newsService = NewsService.getNewsService();
 		int id = Integer.parseInt(request.getParameter("id"));
-		request.setAttribute("news", newsDao.getNews(id) );
+		request.setAttribute("news", newsService.getNews(id) );
 		RequestDispatcher dispatcher = request.getRequestDispatcher("/add.jsp");
 		
 		try {

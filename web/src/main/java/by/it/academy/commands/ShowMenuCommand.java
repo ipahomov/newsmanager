@@ -1,9 +1,11 @@
 package by.it.academy.commands;
 
-import by.it.academy.dao.CategoryDao;
-import by.it.academy.dao.NewsDao;
 import by.it.academy.model.Category;
 import by.it.academy.model.News;
+import by.it.academy.services.CategoryService;
+import by.it.academy.services.ICategoryService;
+import by.it.academy.services.INewsService;
+import by.it.academy.services.NewsService;
 import org.apache.log4j.Logger;
 
 import javax.servlet.RequestDispatcher;
@@ -13,16 +15,22 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
 
-
+/**
+ * This command getting all categories and news from db via newsService
+ * and categoryService and
+ * show on main menu page all categories and news
+ */
 public class ShowMenuCommand implements Command {
 	final static Logger logger = Logger.getLogger(ShowMenuCommand.class);
 
 
 	public void execute(HttpServletRequest request, HttpServletResponse response) {
 		String menuPage = "/menu.jsp";
+		ICategoryService categoryService = CategoryService.getCategoryService();
+		INewsService newsService = NewsService.getNewsService();
 
-		List<Category> catList = CategoryDao.getInstance().getAllCategories();
-		List<News> newsList = NewsDao.getInstance().getAllNews();
+		List<Category> catList = categoryService.getCategoriesByParentId("main");
+		List<News> newsList = newsService.getAllNews();
 
 		request.setAttribute("categories", catList);
 		request.setAttribute("allnews", newsList);

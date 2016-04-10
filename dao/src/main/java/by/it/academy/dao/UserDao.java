@@ -14,16 +14,16 @@ import java.sql.SQLException;
  */
 public class UserDao implements IUserDao {
     final static Logger logger = Logger.getLogger(UserDao.class);
-    public static UserDao instance;
+    public static UserDao userDao;
 
     private UserDao() {
     }
 
-    public static UserDao getInstance() {
-        if (instance == null) {
-            instance = new UserDao();
+    public static UserDao getUserDao() {
+        if (userDao == null) {
+            userDao = new UserDao();
         }
-        return instance;
+        return userDao;
     }
 
     /**
@@ -32,12 +32,11 @@ public class UserDao implements IUserDao {
      * @return user
      */
     public User getUserByEmail(String email) {
-        Connection connection = null;
+        Connection connection = DataSource.getInstance().getConnection();
         User user = null;
         String query = "SELECT * FROM user WHERE email=?";
 
         try {
-            connection = DataSource.getInstance().getConnection();
             PreparedStatement pStatement = connection.prepareStatement(query);
             pStatement.setString(1, email);
 

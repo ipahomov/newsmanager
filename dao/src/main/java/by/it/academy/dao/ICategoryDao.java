@@ -11,7 +11,9 @@ public interface ICategoryDao {
 
     List<Category> getAllCategories();
 
-    Category getCategoryById(String id);
+    List<Category> getCategoriesByParentId(String parentId);
+
+    Category getCategory(String id);
 
     int addCategory(Category category);
 }

@@ -1,9 +1,9 @@
 package by.it.academy.commands;
 
-import by.it.academy.dao.INewsDao;
-import by.it.academy.dao.NewsDao;
 import by.it.academy.model.News;
 import by.it.academy.model.User;
+import by.it.academy.services.INewsService;
+import by.it.academy.services.NewsService;
 import org.apache.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
@@ -21,23 +21,23 @@ public class AddEditNewsCommand implements Command {
 	final static Logger logger = Logger.getLogger(AddEditNewsCommand.class);
 
 	public void execute(HttpServletRequest request, HttpServletResponse response) {
-		INewsDao newsDao = NewsDao.getInstance();
+		INewsService newsService = NewsService.getNewsService();
 
-		boolean run = true;
+		boolean isRun = true;
 		String categoryId = request.getParameter("categoryId");
 		if ((categoryId == null) || categoryId.isEmpty())
-			run = false;
+			isRun = false;
 		String title = request.getParameter("title");
 		if ((title == null) || title.isEmpty())
-			run = false;
+			isRun = false;
 		String annotation = request.getParameter("annotation");
 		if ((annotation == null) || annotation.isEmpty())
-			run = false;
+			isRun = false;
 		String maintext = request.getParameter("maintext");
 		if ((maintext == null) || maintext.isEmpty())
-			run = false;
+			isRun = false;
 
-		if (run) {
+		if (isRun) {
 			News news = new News();
 
 			HttpSession session = request.getSession();
@@ -51,12 +51,12 @@ public class AddEditNewsCommand implements Command {
 
 			String id = request.getParameter("id");
 			if ((id == null) || id.isEmpty()) {
-				int n = newsDao.addNews(news);
+				int n = newsService.addNews(news);
 				if (n > 0)
 					logger.info("New news added: "+ news.toString());
 			} else {
 				news.setId(Integer.parseInt(id));
-				int n = newsDao.editNews(news);
+				int n = newsService.editNews(news);
 				if (n > 0)
 					logger.info("News edited: "+ news.toString());
 			}

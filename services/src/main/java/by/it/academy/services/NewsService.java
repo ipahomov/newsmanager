@@ -11,9 +11,16 @@ import java.util.List;
  */
 public class NewsService implements INewsService {
     private INewsDao newsDao;
+    private static NewsService newsService;
 
-    public NewsService(){
-        newsDao = NewsDao.getInstance();
+    private NewsService(){
+        newsDao = NewsDao.getNewsDao();
+    }
+
+    public static NewsService getNewsService(){
+        if(newsService == null)
+            newsService=new NewsService();
+        return newsService;
     }
 
     public int addNews(News news) {
@@ -34,5 +41,9 @@ public class NewsService implements INewsService {
 
     public List<News> getNewsByCategoryId(String category) {
         return newsDao.getNewsByCategoryId(category);
+    }
+
+    public News getNews(int id) {
+        return newsDao.getNews(id);
     }
 }

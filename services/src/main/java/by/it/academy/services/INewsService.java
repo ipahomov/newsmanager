@@ -43,4 +43,11 @@ public interface INewsService {
      */
     List<News> getNewsByCategoryId(String category);
 
+    /**
+     * Get one news by id
+     * @param id of news
+     * @return one news
+     */
+    News getNews(int id);
+
 }
