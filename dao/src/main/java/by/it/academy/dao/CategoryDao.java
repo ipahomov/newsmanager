@@ -12,8 +12,8 @@ import java.util.List;
  * Operations with categories table
  */
 public class CategoryDao implements ICategoryDao {
-    final static Logger logger = Logger.getLogger(UserDao.class);
-    public static CategoryDao categoryDao;
+    final static Logger logger = Logger.getLogger(CategoryDao.class);
+    private static CategoryDao categoryDao;
 
     /**
      * Singleton pattern
@@ -72,7 +72,6 @@ public class CategoryDao implements ICategoryDao {
         try {
             Statement statement = connection.createStatement();
             ResultSet result = statement.executeQuery(query);
-
             while (result.next()) {
                 Category category = new Category();
                 category.setCatId(result.getString(1));
@@ -102,10 +101,9 @@ public class CategoryDao implements ICategoryDao {
     public int addCategory(Category category) {
         String query = "INSERT INTO category VALUES (?,?)";
         int result = 0;
-        PreparedStatement pStatement;
         Connection connection = DataSource.getInstance().getConnection();
         try {
-            pStatement = connection.prepareStatement(query);
+            PreparedStatement pStatement = connection.prepareStatement(query);
             pStatement.setString(1, category.getCatId());
             pStatement.setString(2, category.getParentId());
             result = pStatement.executeUpdate();

@@ -10,7 +10,7 @@ import java.util.List;
 
 public class NewsDao implements INewsDao {
     final static Logger logger = Logger.getLogger(NewsDao.class);
-    public static NewsDao newsDao;
+    private static NewsDao newsDao;
 
     private NewsDao() {
     }
@@ -34,7 +34,6 @@ public class NewsDao implements INewsDao {
             result = pStatement.executeQuery();
 
             if (result.next()) {
-                news = new News();
                 news.setId(result.getInt(1));
                 news.setCategoryId(result.getString(2));
                 news.setTitle(result.getString(3));

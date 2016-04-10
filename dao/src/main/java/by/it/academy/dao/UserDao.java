@@ -14,7 +14,7 @@ import java.sql.SQLException;
  */
 public class UserDao implements IUserDao {
     final static Logger logger = Logger.getLogger(UserDao.class);
-    public static UserDao userDao;
+    private static UserDao userDao;
 
     private UserDao() {
     }
