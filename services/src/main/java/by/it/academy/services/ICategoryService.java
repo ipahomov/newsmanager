@@ -1,7 +1,18 @@
 package by.it.academy.services;
 
+import by.it.academy.model.Category;
+
+import java.util.List;
+
 /**
- * Created by Leckter on 09.04.2016.
+ *
  */
 public interface ICategoryService {
+
+    List<Category> getAllCategories();
+
+    Category getCategoryById(String id);
+
+    int addCategory(Category category);
+
 }

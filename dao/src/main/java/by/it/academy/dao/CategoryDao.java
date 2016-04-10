@@ -97,7 +97,7 @@ public class CategoryDao implements ICategoryDao {
      * @param category
      * @return affected rows (int)
      */
-    public int addCat(Category category) {
+    public int addCategory(Category category) {
         String query = "INSERT INTO category VALUES (?,?)";
         int result = 0;
         PreparedStatement pStatement;
