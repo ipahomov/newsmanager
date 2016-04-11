@@ -24,7 +24,7 @@ public class LoginCommand implements Command {
 
 		if ((email != null) && (!email.isEmpty()) || (password != null) && (!password.isEmpty())) {
 			User user = userService.getUserByEmail(email);
-			if (user != null) {
+			if (password.equals(user.getPassword())) {
 				try {
 					HttpSession session = request.getSession();
 					session.setAttribute("user", user);
@@ -43,6 +43,12 @@ public class LoginCommand implements Command {
 				} catch (IOException e) {
 					logger.error(e);
 				}
+			}
+		} else {
+			try {
+				response.sendRedirect("/login.jsp");
+			} catch (IOException e) {
+				logger.error(e);
 			}
 		}
 

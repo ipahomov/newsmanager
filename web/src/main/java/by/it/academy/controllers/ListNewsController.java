@@ -7,7 +7,6 @@ import by.it.academy.services.NewsService;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -17,7 +16,7 @@ import java.util.List;
 /**
  * Servlet implementation class ListNews
  */
-@WebServlet("/ListNews")
+//@WebServlet("/ListNews")
 public class ListNewsController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	INewsService newsService;

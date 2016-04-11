@@ -33,7 +33,7 @@ public class UserDao implements IUserDao {
      */
     public User getUserByEmail(String email) {
         Connection connection = DataSource.getInstance().getConnection();
-        User user = null;
+        User user = new User();
         String query = "SELECT * FROM user WHERE email=?";
 
         try {
@@ -42,7 +42,6 @@ public class UserDao implements IUserDao {
 
             ResultSet result = pStatement.executeQuery();
             if (result.next()) {
-                user = new User();
                 user.setFirstName(result.getString(1));
                 user.setLastName(result.getString(2));
                 user.setEmail(result.getString(3));
