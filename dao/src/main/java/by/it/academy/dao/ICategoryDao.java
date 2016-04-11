@@ -16,4 +16,6 @@ public interface ICategoryDao {
     Category getCategory(String id);
 
     int addCategory(Category category);
+
+    int deleteCategory(String catId);
 }

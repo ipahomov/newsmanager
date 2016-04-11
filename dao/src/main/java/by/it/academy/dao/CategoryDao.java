@@ -147,4 +147,28 @@ public class CategoryDao implements ICategoryDao {
 
         return category;
     }
+
+    @Override
+    public int deleteCategory(String catId) {
+        int result = 0;
+        String query = "DELETE FROM category WHERE catId=?";
+        PreparedStatement pStatement;
+        Connection connection = DataSource.getInstance().getConnection();
+        try {
+            pStatement = connection.prepareStatement(query);
+            pStatement.setString(1, catId);
+            result = pStatement.executeUpdate();
+        } catch (SQLException e) {
+            logger.error("Error delete category", e);
+        } finally {
+            try {
+                connection.close();
+            } catch (SQLException e) {
+                logger.error(e);
+            }
+        }
+
+        return result;
+
+    }
 }
