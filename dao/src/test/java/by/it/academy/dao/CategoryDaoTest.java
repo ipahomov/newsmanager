@@ -8,7 +8,7 @@ import java.util.List;
 import static junit.framework.Assert.assertEquals;
 
 /**
- * Created by Leckter on 11.04.2016.
+ * Tests for category DAO layer
  */
 public class CategoryDaoTest {
     ICategoryDao categoryDao = CategoryDao.getCategoryDao();

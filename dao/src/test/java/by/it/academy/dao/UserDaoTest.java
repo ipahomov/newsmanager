@@ -6,7 +6,7 @@ import org.junit.Test;
 import static junit.framework.Assert.assertEquals;
 
 /**
- * Created by Leckter on 11.04.2016.
+ * Tests for user DAO layer
  */
 public class UserDaoTest {
     IUserDao userDao = UserDao.getUserDao();

@@ -9,26 +9,51 @@ import java.util.List;
  */
 public interface INewsDao {
 
-	/**
-	 * Get news by id
-	 * @param id
-	 * @return news
+    /**
+     * This method getting one news from table by id
+     *
+     * @param id - int primary key of news
+     * @return News by id
      */
-	News getNews(int id);
+    News getNews(int id);
 
-	/**
-	 * Add new news method
-	 * @param news - parameter to addNews method, type News
-	 * @return int - return affected rows after adding new news
+    /**
+     * This method add a new news
+     *
+     * @param news - parameter to addNews method, type News
+     * @return int result of operation (if > 0 - successfully)
      */
-	int addNews(News news);
+    int addNews(News news);
 
-	int deleteNews(int id);
+    /**
+     * This method delete one news by id
+     *
+     * @param id int primary key for news
+     * @return int result of operation (if > 0 - successfully)
+     */
+    int deleteNews(int id);
 
-	int editNews(News news);
+    /**
+     * This method edit news
+     *
+     * @param news - news for editting
+     * @return int result of operation (if > 0 - successfully)
+     */
+    int editNews(News news);
 
-	List<News> getAllNews();
+    /**
+     * Getting list of all news from table
+     *
+     * @return List Collection of all news
+     */
+    List<News> getAllNews();
 
-	List<News> getNewsByCategoryId(String category);
+    /**
+     * Getting list of all news from table sorted by common category
+     *
+     * @param category - common category
+     * @return List Collection of all news sorted by category
+     */
+    List<News> getNewsByCategoryId(String category);
 
 }

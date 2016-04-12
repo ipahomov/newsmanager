@@ -9,7 +9,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Operations with categories table
+ * Class implementing ICaregoryDao interface.
+ * Realizes all methods for operations with categories table in database
+ * Must be a singleton class.
  */
 public class CategoryDao implements ICategoryDao {
     final static Logger logger = Logger.getLogger(CategoryDao.class);
@@ -28,22 +30,17 @@ public class CategoryDao implements ICategoryDao {
         return categoryDao;
     }
 
-    /**
-     * get all categories from table
-     *
-     * @return List<Category>
-     */
     public List<Category> getAllCategories() {
-        List<Category> list = new ArrayList<Category>();
         String query = "SELECT * FROM category";
+        List<Category> list = new ArrayList<Category>();
         Connection connection = DataSource.getInstance().getConnection();
         try {
             Statement statement = connection.createStatement();
-            ResultSet result = statement.executeQuery(query);
-            while (result.next()) {
+            ResultSet resultSet = statement.executeQuery(query);
+            while (resultSet.next()) {
                 Category category = new Category();
-                category.setCatId(result.getString(1));
-                category.setParentId(result.getString(2));
+                category.setCatId(resultSet.getString(1));
+                category.setParentId(resultSet.getString(2));
                 list.add(category);
             }
         } catch (SQLException e) {
@@ -59,23 +56,17 @@ public class CategoryDao implements ICategoryDao {
         return list;
     }
 
-    /**
-     * Get category from table by id
-     *
-     * @param parentId
-     * @return category by id
-     */
     public List<Category> getCategoriesByParentId(String parentId) {
-        List<Category> list = new ArrayList<Category>();
         String query = "SELECT * FROM category WHERE parentId=" + "'" + parentId + "'";
+        List<Category> list = new ArrayList<Category>();
         Connection connection = DataSource.getInstance().getConnection();
         try {
             Statement statement = connection.createStatement();
-            ResultSet result = statement.executeQuery(query);
-            while (result.next()) {
+            ResultSet resultSet = statement.executeQuery(query);
+            while (resultSet.next()) {
                 Category category = new Category();
-                category.setCatId(result.getString(1));
-                category.setParentId(result.getString(2));
+                category.setCatId(resultSet.getString(1));
+                category.setParentId(resultSet.getString(2));
                 list.add(category);
             }
 
@@ -92,12 +83,6 @@ public class CategoryDao implements ICategoryDao {
         return list;
     }
 
-    /**
-     * Add new Category
-     *
-     * @param category
-     * @return affected rows (int)
-     */
     public int addCategory(Category category) {
         String query = "INSERT INTO category VALUES (?,?)";
         int result = 0;
@@ -122,8 +107,8 @@ public class CategoryDao implements ICategoryDao {
     }
 
     public Category getCategory(String id) {
-        Category category = new Category();
         String query = "SELECT * FROM category WHERE catId=?";
+        Category category = new Category();
         Connection connection = DataSource.getInstance().getConnection();
         try {
             PreparedStatement pStatement = connection.prepareStatement(query);
@@ -150,12 +135,11 @@ public class CategoryDao implements ICategoryDao {
 
     @Override
     public int deleteCategory(String catId) {
-        int result = 0;
         String query = "DELETE FROM category WHERE catId=?";
-        PreparedStatement pStatement;
+        int result = 0;
         Connection connection = DataSource.getInstance().getConnection();
         try {
-            pStatement = connection.prepareStatement(query);
+            PreparedStatement pStatement = connection.prepareStatement(query);
             pStatement.setString(1, catId);
             result = pStatement.executeUpdate();
         } catch (SQLException e) {

@@ -8,10 +8,18 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Class implementing INewsDao interface.
+ * Realizes all methods for operations with news table in database
+ * Must be a singleton class.
+ */
 public class NewsDao implements INewsDao {
     final static Logger logger = Logger.getLogger(NewsDao.class);
     private static NewsDao newsDao;
 
+    /**
+     * Singleton pattern
+     */
     private NewsDao() {
     }
 
@@ -23,26 +31,23 @@ public class NewsDao implements INewsDao {
     }
 
     public News getNews(int id) {
-        News news = new News();
         String query = "SELECT * FROM news WHERE id=?";
-        PreparedStatement pStatement;
-        ResultSet result;
+        News news = new News();
         Connection connection = DataSource.getInstance().getConnection();
         try {
-            pStatement = connection.prepareStatement(query);
+            PreparedStatement pStatement = connection.prepareStatement(query);
             pStatement.setInt(1, id);
-            result = pStatement.executeQuery();
+            ResultSet resultSet = pStatement.executeQuery();
 
-            if (result.next()) {
-                news.setId(result.getInt(1));
-                news.setCategoryId(result.getString(2));
-                news.setTitle(result.getString(3));
-                news.setAuthor(result.getString(4));
-                news.setAnnotation(result.getString(5));
-                news.setMaintext(result.getString(6));
-                news.setReleaseDate(result.getString(7));
+            if (resultSet.next()) {
+                news.setId(resultSet.getInt(1));
+                news.setCategoryId(resultSet.getString(2));
+                news.setTitle(resultSet.getString(3));
+                news.setAuthor(resultSet.getString(4));
+                news.setAnnotation(resultSet.getString(5));
+                news.setMaintext(resultSet.getString(6));
+                news.setReleaseDate(resultSet.getString(7));
             }
-
         } catch (SQLException e) {
             logger.error("Error get news", e);
         } finally {
@@ -57,12 +62,11 @@ public class NewsDao implements INewsDao {
     }
 
     public int addNews(News news) {
-        int result = 0;
         String query = "INSERT INTO news (categoryId, title, author, annotation, maintext) VALUES (?,?,?,?,?)";
-        PreparedStatement pStatement;
+        int result = 0;
         Connection connection = DataSource.getInstance().getConnection();
         try {
-            pStatement = connection.prepareStatement(query);
+            PreparedStatement pStatement = connection.prepareStatement(query);
             pStatement.setString(1, news.getCategoryId());
             pStatement.setString(2, news.getTitle());
             pStatement.setString(3, news.getAuthor());
@@ -84,12 +88,11 @@ public class NewsDao implements INewsDao {
     }
 
     public int deleteNews(int id) {
-        int result = 0;
         String query = "DELETE FROM news WHERE id=?";
-        PreparedStatement pStatement;
+        int result = 0;
         Connection connection = DataSource.getInstance().getConnection();
         try {
-            pStatement = connection.prepareStatement(query);
+            PreparedStatement pStatement = connection.prepareStatement(query);
             pStatement.setInt(1, id);
             result = pStatement.executeUpdate();
         } catch (SQLException e) {
@@ -106,12 +109,11 @@ public class NewsDao implements INewsDao {
     }
 
     public int editNews(News news) {
-        int result = 0;
         String query = "UPDATE news SET categoryId=?, title=?, author=?, annotation=?, maintext=? WHERE id=?";
-        PreparedStatement pStatement;
+        int result = 0;
         Connection connection = DataSource.getInstance().getConnection();
         try {
-            pStatement = connection.prepareStatement(query);
+            PreparedStatement pStatement = connection.prepareStatement(query);
             pStatement.setString(1, news.getCategoryId());
             pStatement.setString(2, news.getTitle());
             pStatement.setString(3, news.getAuthor());
@@ -134,21 +136,21 @@ public class NewsDao implements INewsDao {
     }
 
     public List<News> getAllNews() {
-        List<News> list = new ArrayList<News>();
         String query = "SELECT * FROM news";
+        List<News> list = new ArrayList<News>();
         Connection connection = DataSource.getInstance().getConnection();
         try {
             Statement statement = connection.createStatement();
-            ResultSet result = statement.executeQuery(query);
-            while (result.next()) {
+            ResultSet resultSet = statement.executeQuery(query);
+            while (resultSet.next()) {
                 News news = new News();
-                news.setId(result.getInt(1));
-                news.setCategoryId(result.getString(2));
-                news.setTitle(result.getString(3));
-                news.setAuthor(result.getString(4));
-                news.setAnnotation(result.getString(5));
-                news.setMaintext(result.getString(6));
-                news.setReleaseDate(result.getString(7));
+                news.setId(resultSet.getInt(1));
+                news.setCategoryId(resultSet.getString(2));
+                news.setTitle(resultSet.getString(3));
+                news.setAuthor(resultSet.getString(4));
+                news.setAnnotation(resultSet.getString(5));
+                news.setMaintext(resultSet.getString(6));
+                news.setReleaseDate(resultSet.getString(7));
                 list.add(news);
             }
         } catch (SQLException e) {
@@ -165,21 +167,21 @@ public class NewsDao implements INewsDao {
     }
 
     public List<News> getNewsByCategoryId(String category) {
-        List<News> list = new ArrayList<News>();
         String query = "SELECT * FROM news WHERE categoryId=" + "'" + category + "'";
+        List<News> list = new ArrayList<News>();
         Connection connection = DataSource.getInstance().getConnection();
         try {
             Statement statement = connection.createStatement();
-            ResultSet result = statement.executeQuery(query);
-            while (result.next()) {
+            ResultSet resultSet = statement.executeQuery(query);
+            while (resultSet.next()) {
                 News news = new News();
-                news.setId(result.getInt(1));
-                news.setCategoryId(result.getString(2));
-                news.setTitle(result.getString(3));
-                news.setAuthor(result.getString(4));
-                news.setAnnotation(result.getString(5));
-                news.setMaintext(result.getString(6));
-                news.setReleaseDate(result.getString(7));
+                news.setId(resultSet.getInt(1));
+                news.setCategoryId(resultSet.getString(2));
+                news.setTitle(resultSet.getString(3));
+                news.setAuthor(resultSet.getString(4));
+                news.setAnnotation(resultSet.getString(5));
+                news.setMaintext(resultSet.getString(6));
+                news.setReleaseDate(resultSet.getString(7));
                 list.add(news);
             }
         } catch (SQLException e) {

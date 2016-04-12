@@ -10,12 +10,19 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.Properties;
 
-
+/**
+ * Class realizes connections to database through the pool connections c3p0.
+ * Database - MySQL, table - newsmanager.
+ * db.properties file contain connections init params.
+ */
 public class DataSource {
     final static Logger logger = Logger.getLogger(DataSource.class);
     private static DataSource dataSource;
     private ComboPooledDataSource cpds;
 
+    /**
+     * Connection to database
+     */
     private DataSource() {
         InputStream inputStream = DataSource.class.getClassLoader().getResourceAsStream("db.properties");
         Properties properties = new Properties();
@@ -36,7 +43,7 @@ public class DataSource {
             cpds.setAcquireIncrement(5);
             cpds.setMaxPoolSize(20);
             cpds.setMaxStatements(150);
-            cpds.setMaxStatementsPerConnection(50);
+            cpds.setMaxStatementsPerConnection(40);
 
         } catch (PropertyVetoException e) {
             logger.info(e);
@@ -44,6 +51,10 @@ public class DataSource {
 
     }
 
+    /**
+     * Singleton pattern
+     * @return DataSource
+     */
     public static synchronized DataSource getInstance() {
         if (dataSource == null) {
             dataSource = new DataSource();
@@ -51,6 +62,10 @@ public class DataSource {
         return dataSource;
     }
 
+    /**
+     * This method getting connection
+     * @return Connection connection
+     */
     public Connection getConnection() {
         Connection connection = null;
         try {

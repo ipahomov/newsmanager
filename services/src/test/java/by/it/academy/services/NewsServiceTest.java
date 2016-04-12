@@ -40,9 +40,8 @@ public class NewsServiceTest {
         News lastNews = newsList.get(lastNewsIndex-1);
         int lastId = lastNews.getId();
 
-        News news1 = newsService.getNews(lastId);
-        News news2 = newsDao.getNews(lastId);
-        assertEquals(news2,news1);
+        News news = newsService.getNews(lastId);
+        assertEquals(lastNews, news);
     }
 
     @Test
