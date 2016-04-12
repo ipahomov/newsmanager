@@ -5,19 +5,23 @@ import by.it.academy.dao.UserDao;
 import by.it.academy.model.User;
 
 /**
- *
+ * Class implementing IUserService interface
+ * Realizes user operations.
  */
 public class UserService implements IUserService {
     private IUserDao userDao;
     private static UserService userService;
 
-    private UserService(){
+    /**
+     * Singleton pattern
+     */
+    private UserService() {
         userDao = UserDao.getUserDao();
     }
 
-    public static UserService getUserService(){
-        if(userService==null)
-            userService=new UserService();
+    public static UserService getUserService() {
+        if (userService == null)
+            userService = new UserService();
         return userService;
     }
 

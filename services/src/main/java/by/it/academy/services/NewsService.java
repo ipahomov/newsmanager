@@ -7,19 +7,23 @@ import by.it.academy.model.News;
 import java.util.List;
 
 /**
- * Realisation of INewsService interface
+ * Class implementing INewsService interface.
+ * Contains main news operations.
  */
 public class NewsService implements INewsService {
     private INewsDao newsDao;
     private static NewsService newsService;
 
-    private NewsService(){
+    /**
+     * Singleton pattern
+     */
+    private NewsService() {
         newsDao = NewsDao.getNewsDao();
     }
 
-    public static NewsService getNewsService(){
-        if(newsService == null)
-            newsService=new NewsService();
+    public static NewsService getNewsService() {
+        if (newsService == null)
+            newsService = new NewsService();
         return newsService;
     }
 

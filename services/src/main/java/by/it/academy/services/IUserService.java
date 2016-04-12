@@ -8,9 +8,10 @@ import by.it.academy.model.User;
 public interface IUserService {
 
     /**
-     * Getting user from dao module
-     * @param email of user
-     * @return user
+     * Getting user from table through dao module
+     *
+     * @param email of getting user
+     * @return User user
      */
     User getUserByEmail(String email);
 }

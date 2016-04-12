@@ -11,12 +11,14 @@ public interface ICategoryService {
 
     /**
      * Get all categories
+     *
      * @return List Collection of all categories
      */
     List<Category> getAllCategories();
 
     /**
      * Get all categories sorted by parent category
+     *
      * @param parentId parent category
      * @return List Collection of all categories sorted by parent category
      */
@@ -24,6 +26,7 @@ public interface ICategoryService {
 
     /**
      * Get one category by id
+     *
      * @param id of category
      * @return category
      */
@@ -31,8 +34,9 @@ public interface ICategoryService {
 
     /**
      * Add a new category of news
+     *
      * @param category of news
-     * @return
+     * @return result of add operation (if > 0 - successfully)
      */
     int addCategory(Category category);
 
