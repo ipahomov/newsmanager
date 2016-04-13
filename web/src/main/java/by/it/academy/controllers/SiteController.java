@@ -35,26 +35,26 @@ public class SiteController extends HttpServlet {
 
         Command command = null;
 
+        // Get users action
         String action = request.getParameter("action");
-            if (action == null) {
-                command = new ShowMenuCommand();
-            } else if (action.equals("addnewsPage")) {
-                command = new ShowAddPageCommand();
-            } else if (action.equals("addnews")) {
-                command = new AddEditNewsCommand();
-            } else if (action.equals("shownews")) {
-                command = new ShowNewsPageCommand();
-            } else if (action.equals("deletenews")) {
-                command = new DeleteNewsCommand();
-            } else if (action.equals("editnews")) {
-                command = new EditNewsCommand();
-            } else if (action.equals("showbycat")) {
-                command = new ShowNewsByCategory();
-            }
+        if (action == null) {
+            command = new ShowMenuCommand();
+        } else if (action.equals("addnewsPage")) {
+            command = new ShowAddPageCommand();
+        } else if (action.equals("addnews")) {
+            command = new AddEditNewsCommand();
+        } else if (action.equals("shownews")) {
+            command = new ShowNewsPageCommand();
+        } else if (action.equals("deletenews")) {
+            command = new DeleteNewsCommand();
+        } else if (action.equals("editnews")) {
+            command = new EditNewsCommand();
+        } else if (action.equals("showbycat")) {
+            command = new ShowNewsByCategory();
+        }
 
         //execute command of chosen action
         command.execute(request, response);
-
     }
 
     /**
@@ -65,7 +65,4 @@ public class SiteController extends HttpServlet {
             throws ServletException, IOException {
         doGet(request, response);
     }
-
-
-
 }

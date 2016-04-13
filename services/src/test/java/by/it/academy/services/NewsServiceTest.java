@@ -11,7 +11,7 @@ import java.util.List;
 import static junit.framework.Assert.assertEquals;
 
 /**
- * Created by Leckter on 11.04.2016.
+ * Test for news services layer
  */
 public class NewsServiceTest {
     INewsService newsService = NewsService.getNewsService();
@@ -64,19 +64,18 @@ public class NewsServiceTest {
     }
 
 
-
     @Test
     public void testGetAllNews() throws Exception {
         List<News> newsList1 = newsDao.getAllNews();
         List<News> newsList2 = newsService.getAllNews();
-        assertEquals(newsList1,newsList2);
+        assertEquals(newsList1, newsList2);
     }
 
     @Test
     public void testGetNewsByCategoryId() throws Exception {
         List<News> newsList1 = newsDao.getNewsByCategoryId("sport");
         List<News> newsList2 = newsService.getNewsByCategoryId("sport");
-        assertEquals(newsList1,newsList2);
+        assertEquals(newsList1, newsList2);
     }
 
     public News getTestNews() {

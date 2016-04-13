@@ -11,7 +11,7 @@ import java.io.IOException;
 /**
  * Filter for LoginServlet
  * User must be login to do main operations such as add/delete/edit news or categories.
- * Filter watch for logining. If users data is correct, he can access to main operations.
+ * Filter watches for login. If users data is correct, he can access to main operations.
  * If not - he will be redirecting to login page.
  */
 public class LoginFilter implements Filter {
@@ -19,9 +19,10 @@ public class LoginFilter implements Filter {
     }
 
     /**
-     * Filter watchs for users login. If he login correct - he will be in session.
+     * Filter watches for users login. If he login correct - he will be in session.
      * Login servlet check users input data through form. If it corrects - users data
      * sending to session.
+     *
      * @param request
      * @param response
      * @param chain
@@ -32,16 +33,16 @@ public class LoginFilter implements Filter {
         HttpServletRequest httpRequest = (HttpServletRequest) request;
         HttpSession session = httpRequest.getSession();
         User user = (User) session.getAttribute("user");
-            if (user != null)
-                chain.doFilter(request,response);
-            else{
-                HttpServletResponse httpResponse = (HttpServletResponse) response;
-                httpResponse.sendRedirect("/login.jsp");
-            }
+
+        if (user != null)
+            chain.doFilter(request, response);
+        else {
+            HttpServletResponse httpResponse = (HttpServletResponse) response;
+            httpResponse.sendRedirect("/login.jsp");
+        }
 
     }
 
     public void destroy() {
-
     }
 }

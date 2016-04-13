@@ -35,26 +35,24 @@ public class UserDao implements IUserDao {
         String query = "SELECT * FROM user WHERE email=?";
         User user = new User();
         Connection connection = DataSource.getInstance().getConnection();
+        PreparedStatement pStatement = null;
+        ResultSet resultSet = null;
 
         try {
-            PreparedStatement pStatement = connection.prepareStatement(query);
+            pStatement = connection.prepareStatement(query);
             pStatement.setString(1, email);
-            ResultSet result = pStatement.executeQuery();
-            if (result.next()) {
-                user.setFirstName(result.getString(1));
-                user.setLastName(result.getString(2));
-                user.setEmail(result.getString(3));
-                user.setPassword(result.getString(4));
+            resultSet = pStatement.executeQuery();
+            if (resultSet.next()) {
+                user.setFirstName(resultSet.getString(1));
+                user.setLastName(resultSet.getString(2));
+                user.setEmail(resultSet.getString(3));
+                user.setPassword(resultSet.getString(4));
             }
 
         } catch (SQLException e) {
             logger.error("Error get user by email", e);
         } finally {
-            try {
-                connection.close();
-            } catch (SQLException e) {
-                logger.error(e);
-            }
+            DataSource.closeConnection(resultSet, pStatement, connection);
         }
 
         return user;

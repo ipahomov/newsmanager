@@ -10,6 +10,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+/**
+ * Concrete command implementing Command interface.
+ * Class add news data to page for editing.
+ */
 public class EditNewsCommand implements Command {
 	final static Logger logger = Logger.getLogger(EditNewsCommand.class);
 

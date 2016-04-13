@@ -8,7 +8,7 @@ import org.junit.Test;
 import static junit.framework.Assert.assertEquals;
 
 /**
- * Created by Leckter on 11.04.2016.
+ * Test for users services layer
  */
 public class UserServiceTest {
     IUserService userService = UserService.getUserService();

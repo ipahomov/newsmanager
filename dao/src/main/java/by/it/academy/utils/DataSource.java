@@ -7,7 +7,9 @@ import java.beans.PropertyVetoException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.sql.Connection;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.Properties;
 
 /**
@@ -53,6 +55,7 @@ public class DataSource {
 
     /**
      * Singleton pattern
+     *
      * @return DataSource
      */
     public static DataSource getInstance() {
@@ -64,7 +67,8 @@ public class DataSource {
 
     /**
      * This method getting connection
-     * @return Connection connection
+     *
+     * @return Connection connection to database
      */
     public Connection getConnection() {
         Connection connection = null;
@@ -74,6 +78,37 @@ public class DataSource {
             logger.error(e);
         }
         return connection;
+    }
+
+    /**
+     * Close ResultSets, Statements and connection
+     *
+     * @param resultSet  get from dao methods
+     * @param statement  or PreparedStatement get from dao methods
+     * @param connection get from dao methods after executing query
+     */
+    public static void closeConnection(ResultSet resultSet, Statement statement, Connection connection) {
+        if (resultSet != null) {
+            try {
+                resultSet.close();
+            } catch (SQLException e) {
+                logger.error(e);
+            }
+        }
+        if (statement != null) {
+            try {
+                statement.close();
+            } catch (SQLException e) {
+                logger.error(e);
+            }
+        }
+        if (connection != null) {
+            try {
+                connection.close();
+            } catch (SQLException e) {
+                logger.error(e);
+            }
+        }
     }
 
 

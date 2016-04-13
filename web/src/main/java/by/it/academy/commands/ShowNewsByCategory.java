@@ -15,6 +15,11 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
 
+/**
+ * Concrete command for getting all news by common category.
+ * Implementing Command interface.
+ *
+ */
 public class ShowNewsByCategory implements Command {
 	final static Logger logger = Logger.getLogger(ShowNewsByCategory.class);
 
@@ -25,12 +30,16 @@ public class ShowNewsByCategory implements Command {
 		INewsService newsService = NewsService.getNewsService();
 
 		List<Category> catList = categoryService.getCategoriesByParentId("main");
+
+		// getting name of category
 		String category = request.getParameter("catId");
 		List<News> newsList = newsService.getNewsByCategoryId(category);
 
+		// send news
 		request.setAttribute("categories", catList);
 		request.setAttribute("allnews", newsList);
 
+		// return to main page
 		RequestDispatcher dispatcher = request.getRequestDispatcher(menuPage);
 		try {
 			dispatcher.forward(request, response);
