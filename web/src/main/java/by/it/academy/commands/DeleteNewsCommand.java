@@ -1,7 +1,7 @@
 package by.it.academy.commands;
 
-import by.it.academy.dao.DAO;
-import by.it.academy.dao.NewsDAO;
+import by.it.academy.services.INewsService;
+import by.it.academy.services.NewsService;
 import org.apache.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
@@ -13,14 +13,14 @@ public class DeleteNewsCommand implements Command {
 	final static Logger logger = Logger.getLogger(DeleteNewsCommand.class);
 
 	public void execute(HttpServletRequest request, HttpServletResponse response) {
-		DAO dao = NewsDAO.getInstance();
+		INewsService newsService = NewsService.getNewsService();
 		int id = Integer.parseInt(request.getParameter("id"));
-		int res = dao.deleteNews(id);
+		int res = newsService.deleteNews(id);
 
 		if (res > 0)
-			logger.info("deleted news: id = " + id);
+			logger.info("deleted news: " + newsService.getNews(id));
 		else
-			logger.error("deleted news: id = " + id);
+			logger.error("error delete news: " + newsService.getNews(id));
 
 		try {
 			response.sendRedirect("SiteController");

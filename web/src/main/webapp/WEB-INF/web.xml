@@ -7,6 +7,46 @@
   <welcome-file-list>
     <welcome-file>index.jsp</welcome-file>
   </welcome-file-list>
+
+  <servlet>
+    <servlet-name>LoginController</servlet-name>
+    <servlet-class>by.it.academy.controllers.LoginController</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>LoginController</servlet-name>
+    <url-pattern>/LoginController</url-pattern>
+  </servlet-mapping>
+
+  <servlet>
+    <servlet-name>SiteController</servlet-name>
+    <servlet-class>by.it.academy.controllers.SiteController</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>SiteController</servlet-name>
+    <url-pattern>/SiteController</url-pattern>
+  </servlet-mapping>
+
+  <servlet>
+    <servlet-name>ListNewsController</servlet-name>
+    <servlet-class>by.it.academy.controllers.ListNewsController</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>ListNewsController</servlet-name>
+    <url-pattern>/ListNews</url-pattern>
+  </servlet-mapping>
+  
+  <filter>
+    <filter-name>LoginFilter</filter-name>
+    <filter-class>by.it.academy.filtres.LoginFilter</filter-class>
+  </filter>
+  <filter-mapping>
+    <filter-name>LoginFilter</filter-name>
+    <servlet-name>SiteController</servlet-name>
+  </filter-mapping>
+  
+  
+
+
   
   
 </web-app>

@@ -1,8 +1,8 @@
 package by.it.academy.commands;
 
-import by.it.academy.dao.DAO;
-import by.it.academy.dao.NewsDAO;
 import by.it.academy.model.User;
+import by.it.academy.services.IUserService;
+import by.it.academy.services.UserService;
 import org.apache.log4j.Logger;
 
 import javax.servlet.RequestDispatcher;
@@ -16,15 +16,15 @@ public class LoginCommand implements Command {
 	final static Logger logger = Logger.getLogger(LoginCommand.class);
 
 	public void execute(HttpServletRequest request, HttpServletResponse response) {
-		DAO dao = NewsDAO.getInstance();
-		String page = "";
+		IUserService userService = UserService.getUserService();
+		String page;
 
 		String email = request.getParameter("email");
 		String password = request.getParameter("password");
 
 		if ((email != null) && (!email.isEmpty()) || (password != null) && (!password.isEmpty())) {
-			User user = dao.getUserByEmail(email);
-			if (user != null) {
+			User user = userService.getUserByEmail(email);
+			if (password.equals(user.getPassword())) {
 				try {
 					HttpSession session = request.getSession();
 					session.setAttribute("user", user);
@@ -43,6 +43,12 @@ public class LoginCommand implements Command {
 				} catch (IOException e) {
 					logger.error(e);
 				}
+			}
+		} else {
+			try {
+				response.sendRedirect("/login.jsp");
+			} catch (IOException e) {
+				logger.error(e);
 			}
 		}
 

@@ -1,33 +1,29 @@
 package by.it.academy.controllers;
 
 import by.it.academy.commands.*;
-import by.it.academy.dao.DAO;
-import by.it.academy.dao.NewsDAO;
-import by.it.academy.model.User;
 
 import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 import java.io.IOException;
-
 
 /**
  * Servlet implementation class SiteController
+ * Controller for authors/admin operations.
+ * Operations is available if user registered as a author or admin.
+ * So before each action user is checked in session.
+ * Else - redirecting to LoginController via ReLogin command
  */
-@WebServlet("/SiteController")
+//@WebServlet("/SiteController")
 public class SiteController extends HttpServlet {
     private static final long serialVersionUID = 1L;
-    DAO dao;
 
     /**
      * Default constructor.
      */
     public SiteController() {
         super();
-        dao = NewsDAO.getInstance();
     }
 
     /**
@@ -38,14 +34,9 @@ public class SiteController extends HttpServlet {
             throws ServletException, IOException {
 
         Command command = null;
-        String action = request.getParameter("action");
-        HttpSession session = request.getSession();
-        User user = (User) session.getAttribute("user");
 
-        if (user != null) {
+        String action = request.getParameter("action");
             if (action == null) {
-                command = new ShowMenuCommand();
-            } else if (action.equals("mainmenu")) {
                 command = new ShowMenuCommand();
             } else if (action.equals("addnewsPage")) {
                 command = new ShowAddPageCommand();
@@ -61,9 +52,7 @@ public class SiteController extends HttpServlet {
                 command = new ShowNewsByCategory();
             }
 
-        } else
-            command = new ReLoginCommand();
-
+        //execute command of chosen action
         command.execute(request, response);
 
     }
@@ -76,5 +65,7 @@ public class SiteController extends HttpServlet {
             throws ServletException, IOException {
         doGet(request, response);
     }
+
+
 
 }
