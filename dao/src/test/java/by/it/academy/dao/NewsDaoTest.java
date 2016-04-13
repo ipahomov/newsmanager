@@ -1,6 +1,7 @@
 package by.it.academy.dao;
 
 import by.it.academy.model.News;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import java.util.List;
@@ -39,6 +40,7 @@ public class NewsDaoTest {
         assertEquals(lastNews, news);
     }
 
+
     @Test
     public void testEditNews() throws Exception {
         News news = getTestNews();
@@ -51,6 +53,7 @@ public class NewsDaoTest {
         assertEquals(1, result);
     }
 
+    @Ignore
     @Test
     public void testDeleteNews() throws Exception {
         News news = getTestNews();
@@ -76,9 +79,7 @@ public class NewsDaoTest {
         List<News> newsList = newsDao.getAllNews();
         int lastNewsIndex = newsList.size();
         News lastNews = newsList.get(lastNewsIndex - 1);
-        int lastId = lastNews.getId();
 
-        News news = newsDao.getNews(lastId);
-        return news;
+        return lastNews;
     }
 }
