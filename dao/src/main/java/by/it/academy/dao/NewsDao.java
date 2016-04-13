@@ -136,7 +136,7 @@ public class NewsDao implements INewsDao {
     }
 
     public List<News> getAllNews() {
-        String query = "SELECT * FROM news";
+        String query = "SELECT * FROM news ORDER BY id";
         List<News> list = new ArrayList<News>();
         Connection connection = DataSource.getInstance().getConnection();
         try {

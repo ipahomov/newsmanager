@@ -24,51 +24,38 @@ public class NewsServiceTest {
     @Test
     public void testAddNews() throws Exception {
         News news = new News();
-        news.setCategoryId("test");
-        news.setAnnotation("test");
-        news.setAuthor("test");
-        news.setTitle("test");
-        news.setMaintext("test");
+        news.setCategoryId("testNewsServiceAdd");
+        news.setAnnotation("testNewsServiceAdd");
+        news.setAuthor("testNewsServiceAdd");
+        news.setTitle("testNewsServiceAdd");
+        news.setMaintext("testNewsServiceAdd");
         int result = newsService.addNews(news);
         assertEquals(1, result);
     }
 
     @Test
     public void testGetNews() throws Exception {
-        List<News> newsList = newsService.getAllNews();
-        int lastNewsIndex = newsList.size();
-        News lastNews = newsList.get(lastNewsIndex-1);
-        int lastId = lastNews.getId();
-
-        News news = newsService.getNews(lastId);
+        News lastNews = getTestNews();
+        News news = newsService.getNews(lastNews.getId());
         assertEquals(lastNews, news);
     }
 
     @Test
     public void testEditNews() throws Exception {
-        List<News> newsList = newsService.getAllNews();
-        int lastNewsIndex = newsList.size();
-        News lastNews = newsList.get(lastNewsIndex-1);
-        int lastId = lastNews.getId();
-
-        News news = newsService.getNews(lastId);
-        news.setCategoryId("test2");
-        news.setAnnotation("test2");
-        news.setAuthor("test2");
-        news.setTitle("test2");
-        news.setMaintext("test2");
+        News news = getTestNews();
+        news.setCategoryId("testNewsServiceEdit");
+        news.setAnnotation("testNewsServiceEdit");
+        news.setAuthor("testNewsServiceEdit");
+        news.setTitle("testNewsServiceEdit");
+        news.setMaintext("testNewsServiceEdit");
         int result = newsService.editNews(news);
         assertEquals(1, result);
     }
 
     @Test
     public void testDeleteNews() throws Exception {
-        List<News> newsList = newsService.getAllNews();
-        int lastNewsIndex = newsList.size();
-        News lastNews = newsList.get(lastNewsIndex-1);
-        int lastId = lastNews.getId();
-
-        int result = newsService.deleteNews(lastId);
+        News news = getTestNews();
+        int result = newsService.deleteNews(news.getId());
         assertEquals(1, result);
     }
 
@@ -88,5 +75,14 @@ public class NewsServiceTest {
         assertEquals(newsList1,newsList2);
     }
 
+    public News getTestNews() {
+        List<News> newsList = newsService.getAllNews();
+        int lastNewsIndex = newsList.size();
+        News lastNews = newsList.get(lastNewsIndex - 1);
+        int lastId = lastNews.getId();
+
+        News news = newsService.getNews(lastId);
+        return news;
+    }
 
 }

@@ -43,7 +43,7 @@ public class DataSource {
             cpds.setAcquireIncrement(5);
             cpds.setMaxPoolSize(20);
             cpds.setMaxStatements(150);
-            cpds.setMaxStatementsPerConnection(40);
+            cpds.setStatementCacheNumDeferredCloseThreads(1);
 
         } catch (PropertyVetoException e) {
             logger.info(e);
@@ -55,7 +55,7 @@ public class DataSource {
      * Singleton pattern
      * @return DataSource
      */
-    public static synchronized DataSource getInstance() {
+    public static DataSource getInstance() {
         if (dataSource == null) {
             dataSource = new DataSource();
         }
