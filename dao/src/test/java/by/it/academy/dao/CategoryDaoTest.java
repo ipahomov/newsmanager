@@ -1,6 +1,7 @@
 package by.it.academy.dao;
 
 import by.it.academy.model.Category;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import java.util.List;
@@ -34,6 +35,7 @@ public class CategoryDaoTest {
         assertEquals(categoryList1, categoryList2);
     }
 
+    @Ignore
     @Test
     public void testAddCategory() throws Exception {
         Category category = new Category();
@@ -51,6 +53,7 @@ public class CategoryDaoTest {
 
     }
 
+    @Ignore
     @Test
     public void testDeleteCategory() throws Exception {
         int result = categoryDao.deleteCategory("testId");
