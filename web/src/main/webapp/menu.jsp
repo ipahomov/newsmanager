@@ -38,14 +38,20 @@
 }
 </style>
 <title>News manager</title>
+	<!-- Bootstrap -->
+	<link href="${pageContext.request.contextPath}/resources/bootstrap/css/bootstrap-theme.min.css" rel="stylesheet">
+	<link href="${pageContext.request.contextPath}/resources/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
-
+	<div class="container-fluid">
+		Welcome, ${sessionScope.get("user").firstName}
 	<div id="header">
 		<h1>News Manager</h1>
 	</div>
 
 	<div id="nav" style="position: fixed;">
+		<a href="SiteController">All news</a>
+		<br>
 		<c:forEach var="category" items="${categories }">
 			<a
 				href="SiteController?action=showbycat&catId=<c:out value="${category.catId }"/>">${category.catId }</a>
@@ -57,7 +63,7 @@
 	</div>
 
 	<div id="section">
-		<h2>News List</h2>
+		<h2 style="padding-left: 60px">News List</h2>
 
 		<ul style="list-style-type: square">
 			<hr>
@@ -70,11 +76,16 @@
 				<hr>
 			</c:forEach>
 		</ul>
-		<h2 align="center">
-			<a href="SiteController?action=addnewsPage">Add News</a>
-		</h2>
+		<p>
+			<a href="SiteController?action=addnewsPage" class="btn btn-primary">Add News</a>
+		</p>
 	</div>
-
+	</div>
 	<div id="footer">Copyright © it.academy.com</div>
+
+	<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+	<script src="${pageContext.request.contextPath}/resources/bootstrap/js/jquery-1.11.3.min.js"></script>
+	<!-- Include all compiled plugins (below), or include individual files as needed -->
+	<script src="${pageContext.request.contextPath}/resources/bootstrap/js/bootstrap.min.js"></script>
 </body>
 </html>

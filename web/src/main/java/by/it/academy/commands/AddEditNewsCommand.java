@@ -42,26 +42,33 @@ public class AddEditNewsCommand implements Command {
             isRun = false;
 
         // if data is correct and not empty
+        News news=null;
         if (isRun) {
-            News news = new News();
-
             HttpSession session = request.getSession();
             User user = (User) session.getAttribute("user");
-
-            news.setCategoryId(categoryId);
-            news.setTitle(title);
-            news.setAuthor(user.getLastName());
-            news.setAnnotation(annotation);
-            news.setMaintext(maintext);
 
             // get parameter 'id' for chose action: add or edit
             String id = request.getParameter("id");
             if ((id == null) || id.isEmpty()) {
+                news = new News();
+                news.setCategoryId(categoryId);
+                news.setTitle(title);
+                news.setAuthor(user.getLastName());
+                news.setAnnotation(annotation);
+                news.setMaintext(maintext);
+
                 int n = newsService.addNews(news);
                 if (n > 0)
                     logger.info("New news added: " + news.toString());
             } else {
+                news = newsService.getNews(Integer.parseInt(id));
                 news.setId(Integer.parseInt(id));
+                news.setCategoryId(categoryId);
+                news.setTitle(title);
+                news.setAuthor(user.getLastName());
+                news.setAnnotation(annotation);
+                news.setMaintext(maintext);
+
                 int n = newsService.editNews(news);
                 if (n > 0)
                     logger.info("News edited: " + news.toString());
