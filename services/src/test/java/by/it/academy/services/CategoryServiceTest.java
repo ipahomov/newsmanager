@@ -10,7 +10,7 @@ import java.util.List;
 import static org.junit.Assert.assertEquals;
 
 /**
- * Created by Leckter on 11.04.2016.
+ * Test for category services layer
  */
 public class CategoryServiceTest {
     ICategoryService categoryService = CategoryService.getCategoryService();

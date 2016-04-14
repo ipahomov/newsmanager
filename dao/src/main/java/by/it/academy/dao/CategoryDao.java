@@ -34,9 +34,11 @@ public class CategoryDao implements ICategoryDao {
         String query = "SELECT * FROM category";
         List<Category> list = new ArrayList<Category>();
         Connection connection = DataSource.getInstance().getConnection();
+        Statement statement = null;
+        ResultSet resultSet = null;
         try {
-            Statement statement = connection.createStatement();
-            ResultSet resultSet = statement.executeQuery(query);
+            statement = connection.createStatement();
+            resultSet = statement.executeQuery(query);
             while (resultSet.next()) {
                 Category category = new Category();
                 category.setCatId(resultSet.getString(1));
@@ -46,11 +48,7 @@ public class CategoryDao implements ICategoryDao {
         } catch (SQLException e) {
             logger.error("Error get all categories", e);
         } finally {
-            try {
-                connection.close();
-            } catch (SQLException e) {
-                logger.error(e);
-            }
+            DataSource.closeConnection(resultSet, statement, connection);
         }
 
         return list;
@@ -60,9 +58,11 @@ public class CategoryDao implements ICategoryDao {
         String query = "SELECT * FROM category WHERE parentId=" + "'" + parentId + "'";
         List<Category> list = new ArrayList<Category>();
         Connection connection = DataSource.getInstance().getConnection();
+        Statement statement = null;
+        ResultSet resultSet = null;
         try {
-            Statement statement = connection.createStatement();
-            ResultSet resultSet = statement.executeQuery(query);
+            statement = connection.createStatement();
+            resultSet = statement.executeQuery(query);
             while (resultSet.next()) {
                 Category category = new Category();
                 category.setCatId(resultSet.getString(1));
@@ -73,11 +73,7 @@ public class CategoryDao implements ICategoryDao {
         } catch (SQLException e) {
             logger.error("Error get category by id", e);
         } finally {
-            try {
-                connection.close();
-            } catch (SQLException e) {
-                logger.error(e);
-            }
+            DataSource.closeConnection(resultSet, statement, connection);
         }
 
         return list;
@@ -87,8 +83,9 @@ public class CategoryDao implements ICategoryDao {
         String query = "INSERT INTO category VALUES (?,?)";
         int result = 0;
         Connection connection = DataSource.getInstance().getConnection();
+        PreparedStatement pStatement = null;
         try {
-            PreparedStatement pStatement = connection.prepareStatement(query);
+            pStatement = connection.prepareStatement(query);
             pStatement.setString(1, category.getCatId());
             pStatement.setString(2, category.getParentId());
             result = pStatement.executeUpdate();
@@ -96,11 +93,7 @@ public class CategoryDao implements ICategoryDao {
         } catch (SQLException e) {
             logger.error("Error get add category", e);
         } finally {
-            try {
-                connection.close();
-            } catch (SQLException e) {
-                logger.error(e);
-            }
+            DataSource.closeConnection(null, pStatement, connection);
         }
 
         return result;
@@ -108,48 +101,43 @@ public class CategoryDao implements ICategoryDao {
 
     public Category getCategory(String id) {
         String query = "SELECT * FROM category WHERE catId=?";
-        Category category = new Category();
         Connection connection = DataSource.getInstance().getConnection();
-        try {
-            PreparedStatement pStatement = connection.prepareStatement(query);
-            pStatement.setString(1, id);
-            ResultSet result = pStatement.executeQuery();
+        PreparedStatement pStatement = null;
+        ResultSet resultSet = null;
+        Category category = new Category();
 
-            if (result.next()) {
-                category.setCatId(result.getString(1));
-                category.setParentId(result.getString(2));
+        try {
+            pStatement = connection.prepareStatement(query);
+            pStatement.setString(1, id);
+            resultSet = pStatement.executeQuery();
+
+            if (resultSet.next()) {
+                category.setCatId(resultSet.getString(1));
+                category.setParentId(resultSet.getString(2));
             }
 
         } catch (SQLException e) {
             logger.error("Error get category by id", e);
         } finally {
-            try {
-                connection.close();
-            } catch (SQLException e) {
-                logger.error(e);
-            }
+            DataSource.closeConnection(resultSet, pStatement, connection);
         }
 
         return category;
     }
 
-    @Override
     public int deleteCategory(String catId) {
         String query = "DELETE FROM category WHERE catId=?";
         int result = 0;
         Connection connection = DataSource.getInstance().getConnection();
+        PreparedStatement pStatement = null;
         try {
-            PreparedStatement pStatement = connection.prepareStatement(query);
+            pStatement = connection.prepareStatement(query);
             pStatement.setString(1, catId);
             result = pStatement.executeUpdate();
         } catch (SQLException e) {
             logger.error("Error delete category", e);
         } finally {
-            try {
-                connection.close();
-            } catch (SQLException e) {
-                logger.error(e);
-            }
+            DataSource.closeConnection(null, pStatement, connection);
         }
 
         return result;

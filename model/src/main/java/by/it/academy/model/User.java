@@ -10,8 +10,7 @@ import java.io.Serializable;
 public class User implements Serializable {
     private String firstName;
     private String lastName;
-    // primary key
-    private String email;
+    private String email;     // primary key
     private String password;
 
     public User() {

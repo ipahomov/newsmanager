@@ -7,10 +7,8 @@ import java.io.Serializable;
  */
 public class Category implements Serializable {
 
-    // name of category
-    private String catId;
-    // name of parent category
-    private String parentId;
+    private String catId;       // name of category
+    private String parentId;    // name of parent category
 
     public Category() {
     }

@@ -17,8 +17,7 @@ import java.util.List;
 
 /**
  * This command getting all categories and news from db via newsService
- * and categoryService and
- * show on main menu page all categories and news
+ * and categoryService and show theirs on main menu page
  */
 public class ShowMenuCommand implements Command {
 	final static Logger logger = Logger.getLogger(ShowMenuCommand.class);

@@ -7,13 +7,12 @@ import java.io.Serializable;
  */
 public class News implements Serializable {
     private int id;
-    private String categoryId;
+    private String categoryId;    //name of category
     private String title;
     private String author;
-    private String annotation;
+    private String annotation;    //short text about news
     private String maintext;
-    // add current time of add/edit operations
-    private String releaseDate;
+    private String releaseDate;   // add current time of add/edit operations
 
     public News() {
     }
