@@ -75,7 +75,7 @@ public class DataSource {
         try {
             connection = this.cpds.getConnection();
         } catch (SQLException e) {
-            logger.error(e);
+            logger.error("Error get connection",e);
         }
         return connection;
     }
@@ -92,21 +92,21 @@ public class DataSource {
             try {
                 resultSet.close();
             } catch (SQLException e) {
-                logger.error(e);
+                logger.error("Error close resultSet",e);
             }
         }
         if (statement != null) {
             try {
                 statement.close();
             } catch (SQLException e) {
-                logger.error(e);
+                logger.error("Error close statement",e);
             }
         }
         if (connection != null) {
             try {
                 connection.close();
             } catch (SQLException e) {
-                logger.error(e);
+                logger.error("Error close connection",e);
             }
         }
     }

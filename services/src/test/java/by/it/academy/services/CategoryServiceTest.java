@@ -30,7 +30,7 @@ public class CategoryServiceTest {
 
     @Test
     public void testGetCategoriesByParentId() throws Exception {
-        List<Category> categoryList = categoryDao.getCategoriesByParentId("main");
+        List<Category> categoryList = categoryDao.getCategoriesByParent("main");
         assertEquals(categoryList, categoryService.getCategoriesByParentId("main"));
     }
 

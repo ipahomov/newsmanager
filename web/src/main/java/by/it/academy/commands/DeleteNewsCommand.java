@@ -28,7 +28,7 @@ public class DeleteNewsCommand implements Command {
         try {
             response.sendRedirect("SiteController");
         } catch (IOException e) {
-            logger.error("delete news");
+            logger.error(e);
         }
 
     }

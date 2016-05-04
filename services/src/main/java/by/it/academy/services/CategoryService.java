@@ -36,7 +36,7 @@ public class CategoryService implements ICategoryService {
     }
 
     public List<Category> getCategoriesByParentId(String parentId) {
-        return categoryDao.getCategoriesByParentId(parentId);
+        return categoryDao.getCategoriesByParent(parentId);
     }
 
     public Category getCategory(String id) {

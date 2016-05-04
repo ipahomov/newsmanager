@@ -43,13 +43,13 @@ public class NewsDao implements INewsDao {
             resultSet = pStatement.executeQuery();
 
             if (resultSet.next()) {
-                news.setId(resultSet.getInt(1));
-                news.setCategoryId(resultSet.getString(2));
+                news.setNewsId(resultSet.getLong(1));
+                news.setCategoryName(resultSet.getString(2));
                 news.setTitle(resultSet.getString(3));
                 news.setAuthor(resultSet.getString(4));
                 news.setAnnotation(resultSet.getString(5));
                 news.setMaintext(resultSet.getString(6));
-                news.setReleaseDate(resultSet.getString(7));
+                //news.setReleaseDate(resultSet.getString(7));
             }
         } catch (SQLException e) {
             logger.error("Error get news", e);
@@ -68,7 +68,7 @@ public class NewsDao implements INewsDao {
 
         try {
             pStatement = connection.prepareStatement(query);
-            pStatement.setString(1, news.getCategoryId());
+            pStatement.setString(1, news.getCategoryName());
             pStatement.setString(2, news.getTitle());
             pStatement.setString(3, news.getAuthor());
             pStatement.setString(4, news.getAnnotation());
@@ -111,12 +111,12 @@ public class NewsDao implements INewsDao {
 
         try {
             pStatement = connection.prepareStatement(query);
-            pStatement.setString(1, news.getCategoryId());
+            pStatement.setString(1, news.getCategoryName());
             pStatement.setString(2, news.getTitle());
             pStatement.setString(3, news.getAuthor());
             pStatement.setString(4, news.getAnnotation());
             pStatement.setString(5, news.getMaintext());
-            pStatement.setInt(6, news.getId());
+            pStatement.setLong(6, news.getNewsId());
             result = pStatement.executeUpdate();
 
         } catch (SQLException e) {
@@ -140,13 +140,13 @@ public class NewsDao implements INewsDao {
             resultSet = statement.executeQuery(query);
             while (resultSet.next()) {
                 News news = new News();
-                news.setId(resultSet.getInt(1));
-                news.setCategoryId(resultSet.getString(2));
+                news.setNewsId(resultSet.getLong(1));
+                news.setCategoryName(resultSet.getString(2));
                 news.setTitle(resultSet.getString(3));
                 news.setAuthor(resultSet.getString(4));
                 news.setAnnotation(resultSet.getString(5));
                 news.setMaintext(resultSet.getString(6));
-                news.setReleaseDate(resultSet.getString(7));
+                //news.setReleaseDate(resultSet.getString(7));
                 list.add(news);
             }
         } catch (SQLException e) {
@@ -170,13 +170,13 @@ public class NewsDao implements INewsDao {
             resultSet = statement.executeQuery(query);
             while (resultSet.next()) {
                 News news = new News();
-                news.setId(resultSet.getInt(1));
-                news.setCategoryId(resultSet.getString(2));
+                news.setNewsId(resultSet.getLong(1));
+                news.setCategoryName(resultSet.getString(2));
                 news.setTitle(resultSet.getString(3));
                 news.setAuthor(resultSet.getString(4));
                 news.setAnnotation(resultSet.getString(5));
                 news.setMaintext(resultSet.getString(6));
-                news.setReleaseDate(resultSet.getString(7));
+                //news.setReleaseDate(resultSet.getString(7));
                 list.add(news);
             }
         } catch (SQLException e) {
