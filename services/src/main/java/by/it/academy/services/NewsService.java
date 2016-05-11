@@ -1,8 +1,9 @@
 package by.it.academy.services;
 
-import by.it.academy.dao.INewsDao;
 import by.it.academy.dao.NewsDao;
+import by.it.academy.dao.exceptions.DaoException;
 import by.it.academy.model.News;
+import org.apache.log4j.Logger;
 
 import java.util.List;
 
@@ -11,7 +12,8 @@ import java.util.List;
  * Contains main news operations.
  */
 public class NewsService implements INewsService {
-    private INewsDao newsDao;
+    final static Logger logger = Logger.getLogger(CategoryService.class);
+    private NewsDao newsDao;
     private static NewsService newsService;
 
     /**
@@ -27,27 +29,53 @@ public class NewsService implements INewsService {
         return newsService;
     }
 
-    public int addNews(News news) {
-        return newsDao.addNews(news);
+    public void addNews(News news) {
+        try {
+            newsDao.save(news);
+        } catch (DaoException e) {
+            logger.error("Error add news" + e);
+        }
     }
 
-    public int deleteNews(int id) {
-        return newsDao.deleteNews(id);
+    public void deleteNews(Long id) {
+        News news = null;
+        try {
+            news = newsDao.get(id);
+        } catch (DaoException e) {
+            logger.error("Error get news to delete" + e);
+        }
+        if(news != null) {
+            try {
+                newsDao.delete(news);
+            } catch (DaoException e) {
+                logger.error("Error delete news" + e);
+            }
+        }
     }
 
-    public int editNews(News news) {
-        return newsDao.editNews(news);
+    public void editNews(News news) {
+        try {
+            newsDao.saveOrUpdate(news);
+        } catch (DaoException e) {
+            logger.error("Error edit news" + e);
+        }
     }
 
     public List<News> getAllNews() {
         return newsDao.getAllNews();
     }
 
-    public List<News> getNewsByCategoryId(String category) {
-        return newsDao.getNewsByCategoryId(category);
+    public List<News> getNewsByCategory(String category) {
+        return newsDao.getNewsByCategory(category);
     }
 
-    public News getNews(int id) {
-        return newsDao.getNews(id);
+    public News getNews(Long id) {
+        News news = null;
+        try {
+            news = newsDao.get(id);
+        } catch (DaoException e) {
+            logger.error("Error get news" + e);
+        }
+        return news;
     }
 }

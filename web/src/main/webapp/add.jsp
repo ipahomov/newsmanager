@@ -19,12 +19,12 @@
 
             <form action="SiteController" class="form-horizontal" style="width: 800px">
                 <input type="hidden" name="action" value="addnews">
-                <input type="hidden" name="id" value="${news.id}">
+                <input type="hidden" name="id" value="${news.newsId}">
                 <div class="form-group">
                     <label class="col-sm-2 control-label">Category</label>
 
                     <div class="col-sm-7">
-                        <input type="text" class="form-control" name="categoryId" value="${news.categoryId}">
+                        <input type="text" class="form-control" name="categoryId" value="${news.categoryName}">
                     </div>
                     <%--<div class="col-sm-3">
                         <c:if test="${not empty errorCategory}">
@@ -61,7 +61,7 @@
                 <div class="form-group">
                     <div class="col-sm-offset-2 col-sm-10">
                         <button type="submit" class="btn btn-primary">Submit</button>
-                        <c:if test="${news.id == null}">
+                        <c:if test="${news.newsId == null}">
                             <button type="reset" class="btn btn-default">Reset</button>
                         </c:if>
                         <a href="SiteController" class="btn btn-default" role="button">Cancel</a>

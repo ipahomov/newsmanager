@@ -14,7 +14,6 @@ import java.util.List;
  */
 public class CategoryDao extends BaseDao<Category> implements ICategoryDao {
     final static Logger logger = Logger.getLogger(CategoryDao.class);
-
     private static CategoryDao categoryDao;
 
     /**

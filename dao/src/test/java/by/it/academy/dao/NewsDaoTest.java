@@ -1,86 +1,55 @@
 package by.it.academy.dao;
 
 import by.it.academy.model.News;
-import org.junit.Ignore;
 import org.junit.Test;
 
+import java.util.Date;
 import java.util.List;
 
-import static junit.framework.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.assertNotNull;
 
 /**
- * Tests for news DAO layer
+ * Created by IPahomov on 03.05.2016.
  */
 public class NewsDaoTest {
-    INewsDao newsDao = NewsDao.getNewsDao();
+    NewsDao newsDao = NewsDao.getNewsDao();
 
-    @Test
-    public void testGetNewsDao() throws Exception {
-        INewsDao newsDao1 = NewsDao.getNewsDao();
-        assertEquals(newsDao, newsDao1);
-
-    }
-
-    @Ignore
     @Test
     public void testAddNews() throws Exception {
+
         News news = new News();
-        news.setCategoryName("testDao");
-        news.setTitle("testDao");
-        news.setAuthor("testDao");
-        news.setAnnotation("testDao");
-        news.setMaintext("testDao");
-        int result = newsDao.addNews(news);
-        assertEquals(1, result);
+        news.setTitle("testTitle4");
+        news.setCategoryName("sport");
+        news.setAnnotation("testAnnotation4");
+        news.setAuthor("testAuthor4");
+        news.setMaintext("testMainText4");
+        news.setReleaseDate(new Date());
+
+        newsDao.save(news);
     }
 
-    /*@Test
+    @Test
     public void testGetNews() throws Exception {
-        News lastNews = getTestNews();
-        News news = newsDao.getNews(lastNews.getNewsId());
-        assertEquals(lastNews, news);
-    }*/
-
-    @Ignore
-    @Test
-    public void testEditNews() throws Exception {
-        News news = getTestNews();
-        news.setCategoryName("testDaoEdit");
-        news.setTitle("testDaoEdit");
-        news.setAuthor("testDaoEdit");
-        news.setAnnotation("testDaoEdit");
-        news.setMaintext("testDaoEdit");
-        int result = newsDao.editNews(news);
-        assertEquals(1, result);
+        News news = newsDao.get(1L);
+        assertNotNull(news);
+        System.out.println(news);
     }
 
-    /*@Ignore
-    @Test
-    public void testDeleteNews() throws Exception {
-        News news = getTestNews();
-        int result = newsDao.deleteNews(news.getId());
-        assertEquals(1, result);
-    }*/
 
     @Test
     public void testGetAllNews() throws Exception {
-        List<News> newsList1 = newsDao.getAllNews();
-        List<News> newsList2 = newsDao.getAllNews();
-        assertEquals(newsList1, newsList2);
+        List<News> newsList = newsDao.getAllNews();
+        assertNotNull(newsList);
+        assertNotEquals("Not empty",0, newsList.size());
     }
 
     @Test
-    public void testGetNewsByCategoryId() throws Exception {
-        List<News> newsList1 = newsDao.getNewsByCategoryId("sport");
-        List<News> newsList2 = newsDao.getNewsByCategoryId("sport");
-        assertEquals(newsList1, newsList2);
-    }
+    public void testGetNewsByCategory() throws Exception {
+        String categoryName = "sport";
+        List<News> newsList = newsDao.getNewsByCategory(categoryName);
+        assertNotNull(newsList);
+        assertNotEquals("Not empty",0, newsList.size());
 
-    public News getTestNews() {
-        List<News> newsList = newsDao.getAllNews();
-        int lastNewsIndex = newsList.size();
-        News lastNews = newsList.get(lastNewsIndex - 1);
-
-        return lastNews;
     }
 }

@@ -2,8 +2,8 @@ package by.it.academy.controllers;
 
 
 import by.it.academy.model.News;
-import by.it.academy.services.INewsService;
 import by.it.academy.services.NewsService;
+import org.apache.log4j.Logger;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -19,7 +19,9 @@ import java.util.List;
 //@WebServlet("/ListNews")
 public class ListNewsController extends HttpServlet {
     private static final long serialVersionUID = 1L;
-    INewsService newsService;
+    final static Logger logger = Logger.getLogger(ListNewsController.class);
+
+    NewsService newsService;
 
     /**
      * @see HttpServlet#HttpServlet()
@@ -44,8 +46,9 @@ public class ListNewsController extends HttpServlet {
             request.setAttribute("listNews", listNews);
         } else if (action.equals("shownews")) {
             page = "/shownews.jsp";
-            int id = Integer.parseInt(request.getParameter("id"));
-            News news = newsService.getNews(id);
+            Long id = Long.parseLong(request.getParameter("id"));
+            News news = null;
+                news = newsService.getNews(id);
             request.setAttribute("news", news);
         }
 

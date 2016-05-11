@@ -3,8 +3,6 @@ package by.it.academy.commands;
 import by.it.academy.model.Category;
 import by.it.academy.model.News;
 import by.it.academy.services.CategoryService;
-import by.it.academy.services.ICategoryService;
-import by.it.academy.services.INewsService;
 import by.it.academy.services.NewsService;
 import org.apache.log4j.Logger;
 
@@ -26,14 +24,14 @@ public class ShowNewsByCategory implements Command {
 	public void execute(HttpServletRequest request, HttpServletResponse response) {
 		String menuPage = "/menu.jsp";
 
-		ICategoryService categoryService = CategoryService.getCategoryService();
-		INewsService newsService = NewsService.getNewsService();
+		CategoryService categoryService = CategoryService.getCategoryService();
+		NewsService newsService = NewsService.getNewsService();
 
-		List<Category> catList = categoryService.getCategoriesByParentId("main");
+		List<Category> catList = categoryService.getCategoriesByParent("main");
 
 		// getting name of category
 		String category = request.getParameter("catId");
-		List<News> newsList = newsService.getNewsByCategoryId(category);
+		List<News> newsList = newsService.getNewsByCategory(category);
 
 		// send news
 		request.setAttribute("categories", catList);

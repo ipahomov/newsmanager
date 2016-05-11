@@ -41,9 +41,9 @@
 	<p>Автор статьи: ${news.author} | Дата: ${news.releaseDate}</p>
 	<p>
 		<a
-			href="SiteController?action=editnews&id=<c:out value="${news.id }"/>">EditNews</a>
+			href="SiteController?action=editnews&id=<c:out value="${news.newsId }"/>">EditNews</a>
 		| <a
-			href="SiteController?action=deletenews&id=<c:out value="${news.id }"/>">DeleteNews</a>
+			href="SiteController?action=deletenews&id=<c:out value="${news.newsId }"/>">DeleteNews</a>
 		<a href="SiteController">Back</a>
 	<div id="footer">Copyright © it.academy.com</div>
 </body>

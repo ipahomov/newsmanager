@@ -15,7 +15,7 @@ public interface INewsService {
      * @param news adding to list
      * @return int result of adding result (if > 0 - successfully)
      */
-    int addNews(News news);
+    void addNews(News news);
 
     /**
      * Delete service for news
@@ -23,7 +23,7 @@ public interface INewsService {
      * @param id of deleting news
      * @return int result of deleting result (if > 0 - successfully)
      */
-    int deleteNews(int id);
+    void deleteNews(Long id);
 
     /**
      * Edit service for news
@@ -31,7 +31,7 @@ public interface INewsService {
      * @param news editing
      * @return int result of editing result ( >0 - successfully)
      */
-    int editNews(News news);
+    void editNews(News news);
 
     /**
      * Getting all news
@@ -46,7 +46,7 @@ public interface INewsService {
      * @param category of news
      * @return List Collection of news sorted  by category
      */
-    List<News> getNewsByCategoryId(String category);
+    List<News> getNewsByCategory(String category);
 
     /**
      * Getting one news by id
@@ -54,6 +54,6 @@ public interface INewsService {
      * @param id of news which want to get
      * @return News one news
      */
-    News getNews(int id);
+    News getNews(Long id);
 
 }

@@ -25,7 +25,7 @@ public class UserDao extends BaseDao<User> implements IUserDao  {
     private UserDao() {
     }
 
-    public static UserDao getUserDaoHiber() {
+    public static UserDao getUserDao() {
         if (userDao == null) {
             userDao = new UserDao();
         }
@@ -37,8 +37,7 @@ public class UserDao extends BaseDao<User> implements IUserDao  {
         Session session = HibernateUtil.getHibernateUtil().getSession();
         Criteria criteria = session.createCriteria(User.class);
         criteria.add(Restrictions.eq("email", email));
-        User user = (User) criteria.uniqueResult();
 
-        return user;
+        return (User) criteria.uniqueResult();
     }
 }

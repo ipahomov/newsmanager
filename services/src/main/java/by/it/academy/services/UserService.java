@@ -1,6 +1,5 @@
 package by.it.academy.services;
 
-import by.it.academy.dao.IUserDao;
 import by.it.academy.dao.UserDao;
 import by.it.academy.model.User;
 
@@ -8,8 +7,8 @@ import by.it.academy.model.User;
  * Class implementing IUserService interface
  * Realizes user operations.
  */
-public class UserService implements IUserService {
-    private IUserDao userDao;
+public class UserService implements IUserService{
+    private UserDao userDao;
     private static UserService userService;
 
     /**

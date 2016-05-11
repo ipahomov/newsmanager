@@ -2,7 +2,6 @@ package by.it.academy.commands;
 
 import by.it.academy.model.News;
 import by.it.academy.model.User;
-import by.it.academy.services.INewsService;
 import by.it.academy.services.NewsService;
 import org.apache.log4j.Logger;
 
@@ -23,8 +22,8 @@ import java.io.IOException;
 public class AddEditNewsCommand implements Command {
     final static Logger logger = Logger.getLogger(AddEditNewsCommand.class);
 
-    public void execute(HttpServletRequest request, HttpServletResponse response) {
-        INewsService newsService = NewsService.getNewsService();
+    public void execute(HttpServletRequest request, HttpServletResponse response){
+        NewsService newsService = NewsService.getNewsService();
 
         // flag for run process after check users inputed data
         boolean isRun = true;
@@ -51,27 +50,25 @@ public class AddEditNewsCommand implements Command {
             String id = request.getParameter("id");
             if ((id == null) || id.isEmpty()) {
                 news = new News();
-                news.setCategoryId(categoryId);
+                news.setCategoryName(categoryId);
                 news.setTitle(title);
                 news.setAuthor(user.getLastName());
                 news.setAnnotation(annotation);
                 news.setMaintext(maintext);
 
-                int n = newsService.addNews(news);
-                if (n > 0)
-                    logger.info("New news added: " + news.toString());
+                newsService.addNews(news);
+
             } else {
-                news = newsService.getNews(Integer.parseInt(id));
-                news.setId(Integer.parseInt(id));
-                news.setCategoryId(categoryId);
+                news = newsService.getNews(Long.parseLong(id));
+                news.setNewsId(Long.parseLong(id));
+                news.setCategoryName(categoryId);
                 news.setTitle(title);
                 news.setAuthor(user.getLastName());
                 news.setAnnotation(annotation);
                 news.setMaintext(maintext);
 
-                int n = newsService.editNews(news);
-                if (n > 0)
-                    logger.info("News edited: " + news.toString());
+                newsService.editNews(news);
+                logger.info("News edited" + news);
             }
         }
 

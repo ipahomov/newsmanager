@@ -54,7 +54,7 @@ public class SiteController extends HttpServlet {
         }
 
         //execute command of chosen action
-        command.execute(request, response);
+            command.execute(request, response);
     }
 
     /**

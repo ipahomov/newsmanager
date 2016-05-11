@@ -1,6 +1,5 @@
 package by.it.academy.commands;
 
-import by.it.academy.services.INewsService;
 import by.it.academy.services.NewsService;
 import org.apache.log4j.Logger;
 
@@ -18,8 +17,8 @@ public class EditNewsCommand implements Command {
 	final static Logger logger = Logger.getLogger(EditNewsCommand.class);
 
 	public void execute(HttpServletRequest request, HttpServletResponse response) {
-		INewsService newsService = NewsService.getNewsService();
-		int id = Integer.parseInt(request.getParameter("id"));
+		NewsService newsService = NewsService.getNewsService();
+		Long id = Long.parseLong(request.getParameter("id"));
 		request.setAttribute("news", newsService.getNews(id) );
 		RequestDispatcher dispatcher = request.getRequestDispatcher("/add.jsp");
 		

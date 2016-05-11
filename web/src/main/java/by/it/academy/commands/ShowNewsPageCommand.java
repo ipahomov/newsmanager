@@ -1,7 +1,6 @@
 package by.it.academy.commands;
 
 import by.it.academy.model.News;
-import by.it.academy.services.INewsService;
 import by.it.academy.services.NewsService;
 import org.apache.log4j.Logger;
 
@@ -15,8 +14,8 @@ public class ShowNewsPageCommand implements Command {
 	final static Logger logger = Logger.getLogger(ShowNewsPageCommand.class);
 
 	public void execute(HttpServletRequest request, HttpServletResponse response) {
-		INewsService newsService = NewsService.getNewsService();
-		int id = Integer.parseInt(request.getParameter("id"));
+		NewsService newsService = NewsService.getNewsService();
+		Long id = Long.parseLong(request.getParameter("id"));
 		News news = newsService.getNews(id);
 
 		request.setAttribute("news", news);

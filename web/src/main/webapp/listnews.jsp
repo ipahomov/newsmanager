@@ -25,7 +25,7 @@
 		<c:forEach var="news" items="${listNews }">
 
 			<li><h3>
-					<a href="ListNews?action=shownews&id=<c:out value="${news.id }"/>">${news.title }</a>
+					<a href="ListNews?action=shownews&id=<c:out value="${news.newsId }"/>">${news.title }</a>
 				</h3></li>
 			<p>${news.annotation }</p>
 			<hr>

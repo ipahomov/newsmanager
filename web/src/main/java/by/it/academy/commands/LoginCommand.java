@@ -1,7 +1,6 @@
 package by.it.academy.commands;
 
 import by.it.academy.model.User;
-import by.it.academy.services.IUserService;
 import by.it.academy.services.UserService;
 import org.apache.log4j.Logger;
 
@@ -24,7 +23,7 @@ public class LoginCommand implements Command {
     final static Logger logger = Logger.getLogger(LoginCommand.class);
 
     public void execute(HttpServletRequest request, HttpServletResponse response) {
-        IUserService userService = UserService.getUserService();
+        UserService userService = UserService.getUserService();
         String page;
 
         // users input data
@@ -34,7 +33,7 @@ public class LoginCommand implements Command {
         // if users data correct - send his data to session
         if ((email != null) && (!email.isEmpty()) || (password != null) && (!password.isEmpty())) {
             User user = userService.getUserByEmail(email);
-            if (password.equals(user.getPassword())) {
+            if ((user!=null)&&((user.getPassword()).equals(password))) {
                 try {
                     HttpSession session = request.getSession();
                     session.setAttribute("user", user);

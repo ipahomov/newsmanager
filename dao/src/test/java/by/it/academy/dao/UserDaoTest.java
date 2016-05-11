@@ -14,7 +14,7 @@ import static junit.framework.Assert.*;
  * Created by IPahomov on 04.05.2016.
  */
 public class UserDaoTest {
-    UserDao userDao = UserDao.getUserDaoHiber();
+    UserDao userDao = UserDao.getUserDao();
 
     @Test
     public void testAddUser() throws Exception {
@@ -22,7 +22,7 @@ public class UserDaoTest {
         User user = new User();
         user.setFirstName("FirstNameTest");
         user.setLastName("LastNameTest");
-        user.setEmail("emailTest");
+        user.setEmail("emailTest@test.ru");
         user.setPassword("4444");
 
         userDao.save(user);

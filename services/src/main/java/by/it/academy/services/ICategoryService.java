@@ -10,19 +10,12 @@ import java.util.List;
 public interface ICategoryService {
 
     /**
-     * Get all categories
-     *
-     * @return List Collection of all categories
-     */
-    List<Category> getAllCategories();
-
-    /**
      * Get all categories sorted by parent category
      *
      * @param parentId parent category
      * @return List Collection of all categories sorted by parent category
      */
-    List<Category> getCategoriesByParentId(String parentId);
+    List<Category> getCategoriesByParent(String parentId);
 
     /**
      * Get one category by id
@@ -38,6 +31,6 @@ public interface ICategoryService {
      * @param category of news
      * @return result of add operation (if > 0 - successfully)
      */
-    int addCategory(Category category);
+    void addCategory(Category category);
 
 }

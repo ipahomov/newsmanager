@@ -54,7 +54,7 @@
 		<br>
 		<c:forEach var="category" items="${categories }">
 			<a
-				href="SiteController?action=showbycat&catId=<c:out value="${category.catId }"/>">${category.catId }</a>
+				href="SiteController?action=showbycat&catId=<c:out value="${category.categoryName }"/>">${category.categoryName }</a>
 			<br>
 
 		</c:forEach>
@@ -70,7 +70,7 @@
 			<c:forEach var="news" items="${allnews }">
 				<li><h3>
 						<a
-							href="SiteController?action=shownews&id=<c:out value="${news.id }"/>">${news.title }</a>
+							href="SiteController?action=shownews&id=<c:out value="${news.newsId }"/>">${news.title }</a>
 					</h3></li>
 				<p>${news.author }| Дата: ${news.releaseDate }
 				<hr>

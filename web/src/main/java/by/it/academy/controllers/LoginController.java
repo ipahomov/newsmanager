@@ -3,6 +3,7 @@ package by.it.academy.controllers;
 import by.it.academy.commands.Command;
 import by.it.academy.commands.LoginCommand;
 import by.it.academy.commands.ShowLoginCommand;
+import org.apache.log4j.Logger;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -18,6 +19,8 @@ import java.io.IOException;
 //@WebServlet("/LoginController")
 public class LoginController extends HttpServlet {
     private static final long serialVersionUID = 1L;
+    final static Logger logger = Logger.getLogger(LoginController.class);
+
 
     /**
      * @see HttpServlet#HttpServlet()
@@ -40,7 +43,7 @@ public class LoginController extends HttpServlet {
             command = new ShowLoginCommand();
         }
 
-        command.execute(request, response);
+            command.execute(request, response);
     }
 
     /**

@@ -1,6 +1,5 @@
 package by.it.academy.commands;
 
-import by.it.academy.services.INewsService;
 import by.it.academy.services.NewsService;
 import org.apache.log4j.Logger;
 
@@ -15,15 +14,13 @@ import java.io.IOException;
 public class DeleteNewsCommand implements Command {
     final static Logger logger = Logger.getLogger(DeleteNewsCommand.class);
 
-    public void execute(HttpServletRequest request, HttpServletResponse response) {
-        INewsService newsService = NewsService.getNewsService();
-        int id = Integer.parseInt(request.getParameter("id"));
-        int res = newsService.deleteNews(id);
+    public void execute(HttpServletRequest request, HttpServletResponse response){
+        NewsService newsService = NewsService.getNewsService();
+        Long id = Long.parseLong(request.getParameter("id"));
+        newsService.deleteNews(id);
 
-        if (res > 0)
-            logger.info("deleted news: " + newsService.getNews(id));
-        else
-            logger.error("error delete news: " + newsService.getNews(id));
+        logger.info("deleted news: " + newsService.getNews(id));
+
 
         try {
             response.sendRedirect("SiteController");
