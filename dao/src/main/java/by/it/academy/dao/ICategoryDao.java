@@ -1,5 +1,6 @@
 package by.it.academy.dao;
 
+import by.it.academy.dao.exceptions.DaoException;
 import by.it.academy.model.Category;
 
 import java.util.List;
@@ -15,7 +16,7 @@ public interface ICategoryDao {
      * @param parentName - name of common parent
      * @return List Collection of all categories sorted by parent
      */
-    List<Category> getCategoriesByParent(String parentName);
+    List<Category> getCategoriesByParent(String parentName) throws DaoException;
 
 
 }

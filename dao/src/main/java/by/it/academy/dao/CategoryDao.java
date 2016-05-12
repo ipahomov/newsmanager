@@ -1,12 +1,15 @@
 package by.it.academy.dao;
 
+import by.it.academy.dao.exceptions.DaoException;
 import by.it.academy.model.Category;
 import by.it.academy.utils.HibernateUtil;
 import org.apache.log4j.Logger;
 import org.hibernate.Criteria;
+import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.criterion.Restrictions;
 
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -30,11 +33,17 @@ public class CategoryDao extends BaseDao<Category> implements ICategoryDao {
     }
 
 
-    public List<Category> getCategoriesByParent(String parentName) {
-        Session session = HibernateUtil.getHibernateUtil().getSession();
-        Criteria criteria = session.createCriteria(Category.class);
-        criteria.add(Restrictions.eq("parentName", parentName));
-        List<Category> categories = criteria.list();
+    public List<Category> getCategoriesByParent(String parentName) throws DaoException {
+        List<Category> categories = Collections.EMPTY_LIST;
+        try {
+            Session session = HibernateUtil.getHibernateUtil().getSession();
+            Criteria criteria = session.createCriteria(Category.class);
+            criteria.add(Restrictions.eq("parentName", parentName));
+            categories = criteria.list();
+        } catch (HibernateException e) {
+            logger.error("Error get categories by parent" + e);
+            throw new DaoException(e);
+        }
 
         return categories;
     }

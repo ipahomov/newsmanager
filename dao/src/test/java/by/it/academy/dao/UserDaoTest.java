@@ -19,10 +19,16 @@ public class UserDaoTest {
     @Test
     public void testAddUser() throws Exception {
 
-        User user = new User();
+        /*User user = new User();
         user.setFirstName("FirstNameTest");
         user.setLastName("LastNameTest");
         user.setEmail("emailTest@test.ru");
+        user.setPassword("4444");*/
+
+        User user = new User();
+        user.setFirstName("Igor");
+        user.setLastName("Pahomov");
+        user.setEmail("pahomov@gmail.com");
         user.setPassword("4444");
 
         userDao.save(user);

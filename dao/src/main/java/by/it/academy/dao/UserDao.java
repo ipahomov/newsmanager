@@ -1,9 +1,11 @@
 package by.it.academy.dao;
 
+import by.it.academy.dao.exceptions.DaoException;
 import by.it.academy.model.User;
 import by.it.academy.utils.HibernateUtil;
 import org.apache.log4j.Logger;
 import org.hibernate.Criteria;
+import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.criterion.Restrictions;
 
@@ -14,7 +16,7 @@ import org.hibernate.criterion.Restrictions;
  * Realizes all methods for operations with users table in database
  * Must be a singleton class.
  */
-public class UserDao extends BaseDao<User> implements IUserDao  {
+public class UserDao extends BaseDao<User> implements IUserDao {
     final static Logger logger = Logger.getLogger(UserDao.class);
 
     private static UserDao userDao;
@@ -33,10 +35,16 @@ public class UserDao extends BaseDao<User> implements IUserDao  {
     }
 
 
-    public User getUserByEmail(String email) {
-        Session session = HibernateUtil.getHibernateUtil().getSession();
-        Criteria criteria = session.createCriteria(User.class);
-        criteria.add(Restrictions.eq("email", email));
+    public User getUserByEmail(String email) throws DaoException {
+        Criteria criteria;
+        try {
+            Session session = HibernateUtil.getHibernateUtil().getSession();
+            criteria = session.createCriteria(User.class);
+            criteria.add(Restrictions.eq("email", email));
+        } catch (HibernateException e) {
+            logger.error("Error get user by email " + e);
+            throw new DaoException(e);
+        }
 
         return (User) criteria.uniqueResult();
     }

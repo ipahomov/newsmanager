@@ -2,6 +2,7 @@ package by.it.academy.model;
 
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
+import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -24,15 +25,18 @@ public class News implements Serializable {
     private String categoryName;    //name of category
 
     @Column
+    @Type(type = "text")
     private String title;
 
     @Column
     private String author;
 
     @Column
+    @Type(type = "text")
     private String annotation;    //short text about news
 
     @Column
+    @Type(type = "text")
     private String maintext;
 
     @Column

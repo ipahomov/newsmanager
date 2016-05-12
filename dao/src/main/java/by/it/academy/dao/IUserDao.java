@@ -1,5 +1,6 @@
 package by.it.academy.dao;
 
+import by.it.academy.dao.exceptions.DaoException;
 import by.it.academy.model.User;
 
 /**
@@ -12,5 +13,5 @@ public interface IUserDao {
      * @param email - parameter of method
      * @return User user by email
      */
-    User getUserByEmail(String email);
+    User getUserByEmail(String email) throws DaoException;
 }

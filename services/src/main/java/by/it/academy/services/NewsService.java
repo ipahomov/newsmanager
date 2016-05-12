@@ -5,6 +5,7 @@ import by.it.academy.dao.exceptions.DaoException;
 import by.it.academy.model.News;
 import org.apache.log4j.Logger;
 
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -12,7 +13,7 @@ import java.util.List;
  * Contains main news operations.
  */
 public class NewsService implements INewsService {
-    final static Logger logger = Logger.getLogger(CategoryService.class);
+    final static Logger logger = Logger.getLogger(NewsService.class);
     private NewsDao newsDao;
     private static NewsService newsService;
 
@@ -44,7 +45,7 @@ public class NewsService implements INewsService {
         } catch (DaoException e) {
             logger.error("Error get news to delete" + e);
         }
-        if(news != null) {
+        if (news != null) {
             try {
                 newsDao.delete(news);
             } catch (DaoException e) {
@@ -62,11 +63,23 @@ public class NewsService implements INewsService {
     }
 
     public List<News> getAllNews() {
-        return newsDao.getAllNews();
+        List<News> newsList = Collections.EMPTY_LIST;
+        try {
+            newsList = newsDao.getAllNews();
+        } catch (DaoException e) {
+            logger.error("Error getAllNews service " + e);
+        }
+        return newsList;
     }
 
     public List<News> getNewsByCategory(String category) {
-        return newsDao.getNewsByCategory(category);
+        List<News> newsList = Collections.EMPTY_LIST;
+        try {
+            newsList = newsDao.getNewsByCategory(category);
+        } catch (DaoException e) {
+            logger.error("Error getNewsByCategory service " + e);
+        }
+        return newsList;
     }
 
     public News getNews(Long id) {

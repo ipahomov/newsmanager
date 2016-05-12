@@ -3,7 +3,6 @@ package by.it.academy.dao;
 import by.it.academy.model.News;
 import org.junit.Test;
 
-import java.util.Date;
 import java.util.List;
 
 import static org.junit.Assert.assertNotEquals;
@@ -24,7 +23,7 @@ public class NewsDaoTest {
         news.setAnnotation("testAnnotation4");
         news.setAuthor("testAuthor4");
         news.setMaintext("testMainText4");
-        news.setReleaseDate(new Date());
+        //news.setReleaseDate(new Date());
 
         newsDao.save(news);
     }

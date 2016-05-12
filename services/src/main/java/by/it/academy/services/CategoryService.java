@@ -5,6 +5,7 @@ import by.it.academy.dao.exceptions.DaoException;
 import by.it.academy.model.Category;
 import org.apache.log4j.Logger;
 
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -30,7 +31,7 @@ public class CategoryService implements ICategoryService {
     }
 
 
-    public void addCategory(Category category){
+    public void addCategory(Category category) {
         try {
             categoryDao.save(category);
         } catch (DaoException e) {
@@ -39,10 +40,17 @@ public class CategoryService implements ICategoryService {
     }
 
     public List<Category> getCategoriesByParent(String parentId) {
-        return categoryDao.getCategoriesByParent(parentId);
+        List<Category> categoryList = Collections.EMPTY_LIST;
+        try {
+            categoryList = categoryDao.getCategoriesByParent(parentId);
+        } catch (DaoException e) {
+            logger.error("Error getCategoriesByParent service " + e);
+        }
+
+        return categoryList;
     }
 
-    public Category getCategory(String id){
+    public Category getCategory(String id) {
         Category category = null;
         try {
             category = categoryDao.get(id);
@@ -52,7 +60,7 @@ public class CategoryService implements ICategoryService {
         return category;
     }
 
-    public void editCategory(Category category){
+    public void editCategory(Category category) {
         try {
             categoryDao.saveOrUpdate(category);
         } catch (DaoException e) {
