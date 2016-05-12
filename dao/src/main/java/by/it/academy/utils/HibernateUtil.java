@@ -7,6 +7,8 @@ import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
 
 /**
+ * Utils to connect to database, get session.
+ * Using Naming strategy for table and fields names.
  * Created by IPahomov on 16.04.2016.
  */
 public class HibernateUtil {

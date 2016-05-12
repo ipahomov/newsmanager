@@ -11,9 +11,8 @@
 package by.it.academy.dao.exceptions;
 
 /**
- * User: yslabko
- * Date: 14.04.14
- * Time: 15:00
+ * Exceptions for dao methods.
+ * Handled in service layer.
  */
 public class DaoException extends Exception {
 

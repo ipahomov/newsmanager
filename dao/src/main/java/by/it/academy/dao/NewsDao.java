@@ -13,7 +13,7 @@ import java.util.List;
 
 /**
  * Created by IPahomov on 03.05.2016.
- * Class implementing INewsDao interface.
+ * Class implementing INewsDao interface and extends BaseDao.
  * Realizes all methods for operations with news table in database
  * Must be a singleton class.
  */

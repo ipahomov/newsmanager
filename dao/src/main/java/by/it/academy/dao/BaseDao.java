@@ -11,7 +11,11 @@ import org.hibernate.Transaction;
 import java.io.Serializable;
 import java.lang.reflect.ParameterizedType;
 
-
+/**
+ * Basic operations to any entities classes.
+ * Implements Dao interface.
+ * @param <T>
+ */
 public class BaseDao<T> implements Dao<T> {
     private static Logger log = Logger.getLogger(BaseDao.class);
     private Transaction transaction = null;

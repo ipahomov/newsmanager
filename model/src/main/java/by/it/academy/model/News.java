@@ -10,105 +10,90 @@ import java.util.Date;
 import java.util.Set;
 
 /**
- * Entity for news
+ * Entity for news table
  */
 @Entity
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 public class News implements Serializable {
     private static final long serialVersionUID = 4L;
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long newsId;
-
-    @Column
     private String categoryName;    //name of category
-
-    @Column
-    @Type(type = "text")
     private String title;
-
-    @Column
     private String author;
-
-    @Column
-    @Type(type = "text")
     private String annotation;    //short text about news
-
-    @Column
-    @Type(type = "text")
     private String maintext;
-
-    @Column
-    @Temporal(TemporalType.TIMESTAMP)
     private Date releaseDate;   // add current time of add/edit operations
-
-    @OneToMany(mappedBy = "news")
     private Set<NewsComment> newsComments;
 
     public News() {
     }
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     public Long getNewsId() {
         return newsId;
     }
-
     public void setNewsId(Long newsId) {
         this.newsId = newsId;
     }
 
+    @Column
     public String getCategoryName() {
         return categoryName;
     }
-
     public void setCategoryName(String categoryName) {
         this.categoryName = categoryName;
     }
 
+    @Column
+    @Type(type = "text")
     public String getTitle() {
         return title;
     }
-
     public void setTitle(String title) {
         this.title = title;
     }
 
+    @Column
     public String getAuthor() {
         return author;
     }
-
     public void setAuthor(String author) {
         this.author = author;
     }
 
+    @Column
+    @Type(type = "text")
     public String getAnnotation() {
         return annotation;
     }
-
     public void setAnnotation(String annotation) {
         this.annotation = annotation;
     }
 
+    @Column
+    @Type(type = "text")
     public String getMaintext() {
         return maintext;
     }
-
     public void setMaintext(String maintext) {
         this.maintext = maintext;
     }
 
+    @Column
+    @Temporal(TemporalType.TIMESTAMP)
     public Date getReleaseDate() {
         return releaseDate;
     }
-
     public void setReleaseDate(Date releaseDate) {
         this.releaseDate = releaseDate;
     }
 
+    @OneToMany(mappedBy = "news")
     public Set<NewsComment> getNewsComments() {
         return newsComments;
     }
-
     public void setNewsComments(Set<NewsComment> newsComments) {
         this.newsComments = newsComments;
     }

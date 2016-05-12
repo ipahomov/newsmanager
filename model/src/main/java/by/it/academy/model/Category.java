@@ -10,51 +10,44 @@ import java.io.Serializable;
 public class Category implements Serializable {
     private static final long serialVersionUID = 3L;
 
-    @Id
-    @GeneratedValue
     private Long categoryId;
-
-    @Column
     private String categoryName;       // name of category
-
-    @Column
     private String parentName;    // name of parent category
-
-    @ManyToOne
-    @JoinColumn(name = "F_USERID")
     private UserDetail userDetail;
 
     public Category() {
     }
 
+    @Id
+    @GeneratedValue
     public Long getCategoryId() {
         return categoryId;
     }
-
     public void setCategoryId(Long categoryId) {
         this.categoryId = categoryId;
     }
 
+    @Column
     public String getCategoryName() {
         return categoryName;
     }
-
     public void setCategoryName(String categoryName) {
         this.categoryName = categoryName;
     }
 
+    @Column
     public String getParentName() {
         return parentName;
     }
-
     public void setParentName(String parentName) {
         this.parentName = parentName;
     }
 
+    @ManyToOne
+    @JoinColumn(name = "F_USERID")
     public UserDetail getUserDetail() {
         return userDetail;
     }
-
     public void setUserDetail(UserDetail userDetail) {
         this.userDetail = userDetail;
     }

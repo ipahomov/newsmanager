@@ -1,53 +1,61 @@
 package by.it.academy.model;
 
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
+import org.hibernate.annotations.Type;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
 
 /**
+ * Entity for news comments table
  * Created by IPahomov on 03.05.2016.
  */
 @Entity
+@Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 public class NewsComment implements Serializable {
     private static final long serialVersionUID = 3L;
 
-    @Id
-    @GeneratedValue
     private Long newsCommentId;
-
-    @Column(length = 600)
     private String commentText;
-
-    @Column
-    @Temporal(TemporalType.TIMESTAMP)
     private Date date;
-
-    @ManyToOne
-    @JoinColumn(name = "F_NEWSID")
     private News news;
 
+    @Id
+    @GeneratedValue
     public Long getNewsCommentId() {
         return newsCommentId;
     }
-
     public void setNewsCommentId(Long newsCommentId) {
         this.newsCommentId = newsCommentId;
     }
 
+    @Column
+    @Type(type = "text")
     public String getCommentText() {
         return commentText;
     }
-
     public void setCommentText(String commentText) {
         this.commentText = commentText;
     }
 
+    @Column
+    @Temporal(TemporalType.TIMESTAMP)
     public Date getDate() {
         return date;
     }
-
     public void setDate(Date date) {
         this.date = date;
+    }
+
+    @ManyToOne
+    @JoinColumn(name = "F_NEWSID")
+    public News getNews() {
+        return news;
+    }
+    public void setNews(News news) {
+        this.news = news;
     }
 
     @Override

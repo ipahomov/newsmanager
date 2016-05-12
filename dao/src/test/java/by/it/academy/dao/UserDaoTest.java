@@ -19,17 +19,17 @@ public class UserDaoTest {
     @Test
     public void testAddUser() throws Exception {
 
-        /*User user = new User();
+        User user = new User();
         user.setFirstName("FirstNameTest");
         user.setLastName("LastNameTest");
         user.setEmail("emailTest@test.ru");
-        user.setPassword("4444");*/
+        user.setPassword("4444");
 
-        User user = new User();
+        /*User user = new User();
         user.setFirstName("Igor");
         user.setLastName("Pahomov");
         user.setEmail("pahomov@gmail.com");
-        user.setPassword("4444");
+        user.setPassword("4444");*/
 
         userDao.save(user);
     }
@@ -42,7 +42,6 @@ public class UserDaoTest {
         user.setPassword("44443");
         user.setEmail("emailTest3");
 
-        //UserDetailDaoHiber userDetailDaoHiber = new UserDetailDaoHiber();
         UserDetail userDetail = new UserDetail();
         userDetail.setCountry("CountryTest3");
         userDetail.setCity("CityTest3");

@@ -3,6 +3,9 @@ package by.it.academy.utils;
 import org.hibernate.cfg.DefaultNamingStrategy;
 
 /**
+ * Class for tables and fields names.
+ * Adding 'T_' to tables name.
+ * Adding 'F_'to fields names.
  * Created by IPahomov on 22.04.2016.
  */
 public class CostumNamingStrategy extends DefaultNamingStrategy {

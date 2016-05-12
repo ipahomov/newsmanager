@@ -5,6 +5,10 @@ import by.it.academy.dao.exceptions.DaoException;
 
 import java.io.Serializable;
 
+/**
+ * Interface for basic operations with any entities via database.
+ * @param <T>
+ */
 public interface Dao<T> {
     void saveOrUpdate(T t) throws DaoException;
 

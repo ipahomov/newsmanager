@@ -13,6 +13,8 @@ import java.util.Collections;
 import java.util.List;
 
 /**
+ * Class for database operations with categories.
+ * Extends BaseDao and implements ICategoryDao
  * Created by IPahomov on 04.05.2016.
  */
 public class CategoryDao extends BaseDao<Category> implements ICategoryDao {
@@ -31,7 +33,6 @@ public class CategoryDao extends BaseDao<Category> implements ICategoryDao {
         }
         return categoryDao;
     }
-
 
     public List<Category> getCategoriesByParent(String parentName) throws DaoException {
         List<Category> categories = Collections.EMPTY_LIST;

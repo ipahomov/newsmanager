@@ -8,11 +8,20 @@ import java.io.Serializable;
 import java.util.Set;
 
 /**
+ * Entity for user details table
  * Created by IPahomov on 03.05.2016.
  */
 @Entity
 public class UserDetail implements Serializable {
     private static final long serialVersionUID = 5L;
+
+    private Long userId;
+    private String country;
+    private String city;
+    private User user;
+    private Set<Category> categories;
+
+    public UserDetail() {}
 
     @Id
     @GenericGenerator(
@@ -21,59 +30,42 @@ public class UserDetail implements Serializable {
             parameters = @Parameter(name = "property", value = "user")
     )
     @GeneratedValue(generator = "gen")
-    private Long userId;
-
-    @Column
-    private String country;
-
-    @Column
-    private String city;
-
-    @OneToOne
-    @PrimaryKeyJoinColumn
-    private User user;
-
-    @OneToMany(mappedBy = "userDetail")
-    private Set<Category> categories;
-
-    public UserDetail() {}
-
     public Long getUserId() {
         return userId;
     }
-
     public void setUserId(Long userDetailId) {
         this.userId = userDetailId;
     }
 
+    @Column
     public String getCountry() {
         return country;
     }
-
     public void setCountry(String country) {
         this.country = country;
     }
 
+    @Column
     public String getCity() {
         return city;
     }
-
     public void setCity(String city) {
         this.city = city;
     }
 
+    @OneToOne
+    @PrimaryKeyJoinColumn
     public User getUser() {
         return user;
     }
-
     public void setUser(User user) {
         this.user = user;
     }
 
+    @OneToMany(mappedBy = "userDetail")
     public Set<Category> getCategories() {
         return categories;
     }
-
     public void setCategories(Set<Category> categories) {
         this.categories = categories;
     }
