@@ -77,4 +77,16 @@
         <constructor-arg ref="sessionFactory"/>
     </bean>
 
+    <bean id="userDetailDao" class="by.it.academy.dao.UserDetailDao">
+        <constructor-arg ref="sessionFactory"/>
+    </bean>
+
+    <bean id="categoryDao" class="by.it.academy.dao.CategoryDao">
+        <constructor-arg ref="sessionFactory"/>
+    </bean>
+
+    <bean id="newsDao" class="by.it.academy.dao.NewsDao">
+        <constructor-arg ref="sessionFactory"/>
+    </bean>
+
 </beans>
