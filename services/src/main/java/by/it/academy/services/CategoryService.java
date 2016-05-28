@@ -15,7 +15,7 @@ import java.util.List;
  * Class implementing ICategoryService interface
  * Realizes methods with category operations
  */
-@Service
+@Service("categoryService")
 @Transactional
 public class CategoryService extends BaseService<Category, Long> implements ICategoryService {
     final static Logger log = Logger.getLogger(CategoryService.class);

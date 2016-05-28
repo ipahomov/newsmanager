@@ -12,7 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
  * Class implementing IUserService interface
  * Realizes user operations.
  */
-@Service
+@Service("userService")
 @Transactional
 public class UserService extends BaseService<User, Long> implements IUserService {
     final static Logger log = Logger.getLogger(UserService.class);

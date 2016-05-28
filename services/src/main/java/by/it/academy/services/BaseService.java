@@ -12,7 +12,7 @@ import java.io.Serializable;
 /**
  * Created by IPahomov on 28.05.2016.
  */
-@Service
+@Service("baseService")
 @Transactional
 public class BaseService<T, PK extends Serializable> implements IBaseService<T, PK> {
     private final static Logger log = Logger.getLogger(BaseService.class);

@@ -30,7 +30,7 @@ public class NewsDaoTest {
     INewsDao newsDao;
 
     @Before
-    public void prepareNews(){
+    public void prepareNews() {
         news = new News();
         news.setTitle("testTitle");
         news.setCategoryName("testCategory");
@@ -50,7 +50,7 @@ public class NewsDaoTest {
     @Test
     public void testGetNews() throws Exception {
         Long id = newsDao.save(news);
-        News news = newsDao.get(News.class,id);
+        News news = newsDao.get(News.class, id);
         assertNotNull(news);
     }
 
@@ -83,7 +83,7 @@ public class NewsDaoTest {
         newsDao.save(news);
         List<News> newsList = newsDao.getAllNews();
         assertNotNull(newsList);
-        assertNotEquals("Not empty",0, newsList.size());
+        assertNotEquals("Not empty", 0, newsList.size());
     }
 
     @Test
@@ -92,7 +92,7 @@ public class NewsDaoTest {
         String categoryName = "testCategory";
         List<News> newsList = newsDao.getNewsByCategory(categoryName);
         assertNotNull(newsList);
-        assertNotEquals("Not empty",0, newsList.size());
+        assertNotEquals("Not empty", 0, newsList.size());
 
     }
 }

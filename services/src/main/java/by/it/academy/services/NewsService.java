@@ -15,7 +15,7 @@ import java.util.List;
  * Class implementing INewsService interface.
  * Contains main news operations.
  */
-@Service
+@Service("newsService")
 @Transactional
 public class NewsService extends BaseService<News, Long> implements INewsService {
     private final static Logger log = Logger.getLogger(NewsService.class);

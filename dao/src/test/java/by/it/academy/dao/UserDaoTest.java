@@ -45,7 +45,7 @@ public class UserDaoTest {
     }
 
     @Test
-    public void testAddUserWithDDetails() throws Exception {
+    public void testAddUserWithDetails() throws Exception {
 
         UserDetail userDetail = new UserDetail();
         userDetail.setCountry("CountryTest");
