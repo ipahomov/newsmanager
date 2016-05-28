@@ -36,6 +36,7 @@ public class LoginFilter implements Filter {
 
         if (user != null)
             chain.doFilter(request, response);
+        
         else {
             HttpServletResponse httpResponse = (HttpServletResponse) response;
             httpResponse.sendRedirect("/login.jsp");

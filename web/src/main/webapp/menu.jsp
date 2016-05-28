@@ -45,6 +45,7 @@
 <body>
 	<div class="container-fluid">
 		Welcome, ${sessionScope.get("user").firstName}
+		<a href="#">Logout</a>
 	<div id="header">
 		<h1>News Manager</h1>
 	</div>

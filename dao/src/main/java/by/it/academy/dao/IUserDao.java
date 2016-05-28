@@ -6,7 +6,7 @@ import by.it.academy.model.User;
 /**
  * interface for users
  */
-public interface IUserDao {
+public interface IUserDao extends IBaseDao<User, Long> {
     /**
      * This method return User from DB table by email(primary key)
      *

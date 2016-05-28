@@ -14,7 +14,7 @@ import java.util.Date;
  */
 @Entity
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
-public class NewsComment implements Serializable {
+public class Comment implements Serializable {
     private static final long serialVersionUID = 3L;
 
     private Long newsCommentId;
@@ -63,7 +63,7 @@ public class NewsComment implements Serializable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        NewsComment that = (NewsComment) o;
+        Comment that = (Comment) o;
 
         if (newsCommentId != null ? !newsCommentId.equals(that.newsCommentId) : that.newsCommentId != null)
             return false;

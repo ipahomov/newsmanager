@@ -8,7 +8,7 @@ import java.util.List;
 /**
  * interface for categories
  */
-public interface ICategoryDao {
+public interface ICategoryDao extends IBaseDao<Category, Long> {
 
     /**
      * This method return all categories from table sorted by common parent

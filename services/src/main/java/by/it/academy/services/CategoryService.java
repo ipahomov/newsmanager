@@ -1,9 +1,12 @@
 package by.it.academy.services;
 
-import by.it.academy.dao.CategoryDao;
+import by.it.academy.dao.ICategoryDao;
 import by.it.academy.dao.exceptions.DaoException;
 import by.it.academy.model.Category;
 import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collections;
 import java.util.List;
@@ -12,59 +15,23 @@ import java.util.List;
  * Class implementing ICategoryService interface
  * Realizes methods with category operations
  */
-public class CategoryService implements ICategoryService {
-    final static Logger logger = Logger.getLogger(CategoryService.class);
-    private CategoryDao categoryDao;
-    private static CategoryService categoryService;
+@Service
+@Transactional
+public class CategoryService extends BaseService<Category, Long> implements ICategoryService {
+    final static Logger log = Logger.getLogger(CategoryService.class);
 
-    /**
-     * Singleton pattern
-     */
-    private CategoryService() {
-        categoryDao = CategoryDao.getCategoryDao();
-    }
-
-    public static CategoryService getCategoryService() {
-        if (categoryService == null)
-            categoryService = new CategoryService();
-        return categoryService;
-    }
-
-
-    public void addCategory(Category category) {
-        try {
-            categoryDao.save(category);
-        } catch (DaoException e) {
-            logger.error("Error add category" + e);
-        }
-    }
+    @Autowired
+    private ICategoryDao categoryDao;
 
     public List<Category> getCategoriesByParent(String parentId) {
         List<Category> categoryList = Collections.EMPTY_LIST;
         try {
             categoryList = categoryDao.getCategoriesByParent(parentId);
         } catch (DaoException e) {
-            logger.error("Error getCategoriesByParent service " + e);
+            log.error("Error get categories by parent category " + e);
         }
 
         return categoryList;
     }
 
-    public Category getCategory(String id) {
-        Category category = null;
-        try {
-            category = categoryDao.get(id);
-        } catch (DaoException e) {
-            logger.error("Error get category" + e);
-        }
-        return category;
-    }
-
-    public void editCategory(Category category) {
-        try {
-            categoryDao.saveOrUpdate(category);
-        } catch (DaoException e) {
-            logger.error("Error edit category" + e);
-        }
-    }
 }

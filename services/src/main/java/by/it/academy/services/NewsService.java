@@ -1,9 +1,12 @@
 package by.it.academy.services;
 
-import by.it.academy.dao.NewsDao;
+import by.it.academy.dao.INewsDao;
 import by.it.academy.dao.exceptions.DaoException;
 import by.it.academy.model.News;
 import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collections;
 import java.util.List;
@@ -12,62 +15,21 @@ import java.util.List;
  * Class implementing INewsService interface.
  * Contains main news operations.
  */
-public class NewsService implements INewsService {
-    final static Logger logger = Logger.getLogger(NewsService.class);
-    private NewsDao newsDao;
-    private static NewsService newsService;
+@Service
+@Transactional
+public class NewsService extends BaseService<News, Long> implements INewsService {
+    private final static Logger log = Logger.getLogger(NewsService.class);
 
-    /**
-     * Singleton pattern
-     */
-    private NewsService() {
-        newsDao = NewsDao.getNewsDao();
-    }
+    @Autowired
+    private INewsDao newsDao;
 
-    public static NewsService getNewsService() {
-        if (newsService == null)
-            newsService = new NewsService();
-        return newsService;
-    }
-
-    public void addNews(News news) {
-        try {
-            newsDao.save(news);
-        } catch (DaoException e) {
-            logger.error("Error add news" + e);
-        }
-    }
-
-    public void deleteNews(Long id) {
-        News news = null;
-        try {
-            news = newsDao.get(id);
-        } catch (DaoException e) {
-            logger.error("Error get news to delete" + e);
-        }
-        if (news != null) {
-            try {
-                newsDao.delete(news);
-            } catch (DaoException e) {
-                logger.error("Error delete news" + e);
-            }
-        }
-    }
-
-    public void editNews(News news) {
-        try {
-            newsDao.saveOrUpdate(news);
-        } catch (DaoException e) {
-            logger.error("Error edit news" + e);
-        }
-    }
 
     public List<News> getAllNews() {
         List<News> newsList = Collections.EMPTY_LIST;
         try {
             newsList = newsDao.getAllNews();
         } catch (DaoException e) {
-            logger.error("Error getAllNews service " + e);
+            log.error("Error get all news " + e);
         }
         return newsList;
     }
@@ -77,18 +39,9 @@ public class NewsService implements INewsService {
         try {
             newsList = newsDao.getNewsByCategory(category);
         } catch (DaoException e) {
-            logger.error("Error getNewsByCategory service " + e);
+            log.error("Error get news by category " + e);
         }
         return newsList;
     }
 
-    public News getNews(Long id) {
-        News news = null;
-        try {
-            news = newsDao.get(id);
-        } catch (DaoException e) {
-            logger.error("Error get news" + e);
-        }
-        return news;
-    }
 }

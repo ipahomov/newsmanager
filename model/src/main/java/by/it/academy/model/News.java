@@ -24,7 +24,7 @@ public class News implements Serializable {
     private String annotation;    //short text about news
     private String maintext;
     private Date releaseDate;   // add current time of add/edit operations
-    private Set<NewsComment> newsComments;
+    private Set<Comment> comments;
 
     public News() {
     }
@@ -91,11 +91,11 @@ public class News implements Serializable {
     }
 
     @OneToMany(mappedBy = "news")
-    public Set<NewsComment> getNewsComments() {
-        return newsComments;
+    public Set<Comment> getComments() {
+        return comments;
     }
-    public void setNewsComments(Set<NewsComment> newsComments) {
-        this.newsComments = newsComments;
+    public void setComments(Set<Comment> comments) {
+        this.comments = comments;
     }
 
     @Override

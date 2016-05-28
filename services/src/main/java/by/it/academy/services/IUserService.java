@@ -5,7 +5,7 @@ import by.it.academy.model.User;
 /**
  * interface for user service
  */
-public interface IUserService {
+public interface IUserService extends IBaseService<User, Long> {
 
     /**
      * Getting user from table through dao module

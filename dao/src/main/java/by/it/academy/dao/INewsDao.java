@@ -8,7 +8,7 @@ import java.util.List;
 /**
  * interface for operations with news
  */
-public interface INewsDao {
+public interface INewsDao extends IBaseDao<News, Long> {
 
     /**
      * This method edit news

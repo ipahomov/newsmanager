@@ -7,7 +7,7 @@ import java.util.List;
 /**
  * interface for categories service
  */
-public interface ICategoryService {
+public interface ICategoryService extends IBaseService<Category, Long> {
 
     /**
      * Get all categories sorted by parent category
@@ -16,21 +16,5 @@ public interface ICategoryService {
      * @return List Collection of all categories sorted by parent category
      */
     List<Category> getCategoriesByParent(String parentId);
-
-    /**
-     * Get one category by id
-     *
-     * @param id of category
-     * @return category
-     */
-    Category getCategory(String id);
-
-    /**
-     * Add a new category of news
-     *
-     * @param category of news
-     * @return result of add operation (if > 0 - successfully)
-     */
-    void addCategory(Category category);
 
 }

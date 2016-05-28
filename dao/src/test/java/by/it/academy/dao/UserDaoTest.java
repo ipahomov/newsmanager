@@ -1,20 +1,28 @@
 package by.it.academy.dao;
 
-import by.it.academy.model.Category;
 import by.it.academy.model.User;
 import by.it.academy.model.UserDetail;
+import org.junit.Ignore;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.transaction.annotation.Transactional;
 
-import java.util.HashSet;
-import java.util.Set;
-
-import static junit.framework.Assert.*;
+import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.assertNotNull;
 
 /**
  * Created by IPahomov on 04.05.2016.
  */
+@ContextConfiguration("/beans-TestDao.xml")
+@RunWith(SpringJUnit4ClassRunner.class)
+@Transactional
 public class UserDaoTest {
-    UserDao userDao = UserDao.getUserDao();
+
+    @Autowired
+    private IUserDao userDao;
 
     @Test
     public void testAddUser() throws Exception {
@@ -24,12 +32,6 @@ public class UserDaoTest {
         user.setLastName("LastNameTest");
         user.setEmail("emailTest@test.ru");
         user.setPassword("4444");
-
-        /*User user = new User();
-        user.setFirstName("Igor");
-        user.setLastName("Pahomov");
-        user.setEmail("pahomov@gmail.com");
-        user.setPassword("4444");*/
 
         userDao.save(user);
     }
@@ -52,20 +54,15 @@ public class UserDaoTest {
         userDao.save(user);
     }
 
-    @Test
-    public void testGetUser() throws Exception {
-        System.out.println(userDao.get(2L));
-    }
-
+    @Ignore
     @Test
     public void testAddUserWithDDetailsAndCategories() throws Exception {
-        User user = new User();
+        /*User user = new User();
         user.setEmail("emailTest5");
         user.setPassword("555");
         user.setFirstName("FirstNameTest5");
         user.setLastName("LastNameTest5");
 
-        //UserDetailDaoHiber userDetailDaoHiber = new UserDetailDaoHiber();
         UserDetail userDetail = new UserDetail();
         userDetail.setCountry("CountryTest5");
         userDetail.setCity("CityTest5");
@@ -84,12 +81,12 @@ public class UserDaoTest {
         user.setUserDetail(userDetail);
         userDetail.setUser(user);
 
-        userDao.save(user);
+        userDao.save(user);*/
     }
 
     @Test
     public void testGetUserByEmail() throws Exception {
-        String email = "emailTest5";
+        String email = "pahomov@gmail.com";
         User user = userDao.getUserByEmail(email);
         assertNotNull(user);
         assertEquals("Equals:",email, user.getEmail());

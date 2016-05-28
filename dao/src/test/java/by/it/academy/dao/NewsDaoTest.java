@@ -2,6 +2,7 @@ package by.it.academy.dao;
 
 import by.it.academy.model.News;
 import org.junit.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
 
@@ -12,7 +13,8 @@ import static org.junit.Assert.assertNotNull;
  * Created by IPahomov on 03.05.2016.
  */
 public class NewsDaoTest {
-    NewsDao newsDao = NewsDao.getNewsDao();
+    @Autowired
+    INewsDao newsDao;
 
     @Test
     public void testAddNews() throws Exception {
@@ -30,9 +32,8 @@ public class NewsDaoTest {
 
     @Test
     public void testGetNews() throws Exception {
-        News news = newsDao.get(1L);
+        News news = newsDao.get(News.class,23L);
         assertNotNull(news);
-        System.out.println(news);
     }
 
 

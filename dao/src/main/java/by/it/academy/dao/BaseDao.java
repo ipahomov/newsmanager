@@ -2,118 +2,44 @@ package by.it.academy.dao;
 
 
 import by.it.academy.dao.exceptions.DaoException;
-import by.it.academy.utils.HibernateUtil;
-import org.apache.log4j.Logger;
-import org.hibernate.HibernateException;
 import org.hibernate.Session;
-import org.hibernate.Transaction;
+import org.hibernate.SessionFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 
 import java.io.Serializable;
-import java.lang.reflect.ParameterizedType;
 
 /**
  * Basic operations to any entities classes.
  * Implements Dao interface.
  * @param <T>
  */
-public class BaseDao<T> implements Dao<T> {
-    private static Logger log = Logger.getLogger(BaseDao.class);
-    private Transaction transaction = null;
+@Repository("baseDao")
+public class BaseDao<T, PK extends Serializable> implements IBaseDao<T, PK> {
+    private SessionFactory sessionFactory;
 
-
-    public BaseDao() {
-
+    @Autowired
+    public BaseDao(SessionFactory sessionFactory){
+        this.sessionFactory = sessionFactory;
     }
 
-    public void saveOrUpdate(T t) throws DaoException {
-        try {
-            Session session = HibernateUtil.getHibernateUtil().getSession();
-            transaction = session.beginTransaction();
-            session.saveOrUpdate(t);
-            log.info("saveOrUpdate(t):" + t);
-            transaction.commit();
-            log.info("Save or update (commit):" + t);
-        } catch (HibernateException e) {
-            log.error("Error save or update in Dao" + e);
-            transaction.rollback();
-            throw new DaoException(e);
-        }
-
+    public Session getSession() {
+        return sessionFactory.getCurrentSession();
     }
 
-    public T get(Serializable id) throws DaoException {
-        log.info("Get class by id:" + id);
-        T t = null;
-        try {
-            Session session = HibernateUtil.getHibernateUtil().getSession();
-            transaction = session.beginTransaction();
-            t = (T) session.get(getPersistentClass(), id);
-            transaction.commit();
-            log.info("get clazz:" + t);
-        } catch (HibernateException e) {
-            transaction.rollback();
-            log.error("Error get " + getPersistentClass() + " in Dao" + e);
-            throw new DaoException(e);
-        }
-        return t;
+    public PK save(T t) throws DaoException {
+        return (PK) getSession().save(t);
     }
 
-    public T load(Serializable id) throws DaoException {
-        log.info("Load class by id:" + id);
-        T t = null;
-        try {
-            Session session = HibernateUtil.getHibernateUtil().getSession();
-            transaction = session.beginTransaction();
-            t = (T) session.load(getPersistentClass(), id);
-            log.info("load() clazz:" + t);
-            session.isDirty();
-            transaction.commit();
-        } catch (HibernateException e) {
-            log.error("Error load() " + getPersistentClass() + " in Dao" + e);
-            transaction.rollback();
-            throw new DaoException(e);
-        }
-        return t;
+    public void update(T t) throws DaoException {
+        getSession().update(t);
+    }
+
+    public T get(Class clazz, PK id) throws DaoException {
+        return (T) getSession().get(clazz, id);
     }
 
     public void delete(T t) throws DaoException {
-        try {
-            Session session = HibernateUtil.getHibernateUtil().getSession();
-            transaction = session.beginTransaction();
-            session.delete(t);
-            transaction.commit();
-            log.info("Delete:" + t);
-        } catch (HibernateException e) {
-            log.error("Error delete " + e);
-            transaction.rollback();
-            throw new DaoException(e);
-        }
-    }
-
-    public void save(T t) throws DaoException {
-        try {
-            Session session = HibernateUtil.getHibernateUtil().getSession();
-            transaction = session.beginTransaction();
-            session.save(t);
-            log.info("save(t):" + t);
-            transaction.commit();
-            log.info("Save (commit):" + t);
-        } catch (HibernateException e) {
-            log.error("Error save in Dao" + e);
-            transaction.rollback();
-            throw new DaoException(e);
-        }
-    }
-
-    private Class getPersistentClass() {
-        return (Class<T>) ((ParameterizedType) getClass().getGenericSuperclass()).getActualTypeArguments()[0];
-    }
-
-    public Transaction getTransaction() {
-        return transaction;
-    }
-
-    public void setTransaction(Transaction transaction) {
-        this.transaction = transaction;
+        getSession().delete(t);
     }
 }
