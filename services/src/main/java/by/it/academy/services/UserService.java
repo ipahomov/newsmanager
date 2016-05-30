@@ -2,7 +2,7 @@ package by.it.academy.services;
 
 import by.it.academy.dao.IUserDao;
 import by.it.academy.dao.exceptions.DaoException;
-import by.it.academy.model.User;
+import by.it.academy.model.user.User;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

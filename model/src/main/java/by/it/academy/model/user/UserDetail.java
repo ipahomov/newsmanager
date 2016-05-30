@@ -1,5 +1,6 @@
-package by.it.academy.model;
+package by.it.academy.model.user;
 
+import by.it.academy.model.Category;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
 
@@ -21,7 +22,8 @@ public class UserDetail implements Serializable {
     private User user;
     private Set<Category> categories;
 
-    public UserDetail() {}
+    public UserDetail() {
+    }
 
     @Id
     @GenericGenerator(
@@ -33,6 +35,7 @@ public class UserDetail implements Serializable {
     public Long getUserId() {
         return userId;
     }
+
     public void setUserId(Long userDetailId) {
         this.userId = userDetailId;
     }
@@ -41,6 +44,7 @@ public class UserDetail implements Serializable {
     public String getCountry() {
         return country;
     }
+
     public void setCountry(String country) {
         this.country = country;
     }
@@ -49,6 +53,7 @@ public class UserDetail implements Serializable {
     public String getCity() {
         return city;
     }
+
     public void setCity(String city) {
         this.city = city;
     }
@@ -58,6 +63,7 @@ public class UserDetail implements Serializable {
     public User getUser() {
         return user;
     }
+
     public void setUser(User user) {
         this.user = user;
     }
@@ -66,6 +72,7 @@ public class UserDetail implements Serializable {
     public Set<Category> getCategories() {
         return categories;
     }
+
     public void setCategories(Set<Category> categories) {
         this.categories = categories;
     }

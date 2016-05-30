@@ -14,7 +14,7 @@ import java.io.Serializable;
  * Implements Dao interface.
  * @param <T>
  */
-@Repository("baseDao")
+@Repository
 public class BaseDao<T, PK extends Serializable> implements IBaseDao<T, PK> {
     private SessionFactory sessionFactory;
 

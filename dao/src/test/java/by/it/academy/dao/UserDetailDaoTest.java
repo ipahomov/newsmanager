@@ -1,7 +1,7 @@
 package by.it.academy.dao;
 
-import by.it.academy.model.User;
-import by.it.academy.model.UserDetail;
+import by.it.academy.model.user.User;
+import by.it.academy.model.user.UserDetail;
 import org.apache.log4j.Logger;
 import org.junit.Before;
 import org.junit.Test;

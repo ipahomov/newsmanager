@@ -5,6 +5,6 @@
     <title>welcome</title>
 </head>
 <body>
-<jsp:forward page="LoginController"></jsp:forward>
+<jsp:forward page="/home"></jsp:forward>
 </body>
 </html>

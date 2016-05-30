@@ -22,4 +22,8 @@
 
     <tx:annotation-driven transaction-manager="transactionManager"/>
 
+    <bean id="baseDao" class="by.it.academy.dao.BaseDao">
+        <constructor-arg ref="sessionFactory"/>
+    </bean>
+
 </beans>

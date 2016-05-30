@@ -1,6 +1,6 @@
 package by.it.academy.services;
 
-import by.it.academy.model.UserDetail;
+import by.it.academy.model.user.UserDetail;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

@@ -1,7 +1,7 @@
 package by.it.academy.dao;
 
 import by.it.academy.dao.exceptions.DaoException;
-import by.it.academy.model.User;
+import by.it.academy.model.user.User;
 
 /**
  * interface for users

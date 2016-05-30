@@ -1,5 +1,7 @@
 package by.it.academy.model;
 
+import by.it.academy.model.user.UserDetail;
+
 import javax.persistence.*;
 import java.io.Serializable;
 

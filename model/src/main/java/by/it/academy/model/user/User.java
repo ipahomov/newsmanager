@@ -1,7 +1,9 @@
-package by.it.academy.model;
+package by.it.academy.model.user;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * Entity for user
@@ -18,6 +20,7 @@ public class User implements Serializable {
     private String email;
     private String password;
     private UserDetail userDetail;
+    private Set<UserProfile> userProfiles = new HashSet<UserProfile>();
 
     public User() {
     }
@@ -27,6 +30,7 @@ public class User implements Serializable {
     public Long getUserId() {
         return userId;
     }
+
     public void setUserId(Long userId) {
         this.userId = userId;
     }
@@ -35,6 +39,7 @@ public class User implements Serializable {
     public String getFirstName() {
         return firstName;
     }
+
     public void setFirstName(String firstName) {
         this.firstName = firstName;
     }
@@ -43,6 +48,7 @@ public class User implements Serializable {
     public String getLastName() {
         return lastName;
     }
+
     public void setLastName(String lastName) {
         this.lastName = lastName;
     }
@@ -51,6 +57,7 @@ public class User implements Serializable {
     public String getEmail() {
         return email;
     }
+
     public void setEmail(String email) {
         this.email = email;
     }
@@ -59,6 +66,7 @@ public class User implements Serializable {
     public String getPassword() {
         return password;
     }
+
     public void setPassword(String password) {
         this.password = password;
     }
@@ -67,8 +75,21 @@ public class User implements Serializable {
     public UserDetail getUserDetail() {
         return userDetail;
     }
+
     public void setUserDetail(UserDetail userDetail) {
         this.userDetail = userDetail;
+    }
+
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(name = "T_USER_USER_PROFILE",
+            joinColumns = {@JoinColumn(name = "F_USER_ID")},
+            inverseJoinColumns = {@JoinColumn(name = "F_USER_PROFILE_ID")})
+    public Set<UserProfile> getUserProfiles() {
+        return userProfiles;
+    }
+
+    public void setUserProfiles(Set<UserProfile> userProfiles) {
+        this.userProfiles = userProfiles;
     }
 
     @Override
@@ -82,7 +103,9 @@ public class User implements Serializable {
         if (firstName != null ? !firstName.equals(user.firstName) : user.firstName != null) return false;
         if (lastName != null ? !lastName.equals(user.lastName) : user.lastName != null) return false;
         if (email != null ? !email.equals(user.email) : user.email != null) return false;
-        return !(password != null ? !password.equals(user.password) : user.password != null);
+        if (password != null ? !password.equals(user.password) : user.password != null) return false;
+        if (userDetail != null ? !userDetail.equals(user.userDetail) : user.userDetail != null) return false;
+        return !(userProfiles != null ? !userProfiles.equals(user.userProfiles) : user.userProfiles != null);
 
     }
 
@@ -93,6 +116,8 @@ public class User implements Serializable {
         result = 31 * result + (lastName != null ? lastName.hashCode() : 0);
         result = 31 * result + (email != null ? email.hashCode() : 0);
         result = 31 * result + (password != null ? password.hashCode() : 0);
+        result = 31 * result + (userDetail != null ? userDetail.hashCode() : 0);
+        result = 31 * result + (userProfiles != null ? userProfiles.hashCode() : 0);
         return result;
     }
 
@@ -105,6 +130,7 @@ public class User implements Serializable {
                 ", email='" + email + '\'' +
                 ", password='" + password + '\'' +
                 ", userDetail=" + userDetail +
+                ", userProfiles=" + userProfiles +
                 '}';
     }
 }

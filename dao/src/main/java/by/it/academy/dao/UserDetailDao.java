@@ -1,6 +1,6 @@
 package by.it.academy.dao;
 
-import by.it.academy.model.UserDetail;
+import by.it.academy.model.user.UserDetail;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
