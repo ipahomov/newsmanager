@@ -55,16 +55,17 @@
         <property name="defaultEncoding" value="UTF-8"/>
     </bean>
 
-
-
-    <!--<bean
-          class="org.springframework.web.servlet.view.InternalResourceViewResolver"
-          p:prefix="/WEB-INF/views/"
-          p:suffix=".jsp"/>
-
-    <bean id="localResolver"
-          class="org.springframework.web.servlet.i18n.SessionLocaleResolver">
+    <bean id="localeResolver"
+          class="org.springframework.web.servlet.i18n.CookieLocaleResolver">
         <property name="defaultLocale" value="en"/>
-    </bean>-->
+        <property name="cookieName" value="LocaleCookie"></property>
+        <property name="cookieMaxAge" value="3600"></property>
+    </bean>
+
+    <mvc:interceptors>
+        <bean class="org.springframework.web.servlet.i18n.LocaleChangeInterceptor">
+            <property name="paramName" value="locale"/>
+        </bean>
+    </mvc:interceptors>
 
 </beans>

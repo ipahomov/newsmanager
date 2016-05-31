@@ -24,4 +24,8 @@ public interface INewsService extends IBaseService<News, Long> {
      */
     List<News> getNewsByCategory(String category);
 
+    List<News> getNewsPagination(int result, int offset);
+
+    int getCountNews();
+
 }

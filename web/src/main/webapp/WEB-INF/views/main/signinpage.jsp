@@ -1,5 +1,12 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<c:url var="loginUrl" value="/j_spring_security_check"/>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Login</title>
+    <!-- Bootstrap -->
+    <link href="/assets/css/signin.css" rel="stylesheet">
+</head>
+<c:url var="loginUrl" value="/login"/>
     <form action="${loginUrl}" method="post" class="form-signin">
         <c:if test="${param.error != null}">
             <div class="alert alert-danger">

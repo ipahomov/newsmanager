@@ -10,6 +10,7 @@ import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -29,21 +30,6 @@ public class NewsDao extends BaseDao<News, Long> implements INewsDao {
     public NewsDao(SessionFactory sessionFactory) {
         super(sessionFactory);
     }
-
-    /*public void editNews(News news) throws DaoException {
-        try {
-            Session session = HibernateUtil.getHibernateUtil().getSession();
-            Query query = session.createQuery(EDIT_NEWS_HQL);
-            query.setParameter("categoryName", news.getCategoryName());
-            query.setParameter("categoryName", news.getCategoryName());
-            query.setParameter("categoryName", news.getCategoryName());
-            query.executeUpdate();
-        } catch (HibernateException e) {
-            logger.error("Error edit news " + e);
-            throw new DaoException(e);
-        }
-
-    }*/
 
     public List<News> getAllNews() throws DaoException {
         Criteria criteria;
@@ -68,5 +54,35 @@ public class NewsDao extends BaseDao<News, Long> implements INewsDao {
         }
 
         return (List<News>) criteria.list();
+    }
+
+    public List<News> getNewsPagination(int result, int offset) throws DaoException {
+        List<News> newsList = Collections.EMPTY_LIST;
+        Criteria criteria;
+        try {
+            criteria = getSession().createCriteria(News.class);
+            criteria.setFirstResult(offset);
+            criteria.setMaxResults(result);
+            newsList = criteria.list();
+        } catch (HibernateException e) {
+            logger.error("Error get news pagination " + e);
+            throw new DaoException(e);
+        }
+
+        return newsList;
+    }
+
+    public int getCountNews() throws DaoException {
+        int count = 0;
+        Criteria criteria;
+        try {
+            criteria = getSession().createCriteria(News.class);
+            count= criteria.list().size();
+        } catch (HibernateException e) {
+            logger.error("Error get count news " + e);
+            throw new DaoException(e);
+        }
+
+        return count;
     }
 }

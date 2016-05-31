@@ -62,6 +62,7 @@
             </div>
         </div><!--/.sidebar-offcanvas-->
 
+        <div class="col-xs-12 col-md-8" id="news">
         <c:if test="${!empty newslist}">
             <c:forEach items="${newslist}" var="news">
                 <spring:url value="/shownews/${news.newsId}" var="newsUrl"/>
@@ -74,7 +75,7 @@
 
             </c:forEach>
         </c:if>
-
+        </div>
 
     </div>
 

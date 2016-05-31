@@ -2,6 +2,8 @@ package by.it.academy.dao;
 
 import by.it.academy.model.user.User;
 import by.it.academy.model.user.UserDetail;
+import by.it.academy.model.user.UserProfile;
+import by.it.academy.model.user.UserProfileType;
 import org.apache.log4j.Logger;
 import org.junit.Before;
 import org.junit.Test;
@@ -9,7 +11,11 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.HashSet;
+import java.util.Set;
 
 import static junit.framework.Assert.*;
 
@@ -106,5 +112,21 @@ public class UserDaoTest {
         User userTest = userDao.get(User.class, id);
         userDao.delete(userTest);
         assertNull(userDao.get(User.class, id));
+    }
+
+    @Test
+    @Transactional(propagation = Propagation.NOT_SUPPORTED)
+    public void testUserProfile() throws Exception {
+        User user = userDao.get(User.class, 4L);
+        UserProfileType type = UserProfileType.ADMIN;
+        UserProfile userProfile = new UserProfile();
+
+        userProfile.setType(type.getType());
+        Set<UserProfile> userProfiles = new HashSet<UserProfile>();
+        userProfiles.add(userProfile);
+
+        user.setUserProfiles(userProfiles);
+        userDao.save(user);
+
     }
 }

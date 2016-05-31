@@ -44,4 +44,23 @@ public class NewsService extends BaseService<News, Long> implements INewsService
         return newsList;
     }
 
+    public List<News> getNewsPagination(int result, int offset){
+        List<News> newsList = Collections.EMPTY_LIST;
+        try {
+            newsList = newsDao.getNewsPagination(result, offset);
+        } catch (DaoException e) {
+            log.error("Error get news pagination " + e);
+        }
+        return newsList;
+    }
+
+    public int getCountNews() {
+        int count = 0;
+        try {
+            count = newsDao.getCountNews();
+        } catch (DaoException e) {
+            log.error("Error get count news " + e);
+        }
+        return count;
+    }
 }

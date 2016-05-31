@@ -11,23 +11,17 @@
         <intercept-url pattern="/" access="permitAll"/>
         <intercept-url pattern="/home" access="permitAll"/>
         <intercept-url pattern="/admin**" access="hasRole('ADMIN')"/>
-        <intercept-url pattern="/author**" access="hasRole('ADMIN') and hasRole('AUTHOR')"/>
+        <intercept-url pattern="/author**" access="hasAnyRole('ADMIN','AUTHOR')"/>
         <form-login login-page="/login"
                     username-parameter="email"
                     password-parameter="password"
                     authentication-failure-url="/access_denied"/>
-        <logout logout-success-url="/login?logout"/>
+        <logout logout-success-url="/home"/>
         <csrf/>
     </http>
 
-    <authentication-manager >
-        <authentication-provider>
-            <user-service>
-                <user name="user@mail.ru"  password="abc123"  authorities="ROLE_USER" />
-                <user name="admin@mail.ru" password="root123" authorities="ROLE_ADMIN" />
-                <user name="author@mail.ru"   password="root123" authorities="ROLE_ADMIN,ROLE_AUTHOR" />
-            </user-service>
-        </authentication-provider>
+    <authentication-manager>
+        <authentication-provider user-service-ref="authService"/>
     </authentication-manager>
 
     <beans:bean id="authService" class="by.it.academy.auth.AuthenticationService"/>

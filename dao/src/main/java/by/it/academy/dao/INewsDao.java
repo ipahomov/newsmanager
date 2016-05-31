@@ -33,4 +33,8 @@ public interface INewsDao extends IBaseDao<News, Long> {
      */
     List<News> getNewsByCategory(String categoryName) throws DaoException;
 
+    List<News> getNewsPagination(int result, int offset) throws DaoException;
+
+    int getCountNews() throws DaoException;
+
 }

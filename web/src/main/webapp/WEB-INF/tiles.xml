@@ -17,18 +17,47 @@
 
     <definition name="signin" extends="default">
         <put-attribute name="title" value="Login"/>
+        <put-attribute name="header" value=""/>
         <put-attribute name="body" value="/WEB-INF/views/main/signinpage.jsp"/>
+        <put-attribute name="footer" value=""/>
+    </definition>
+
+    <definition name="accesdenied" extends="default">
+        <put-attribute name="title" value="Acces Denied"/>
+        <put-attribute name="body" value="/WEB-INF/views/main/access-denied.jsp"/>
     </definition>
 
     <definition name="welcome" extends="default">
         <put-attribute name="title" value="News Manager"/>
+        <put-attribute name="header" value=""/>
         <put-attribute name="body" value="/WEB-INF/views/main/welcome.jsp"/>
+    </definition>
+
+    <definition name="admin/adminmenu" extends="default">
+        <put-attribute name="title" value="Admin menu"/>
+        <put-attribute name="header" value=""/>
+        <put-attribute name="body" value="/WEB-INF/views/admin/adminpage.jsp"/>
+    </definition>
+
+    <definition name="admin/addEdit" extends="default">
+        <put-attribute name="title" value="Add $ Edit news"/>
+        <put-attribute name="body" value="/WEB-INF/views/admin/addEditNews.jsp"/>
+    </definition>
+
+    <definition name="admin/newsdetail" extends="default">
+        <put-attribute name="title" value="News detail"/>
+        <put-attribute name="body" value="/WEB-INF/views/admin/adminnewsdetail.jsp"/>
+    </definition>
+
+    <definition name="newsdetail" extends="default">
+        <put-attribute name="title" value="News detail"/>
+        <put-attribute name="body" value="/WEB-INF/views/newsdetail.jsp"/>
     </definition>
 
 
     <definition name="news" extends="default">
-        <put-attribute name="title" value="news details"/>
-        <put-attribute name="body" value="/WEB-INF/views/newsdetail.jsp"/>
+        <put-attribute name="title" value="News details"/>
+        <put-attribute name="body" value="/WEB-INF/views/main/newsdetail.jsp"/>
     </definition>
 
     <!--<definition name="welcome" extends="default">
