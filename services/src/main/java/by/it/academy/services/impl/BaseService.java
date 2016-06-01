@@ -1,7 +1,8 @@
-package by.it.academy.services;
+package by.it.academy.services.impl;
 
 import by.it.academy.dao.IBaseDao;
 import by.it.academy.dao.exceptions.DaoException;
+import by.it.academy.services.IBaseService;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

@@ -1,5 +1,6 @@
-package by.it.academy.dao;
+package by.it.academy.dao.impl;
 
+import by.it.academy.dao.IUserDetailDao;
 import by.it.academy.model.user.UserDetail;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;

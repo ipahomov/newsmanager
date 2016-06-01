@@ -1,8 +1,9 @@
-package by.it.academy.services;
+package by.it.academy.services.impl;
 
 import by.it.academy.dao.INewsDao;
 import by.it.academy.dao.exceptions.DaoException;
 import by.it.academy.model.News;
+import by.it.academy.services.INewsService;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -22,7 +23,6 @@ public class NewsService extends BaseService<News, Long> implements INewsService
 
     @Autowired
     private INewsDao newsDao;
-
 
     public List<News> getAllNews() {
         List<News> newsList = Collections.EMPTY_LIST;
@@ -44,10 +44,12 @@ public class NewsService extends BaseService<News, Long> implements INewsService
         return newsList;
     }
 
-    public List<News> getNewsPagination(int result, int offset){
+    public List<News> getNewsPagination(int firstResult, int newsPerPage) {
         List<News> newsList = Collections.EMPTY_LIST;
+        if(firstResult < 1) firstResult = 0;
+        int startPosition = (firstResult-1)*newsPerPage;
         try {
-            newsList = newsDao.getNewsPagination(result, offset);
+            newsList = newsDao.getNewsPagination(startPosition, newsPerPage);
         } catch (DaoException e) {
             log.error("Error get news pagination " + e);
         }

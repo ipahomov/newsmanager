@@ -3,7 +3,11 @@ package by.it.academy.controllers;
 import by.it.academy.model.News;
 import by.it.academy.services.ICategoryService;
 import by.it.academy.services.INewsService;
+import by.it.academy.services.IUserService;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -17,12 +21,16 @@ import org.springframework.web.bind.annotation.RequestMethod;
 @Controller
 @RequestMapping(value = "/admin")
 public class AdminController {
+    private static final Logger logger = Logger.getLogger(AdminController.class);
 
     @Autowired
     private INewsService newsService;
 
     @Autowired
     private ICategoryService categoryService;
+
+    @Autowired
+    private IUserService userService;
 
     @RequestMapping(value = "/showByCategory/{categoryName}", method = RequestMethod.GET)
     public String getNewsByCategory(@PathVariable("categoryName") String name, ModelMap model){
@@ -40,7 +48,9 @@ public class AdminController {
 
     @RequestMapping(value = "/addNews", method = RequestMethod.POST)
     public String addNews(@ModelAttribute("news") News news){
+
         if(news.getNewsId() == null){
+            news.setAuthor(getPrincipal());
             this.newsService.save(news);
         }
         else {
@@ -67,6 +77,19 @@ public class AdminController {
     public String getNewsDetail(@PathVariable("newsId") Long id, ModelMap model){
         model.addAttribute("news", newsService.get(News.class,id));
         return "admin/newsdetail";
+    }
+
+    private String getPrincipal(){
+        String userData = null;
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+        if (principal instanceof UserDetails) {
+            String email = ((UserDetails)principal).getUsername();
+            userData = userService.getUserByEmail(email).getLastName();
+        } else {
+            userData = principal.toString();
+        }
+        return userData;
     }
 
 

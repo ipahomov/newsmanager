@@ -1,5 +1,6 @@
-package by.it.academy.dao;
+package by.it.academy.dao.impl;
 
+import by.it.academy.dao.INewsDao;
 import by.it.academy.dao.exceptions.DaoException;
 import by.it.academy.model.News;
 import org.apache.log4j.Logger;
@@ -22,9 +23,6 @@ import java.util.List;
 @Repository("newsDao")
 public class NewsDao extends BaseDao<News, Long> implements INewsDao {
     final static Logger logger = Logger.getLogger(NewsDao.class);
-    private static final String EDIT_NEWS_HQL = "UPDATE News n SET n.categoryName=:categoryName, n.title=:title," +
-            " n.author=:author, n.annotation=:annotation, n.maintext=:maintext " +
-            "WHERE n.newsId=:newsId ";
 
     @Autowired
     public NewsDao(SessionFactory sessionFactory) {
@@ -56,13 +54,13 @@ public class NewsDao extends BaseDao<News, Long> implements INewsDao {
         return (List<News>) criteria.list();
     }
 
-    public List<News> getNewsPagination(int result, int offset) throws DaoException {
+    public List<News> getNewsPagination(int firstResult, int newsPerPage) throws DaoException {
         List<News> newsList = Collections.EMPTY_LIST;
         Criteria criteria;
         try {
             criteria = getSession().createCriteria(News.class);
-            criteria.setFirstResult(offset);
-            criteria.setMaxResults(result);
+            criteria.setFirstResult(firstResult);
+            criteria.setMaxResults(newsPerPage);
             newsList = criteria.list();
         } catch (HibernateException e) {
             logger.error("Error get news pagination " + e);
@@ -77,7 +75,7 @@ public class NewsDao extends BaseDao<News, Long> implements INewsDao {
         Criteria criteria;
         try {
             criteria = getSession().createCriteria(News.class);
-            count= criteria.list().size();
+            count = criteria.list().size();
         } catch (HibernateException e) {
             logger.error("Error get count news " + e);
             throw new DaoException(e);

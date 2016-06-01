@@ -8,23 +8,24 @@
        http://www.springframework.org/schema/tx
        http://www.springframework.org/schema/tx/spring-tx-4.0.xsd
        http://www.springframework.org/schema/context
-       http://www.springframework.org/schema/context/spring-context-3.0.xsd http://www.springframework.org/schema/cache http://www.springframework.org/schema/cache/spring-cache.xsd">
+       http://www.springframework.org/schema/context/spring-context-3.0.xsd ">
 
     <context:component-scan base-package="by.it.academy.dao"/>
     <context:annotation-config/>
 
     <!-- DataSource -->
-    <bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource">
-        <property name="jdbcUrl" value="jdbc:mysql://localhost:3306/newsmanager?useSSL=false"/>
+    <bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource" destroy-method="close">
+        <property name="jdbcUrl" value="jdbc:mysql://localhost:3306/test_newsmanager?useSSL=false"/>
         <property name="driverClass" value="com.mysql.jdbc.Driver"/>
         <property name="user" value="root"/>
         <property name="password" value="root"/>
 
-        <!--<property name="initialPoolSize" value="5"/>-->
-        <!--<property name="acquireIncrement" value="2"/>
+        <property name="acquireIncrement" value="2"/>
         <property name="minPoolSize" value="5"/>
-        <property name="maxPoolSize" value="20"/>
-        <property name="maxIdleTime" value="600"/>-->
+        <property name="maxPoolSize" value="50"/>
+        <property name="maxIdleTime" value="600"/>
+        <property name="unreturnedConnectionTimeout" value="1800"/>
+
     </bean>
 
     <!-- Hibernate SessionFactory -->
@@ -47,18 +48,14 @@
                 <prop key="hibernate.dialect">org.hibernate.dialect.MySQLDialect</prop>
                 <prop key="connection.isolation">2</prop>
                 <prop key="hibernate.cglib.use_reflection_optimizer">true</prop>
-                <!--<prop key="hibernate.current_session_context_class">thread</prop>-->
                 <prop key="hibernate.hbm2ddl.auto">update</prop>
 
-                <prop key="hibernate.c3p0.min_size">5</prop>
-                <prop key="hibernate.c3p0.max_size">20</prop>
-                <prop key="hibernate.c3p0.timeout">1800</prop>
-                <prop key="hibernate.c3p0.max_statements">50</prop>
-
+                <!-- Second level cache -->
                 <prop key="hibernate.cache.use_second_level_cache">true</prop>
                 <prop key="hibernate.cache.use_query_cache">true</prop>
-                <prop key="hibernate.cache.region.factory_class">org.hibernate.cache.ehcache.EhCacheRegionFactory</prop>
+                <prop key="hibernate.cache.region.factory_class">org.hibernate.cache.ehcache.SingletonEhCacheRegionFactory</prop>
                 <prop key="hibernate.cache.provider_configuration_file_resource_path">/ehcache.xml</prop>
+                <!--<prop key="hibernate.generate_statistics">true</prop>-->
             </props>
         </property>
     </bean>
@@ -73,19 +70,20 @@
     <!--Translate exceptions to Spring-exceptions -->
     <bean class="org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor"/>
 
-    <bean id="userDao" class="by.it.academy.dao.UserDao">
+    <!-- DAO -->
+    <bean id="userDao" class="by.it.academy.dao.impl.UserDao">
         <constructor-arg ref="sessionFactory"/>
     </bean>
 
-    <bean id="userDetailDao" class="by.it.academy.dao.UserDetailDao">
+    <bean id="userDetailDao" class="by.it.academy.dao.impl.UserDetailDao">
         <constructor-arg ref="sessionFactory"/>
     </bean>
 
-    <bean id="categoryDao" class="by.it.academy.dao.CategoryDao">
+    <bean id="categoryDao" class="by.it.academy.dao.impl.CategoryDao">
         <constructor-arg ref="sessionFactory"/>
     </bean>
 
-    <bean id="newsDao" class="by.it.academy.dao.NewsDao">
+    <bean id="newsDao" class="by.it.academy.dao.impl.NewsDao">
         <constructor-arg ref="sessionFactory"/>
     </bean>
 

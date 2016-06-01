@@ -10,13 +10,13 @@
     <http auto-config="true">
         <intercept-url pattern="/" access="permitAll"/>
         <intercept-url pattern="/home" access="permitAll"/>
-        <intercept-url pattern="/admin**" access="hasRole('ADMIN')"/>
+        <intercept-url pattern="/admin**" access="hasAnyRole('ADMIN','AUTHOR')"/>
         <intercept-url pattern="/author**" access="hasAnyRole('ADMIN','AUTHOR')"/>
         <form-login login-page="/login"
                     username-parameter="email"
                     password-parameter="password"
                     authentication-failure-url="/access_denied"/>
-        <logout logout-success-url="/home"/>
+        <logout invalidate-session="true" logout-success-url="/home"/>
         <csrf/>
     </http>
 

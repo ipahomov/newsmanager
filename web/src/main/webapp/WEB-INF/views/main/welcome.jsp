@@ -1,3 +1,5 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+         pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="tiles" uri="http://tiles.apache.org/tags-tiles" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
@@ -10,6 +12,7 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
+            <span class="glyphicon glyphicon-duplicate" aria-hidden="true"></span>
             <a class="navbar-brand" href="#">News manager</a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
@@ -24,8 +27,13 @@
                     <input type="password" id="inputPassword" name="password" class="form-control" placeholder="Password" required="required">
                 </div>
                 <input type="hidden" name="${_csrf.parameterName}"   value="${_csrf.token}" />--%>
-                <button type="submit" class="btn btn-success">I am author</button>
+                <button type="submit" class="btn btn-success"><spring:message code="button.author.sign"/> </button>
             </form>
+            <p class="navbar-text navbar-right">
+                <a href="?locale=en" class="navbar-link">Eng</a> |
+                <a href="?locale=ru" class="navbar-link">Рус</a>
+            </p>
+
         </div><!--/.navbar-collapse -->
     </div>
 </nav>
@@ -33,10 +41,30 @@
 <!-- Main jumbotron for a primary marketing message or call to action -->
 <div class="jumbotron">
     <%--<div class="container">--%>
-        <h1>Hello, friend</h1>
-        <p>This is a news manager project. You can find here the latest and interesting news.
-            Also, you can become one of our authors to share your articles with the world.</p>
-        <p><a class="btn btn-primary" href="#" role="button">Learn more »</a></p>
+        <h1><spring:message code="page.header.greeting" /> </h1>
+        <p><spring:message code="page.header.info" /></p>
+        <!-- Button trigger modal -->
+        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">
+            Learn more
+        </button>
+
+        <!-- Modal -->
+        <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title" id="myModalLabel"><spring:message code="page.main.descriprion.title" /></h4>
+                    </div>
+                    <div class="modal-body">
+                        <p><spring:message code="page.main.description.text" /></p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
     <%--</div>--%>
 </div>
 
@@ -63,13 +91,33 @@
                 <c:forEach items="${newslist}" var="news">
                     <spring:url value="/shownews/${news.newsId}" var="newsUrl"/>
 
-                    <div class="col-md-5">
-                        <h2>${news.title}</h2>
+                    <div class="col-md-6">
+                        <h3>${news.title}</h3>
                         <p>${news.annotation}</p>
-                        <p><a class="btn btn-default" href="${newsUrl}" role="button">View news »</a></p>
+                        <p><a class="btn btn-default" href="${newsUrl}" role="button"><spring:message code="button.welcome.news"/> »</a></p>
                     </div>
 
                 </c:forEach>
             </c:if>
+
+            <%--<nav>
+                <ul class="pagination">
+                    <li>
+                        <a href="#" aria-label="Previous">
+                            <span aria-hidden="true">&laquo;</span>
+                        </a>
+                    </li>
+                    <c:forEach begin="0" end="lastPage">
+                    <li><a href="#"></a></li>
+                    </c:forEach>
+                    <li>
+                        <a href="#" aria-label="Next">
+                            <span aria-hidden="true">&raquo;</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>--%>
+
         </div>
 </div>
+

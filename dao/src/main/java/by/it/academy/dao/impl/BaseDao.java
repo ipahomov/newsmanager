@@ -1,6 +1,7 @@
-package by.it.academy.dao;
+package by.it.academy.dao.impl;
 
 
+import by.it.academy.dao.IBaseDao;
 import by.it.academy.dao.exceptions.DaoException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;

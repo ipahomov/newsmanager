@@ -14,7 +14,6 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -34,12 +33,12 @@ public class MainController {
     @Autowired
     private IUserService userService;
 
-    /*@RequestMapping(value = { "/", "/home" }, method = RequestMethod.GET)
+    @RequestMapping(value = { "/", "/home" }, method = RequestMethod.GET)
     public String homePage(ModelMap model) {
         model.addAttribute("newslist", newsService.getAllNews());
         model.addAttribute("categories", categoryService.getCategoriesByParent("main"));
         return "welcome";
-    }*/
+    }
 
     @RequestMapping(value = "/shownews/{newsId}", method = RequestMethod.GET)
     public String getNewsDetail(@PathVariable("newsId") Long id, ModelMap model){
@@ -49,6 +48,7 @@ public class MainController {
 
     @RequestMapping(value = "/showByCategory/{categoryName}", method = RequestMethod.GET)
     public String getNewsByCategory(@PathVariable("categoryName") String name, ModelMap model){
+        model.addAttribute("user", getPrincipal());
         model.addAttribute("newslist", newsService.getNewsByCategory(name));
         model.addAttribute("categories", categoryService.getCategoriesByParent("main"));
         return "welcome";
@@ -70,11 +70,6 @@ public class MainController {
         return "admin/adminmenu";
     }
 
-    @RequestMapping(value = "/db", method = RequestMethod.GET)
-    public String dbaPage(ModelMap model) {
-        model.addAttribute("user", getPrincipal());
-        return "dba";
-    }
     @RequestMapping(value = "/access_denied", method = RequestMethod.GET)
     public String accessDeniedPage(ModelMap model) {
         model.addAttribute("user", "User with email " +  getPrincipal() + " not registered");
@@ -106,18 +101,20 @@ public class MainController {
         return userData;
     }
 
-    @RequestMapping(value = { "/", "/home" }, method = RequestMethod.GET)
+    /*@RequestMapping(value = { "/", "/home" }, method = RequestMethod.GET)
     private String getNewsPaginated(@RequestParam(value = "page")int page,
                                     @RequestParam(value = "countperpage") int countPerPage,
                                     ModelMap model){
 
         countPerPage = 2;
         int lastPage = newsService.getCountNews()/countPerPage;
+        page=0;
+
         model.addAttribute("newslist", newsService.getNewsPagination(page, countPerPage));
         model.addAttribute("lastPage", lastPage);
         model.addAttribute("categories", categoryService.getCategoriesByParent("main"));
 
         return "welcome";
-    }
+    }*/
 
 }

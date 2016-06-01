@@ -1,5 +1,6 @@
-package by.it.academy.dao;
+package by.it.academy.dao.impl;
 
+import by.it.academy.dao.ICategoryDao;
 import by.it.academy.dao.exceptions.DaoException;
 import by.it.academy.model.Category;
 import org.apache.log4j.Logger;

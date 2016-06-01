@@ -51,32 +51,8 @@
 
     <definition name="newsdetail" extends="default">
         <put-attribute name="title" value="News detail"/>
-        <put-attribute name="body" value="/WEB-INF/views/newsdetail.jsp"/>
-    </definition>
-
-
-    <definition name="news" extends="default">
-        <put-attribute name="title" value="News details"/>
         <put-attribute name="body" value="/WEB-INF/views/main/newsdetail.jsp"/>
     </definition>
 
-    <!--<definition name="welcome" extends="default">
-        <put-attribute name="title" value="Welcome user"/>
-        <put-attribute name="body" value="/WEB-INF/view/welcome/login.jspx"/>
-    </definition>
-
-    <definition name="user/main" extends="default">
-        <put-attribute name="title" value="Main page"/>
-        <put-attribute name="body" value="/WEB-INF/view/user/main.jspx"/>
-    </definition>
-
-    <definition name="persons/main" extends="default">
-        <put-attribute name="title" value="Persons Info"/>
-        <put-attribute name="body" value="/WEB-INF/view/person/main.jspx"/>
-    </definition>
-
-    <definition name="login" extends="default">
-        <put-attribute name="title" value="Login page"/>
-    </definition>-->
 </tiles-definitions>
 
