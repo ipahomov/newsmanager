@@ -11,7 +11,6 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashSet;
@@ -36,10 +35,10 @@ public class UserDaoTest {
     @Before
     public void prepareUser() {
         user = new User();
-        user.setFirstName("FirstNameTest");
-        user.setLastName("LastNameTest");
-        user.setEmail("emailTest@test.ru");
-        user.setPassword("4444");
+        user.setFirstName("Firstnametest");
+        user.setLastName("Lastnametest");
+        user.setEmail("emailtest@test.ru");
+        user.setPassword("44444444");
     }
 
     @Test
@@ -69,7 +68,7 @@ public class UserDaoTest {
         userDao.save(user);
         log.info("Saved user " + user);
 
-        String email = "emailTest@test.ru";
+        String email = "emailtest@test.ru";
         User userTest = userDao.getUserByEmail(email);
         assertNotNull(userTest);
         assertEquals("Equals:", email, userTest.getEmail());
@@ -115,9 +114,10 @@ public class UserDaoTest {
     }
 
     @Test
-    @Transactional(propagation = Propagation.NOT_SUPPORTED)
+    @Transactional()
     public void testUserProfile() throws Exception {
-        User user = userDao.get(User.class, 4L);
+        Long id = userDao.save(user);
+        User user = userDao.get(User.class, id);
         UserProfileType type = UserProfileType.ADMIN;
         UserProfile userProfile = new UserProfile();
 

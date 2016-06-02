@@ -31,7 +31,8 @@
                     <label for="title" class="col-sm-2 control-label">Title</label>
 
                     <div class="col-sm-7">
-                        <form:input path="title" type="text" class="form-control" name="title" value="${news.title}"/>
+                        <form:errors path="title" cssStyle="color: red"/>
+                        <form:input path="title" type="text" class="form-control" id="title" value="${news.title}"/>
                     </div>
                     <%--<div class="col-sm-3">
                         <c:if test="${not empty errorTitle}">
@@ -43,6 +44,7 @@
                     <label for="annotation" class="col-sm-2 control-label">Annotation</label>
 
                     <div class="col-sm-7">
+                        <form:errors path="annotation" cssStyle="color: red"/>
                         <form:input path="annotation" type="text" class="form-control" name="annotation" value="${news.annotation}"/>
                     </div>
                 </div>
@@ -50,6 +52,7 @@
                     <label for="maintext" class="col-sm-2 control-label">Maintext</label>
 
                     <div class="col-sm-7">
+                        <form:errors path="maintext" cssStyle="color: red"/>
                         <form:textarea path="maintext" rows="10" cols="100" class="form-control" name="maintext"></form:textarea>
                     </div>
                 </div>
@@ -59,7 +62,8 @@
                         <c:if test="${news.newsId == null}">
                             <button type="reset" class="btn btn-default">Reset</button>
                         </c:if>
-                        <a href="/admin" class="btn btn-default" role="button">Cancel</a>
+                        <c:url value="/admin" var="back"/>
+                        <a href="${back}" class="btn btn-default" role="button">Cancel</a>
                     </div>
                 </div>
             </form:form>

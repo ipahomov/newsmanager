@@ -3,7 +3,7 @@ package by.it.academy.services;
 import by.it.academy.model.user.User;
 
 /**
- * interface for user service
+ * Interface for user service
  */
 public interface IUserService extends IBaseService<User, Long> {
 

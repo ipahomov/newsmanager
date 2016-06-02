@@ -1,3 +1,4 @@
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8" %>
 <h1>${news.title}</h1>
@@ -5,11 +6,13 @@
         <i>${news.annotation}</i>
     </p>
     <p>${news.maintext}</p>
-    <p>Автор статьи: ${news.author} | Дата: ${news.releaseDate}</p>
+    <p>Author: ${news.author} | Date: ${news.releaseDate}</p>
 
-<div class="btn-group" role="group" aria-label="...">
-    <button type="button" class="btn btn-default" href="/admin">Back</button>
-    <button type="button" class="btn btn-info" href="/admin/editNews/${news.newsId}">Edit</button>
-    <button type="button" class="btn btn-danger" href="/admin/deletenews/${news.newsId}">Delete</button>
-</div>
+
+<spring:url value="/admin" var="back"/>
+<spring:url value="/admin/editNews/${news.newsId}" var="newsEdit"/>
+<spring:url value="/admin/deleteNews/${news.newsId}" var="newsDelete"/>
+<a class="btn btn-default" href="${back}" role="button">Back</a>
+<a class="btn btn-info" href="${newsEdit}" role="button">Edit</a>
+<a class="btn btn-danger" href="${newsDelete}" role="button">Delete</a>
 

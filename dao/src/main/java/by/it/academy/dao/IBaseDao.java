@@ -7,14 +7,16 @@ import java.io.Serializable;
 
 /**
  * Interface for basic operations with any entities via database.
- * @param <T>
+ * Throws Dao exceptions. Handled in service layer.
+ * @param <T> object
+ * @param <PK> primary key
  */
 public interface IBaseDao<T, PK extends Serializable> {
 
     /**
      * Save object to database
      * @param t object for saving
-     * @return primary key of saved object
+     * @return PK primary key of saved object
      * @throws DaoException
      */
     PK save(T t) throws DaoException;
@@ -28,6 +30,7 @@ public interface IBaseDao<T, PK extends Serializable> {
 
     /**
      * Get object from database by id.
+     * @param clazz class of getting object
      * @param id primary key
      * @return object
      * @throws DaoException
@@ -41,7 +44,5 @@ public interface IBaseDao<T, PK extends Serializable> {
      */
     void delete(T t) throws DaoException;
 }
-
-
 
 

@@ -4,7 +4,7 @@ import by.it.academy.dao.exceptions.DaoException;
 import by.it.academy.model.user.User;
 
 /**
- * interface for users
+ * Interface for users
  */
 public interface IUserDao extends IBaseDao<User, Long> {
     /**

@@ -3,6 +3,7 @@ package by.it.academy.services;
 import java.io.Serializable;
 
 /**
+ * BaseService interface contains all common operations (CRUD)
  * Created by IPahomov on 27.05.2016.
  */
 public interface IBaseService<T, PK extends Serializable> {

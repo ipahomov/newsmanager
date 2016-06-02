@@ -5,7 +5,7 @@ import by.it.academy.model.Category;
 import java.util.List;
 
 /**
- * interface for categories service
+ * Interface for categories service
  */
 public interface ICategoryService extends IBaseService<Category, Long> {
 

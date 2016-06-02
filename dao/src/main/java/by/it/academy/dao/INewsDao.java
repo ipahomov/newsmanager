@@ -6,13 +6,12 @@ import by.it.academy.model.News;
 import java.util.List;
 
 /**
- * interface for operations with news
+ * Interface for operations with news
  */
 public interface INewsDao extends IBaseDao<News, Long> {
 
     /**
-     * This method edit news
-     *
+     * This method for edit news
      * @param news - news for editting
      * @return int result of operation (if > 0 - successfully)
      */

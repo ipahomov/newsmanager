@@ -9,8 +9,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
         <title><tiles:insertAttribute name="title" ignore="true" /></title>
     <!-- Bootstrap -->
-    <link href="/assets/css/bootstrap-theme.css" rel="stylesheet">
-    <link href="/assets/css/bootstrap.css" rel="stylesheet">
+    <link href="${pageContext.request.contextPath}/assets/css/bootstrap-theme.css" rel="stylesheet">
+    <link href="${pageContext.request.contextPath}/assets/css/bootstrap.css" rel="stylesheet">
 </head>
 <body>
     <%--<div class="jumbotron">--%>
@@ -28,8 +28,8 @@
     </div>
 
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-    <script src="/assets/js/jquery-1.11.3.min.js"></script>
+    <script src="${pageContext.request.contextPath}/assets/js/jquery-1.11.3.min.js"></script>
     <!-- Include all compiled plugins (below), or include individual files as needed -->
-    <script src="/assets/js/bootstrap.js"></script>
+    <script src="${pageContext.request.contextPath}/assets/js/bootstrap.js"></script>
 </body>
 </html>

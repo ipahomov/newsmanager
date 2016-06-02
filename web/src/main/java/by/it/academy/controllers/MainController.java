@@ -1,5 +1,6 @@
 package by.it.academy.controllers;
 
+import by.it.academy.auth.AuthUser;
 import by.it.academy.model.News;
 import by.it.academy.services.ICategoryService;
 import by.it.academy.services.INewsService;
@@ -14,9 +15,11 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.List;
 
 /**
  * Created by IPahomov on 29.05.2016.
@@ -33,12 +36,12 @@ public class MainController {
     @Autowired
     private IUserService userService;
 
-    @RequestMapping(value = { "/", "/home" }, method = RequestMethod.GET)
+    /*@RequestMapping(value = { "/", "/home" }, method = RequestMethod.GET)
     public String homePage(ModelMap model) {
         model.addAttribute("newslist", newsService.getAllNews());
         model.addAttribute("categories", categoryService.getCategoriesByParent("main"));
         return "welcome";
-    }
+    }*/
 
     @RequestMapping(value = "/shownews/{newsId}", method = RequestMethod.GET)
     public String getNewsDetail(@PathVariable("newsId") Long id, ModelMap model){
@@ -56,7 +59,7 @@ public class MainController {
 
     @RequestMapping(value = "/admin", method = RequestMethod.GET)
     public String adminPage(ModelMap model) {
-        model.addAttribute("user", getPrincipal());
+        //model.addAttribute("user", getPrincipal());
         model.addAttribute("newslist", newsService.getAllNews());
         model.addAttribute("categories", categoryService.getCategoriesByParent("main"));
         return "admin/adminmenu";
@@ -64,7 +67,7 @@ public class MainController {
 
     @RequestMapping(value = "/author", method = RequestMethod.GET)
     public String authorPage(ModelMap model) {
-        model.addAttribute("user", getPrincipal());
+        //model.addAttribute("user", getPrincipal());
         model.addAttribute("newslist", newsService.getAllNews());
         model.addAttribute("categories", categoryService.getCategoriesByParent("main"));
         return "admin/adminmenu";
@@ -89,16 +92,58 @@ public class MainController {
         return "redirect:/home";
     }
     private String getPrincipal(){
-        String userData = null;
+        String userName = null;
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
         if (principal instanceof UserDetails) {
-            String email = ((UserDetails)principal).getUsername();
-            userData = userService.getUserByEmail(email).getLastName();
+            userName = ((AuthUser)principal).getUsername();
         } else {
-            userData = principal.toString();
+            userName = principal.toString();
         }
-        return userData;
+        return userName;
+    }
+
+    /*@RequestMapping(value = "/home/listnews", method = RequestMethod.GET)
+    public String listRedirect(ModelMap model){
+        model.addAttribute("categories", categoryService.getCategoriesByParent("main"));
+        return "redirect:/home/listnews/1";
+    }*/
+
+    @RequestMapping(value = { "/", "/home" }, method = RequestMethod.GET)
+    public String homeList(ModelMap model,
+    @RequestParam(name = "page", defaultValue = "1") int page,
+    @RequestParam(name = "newsPerPage", defaultValue = "2") int newsPerPage) {
+
+        int newsFrom = (page-1)*newsPerPage;
+        int quantity = newsService.getCountNews();
+        int count = getCount(quantity, newsPerPage);
+        List<News> newsList = newsService.getNewsPagination(newsFrom, newsPerPage);
+
+        if (page == (count/newsPerPage+1)){
+            return "redirect:/home/"+page;
+        }
+
+        model.addAttribute("newslist", newsList);
+        model.addAttribute("count", count);
+        model.put("currentPage", (newsFrom/newsPerPage) + 1);
+        model.put("newsPerPage", newsPerPage);
+
+        model.addAttribute("categories", categoryService.getCategoriesByParent("main"));
+        return "welcome";
+    }
+
+    public int getCount(int quantity, int newsPerPage) {
+        int count = 0;
+        if (quantity > 1){
+            if (quantity%newsPerPage > 0) {
+                count = ((quantity/newsPerPage) + 1);
+            } else {
+                count = (quantity/newsPerPage);
+            }
+        } else if (quantity == 1) {
+            count = 1;
+        }
+        return count;
     }
 
     /*@RequestMapping(value = { "/", "/home" }, method = RequestMethod.GET)

@@ -1,5 +1,6 @@
 package by.it.academy.controllers;
 
+import by.it.academy.auth.AuthUser;
 import by.it.academy.model.News;
 import by.it.academy.services.ICategoryService;
 import by.it.academy.services.INewsService;
@@ -10,10 +11,13 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+
+import javax.validation.Valid;
 
 /**
  * Created by IPahomov on 29.05.2016.
@@ -47,19 +51,28 @@ public class AdminController {
     }
 
     @RequestMapping(value = "/addNews", method = RequestMethod.POST)
-    public String addNews(@ModelAttribute("news") News news){
+    public String addNews(@Valid @ModelAttribute("news") News news, BindingResult result, ModelMap model){
 
-        if(news.getNewsId() == null){
-            news.setAuthor(getPrincipal());
-            this.newsService.save(news);
+        if(!result.hasErrors()){
+            if(news !=null){
+                news.setAuthor(currentUserLastName());
+
+                if(news.getNewsId() == null){
+                    this.newsService.save(news);
+                }
+                else {
+                    this.newsService.update(news);
+                }
+            }
+        } else {
+            model.addAttribute("categories", categoryService.getCategoriesByParent("main"));
+            return "admin/addEdit";
         }
-        else {
-            this.newsService.update(news);
-        }
+
         return "redirect:/admin";
     }
 
-    @RequestMapping(value = "/deletenews/{newsId}")
+    @RequestMapping(value = "/deleteNews/{newsId}")
     public String deleteNews(@PathVariable("newsId") Long newsId){
         News news = newsService.get(News.class, newsId);
         this.newsService.delete(news);
@@ -77,6 +90,11 @@ public class AdminController {
     public String getNewsDetail(@PathVariable("newsId") Long id, ModelMap model){
         model.addAttribute("news", newsService.get(News.class,id));
         return "admin/newsdetail";
+    }
+
+    public String currentUserLastName(){
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        return ((AuthUser)principal).getLastname();
     }
 
     private String getPrincipal(){

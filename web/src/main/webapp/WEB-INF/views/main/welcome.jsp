@@ -3,6 +3,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="tiles" uri="http://tiles.apache.org/tags-tiles" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <nav class="navbar navbar-inverse navbar-fixed-top">
     <div class="container">
         <div class="navbar-header">
@@ -72,12 +73,13 @@
     <div class="row">
         <div class="col-xs-6 col-sm-3 sidebar-offcanvas" id="sidebar">
             <div class="list-group">
-                <a href="/home" class="list-group-item active">
+                <c:url value="/home" var="back"/>
+                <a href="${back}" class="list-group-item active">
                     All news
                 </a>
 
                 <c:forEach var="category" items="${categories }">
-                    <spring:url value="/showByCategory/${category.categoryName}" var="categoryUrl"/>
+                    <c:url value="/showByCategory/${category.categoryName}" var="categoryUrl"/>
                     <a
                             href="${categoryUrl}" class="list-group-item">${category.categoryName }</a>
                 </c:forEach>
@@ -89,7 +91,7 @@
         <div class="col-xs-12 col-md-9" id="news">
             <c:if test="${!empty newslist}">
                 <c:forEach items="${newslist}" var="news">
-                    <spring:url value="/shownews/${news.newsId}" var="newsUrl"/>
+                    <c:url value="/shownews/${news.newsId}" var="newsUrl"/>
 
                     <div class="col-md-6">
                         <h3>${news.title}</h3>
@@ -99,6 +101,23 @@
 
                 </c:forEach>
             </c:if>
+
+
+
+
+
+
+
+
+
+            <%--<c:url var="first" value="/user/list"/>
+            <a href="${first}" class="btn btn-primary" role="button">First</a>
+
+            <c:url var="next" value="/user/list/${nextPage}"/>
+            <a href="${next}" class="btn btn-primary" role="button">Next</a>--%>
+
+
+
 
             <%--<nav>
                 <ul class="pagination">
@@ -119,5 +138,104 @@
             </nav>--%>
 
         </div>
+
+
+        <ul class="pagination">
+           <%-- Left --%>
+            <c:choose>
+                <c:when test="${(currentPage - 1) lt 1}">
+                    <li class="disabled">
+                        <a href="#" aria-label="Previous">
+                            <span aria-hidden="true">&laquo;</span>
+                        </a>
+                    </li>
+                </c:when>
+                <c:otherwise>
+                    <li>
+                        <a href="./home?page=${currentPage - 1}&newsPerPage=${newsPerPage}" aria-label="Previous">
+                            <span aria-hidden="true">&laquo;</span>
+                        </a>
+                    </li>
+                </c:otherwise>
+            </c:choose>
+
+            <%-- Currents --%>
+            <c:forEach begin="1" end="${count}" varStatus="loop">
+                <c:choose>
+                    <c:when test="${currentPage == loop.count}">
+                        <li class="active"><a href="#">${loop.count}</a></li>
+                    </c:when>
+                    <c:otherwise>
+                        <li><a href="./home?page=${loop.count}&newsPerPage=${newsPerPage}">${loop.count}</a></li>
+                    </c:otherwise>
+                </c:choose>
+            </c:forEach>
+
+            <%-- Right --%>
+            <c:choose>
+                <c:when test="${(currentPage + 1) gt count}">
+                    <li class="disabled">
+                        <a href="#" aria-label="Next">
+                            <span aria-hidden="true">&raquo;</span>
+                        </a>
+                    </li>
+                </c:when>
+                <c:otherwise>
+                    <li>
+                        <a href="./home?page=${currentPage + 1}&newsPerPage=${newsPerPage}" aria-label="Next">
+                            <span aria-hidden="true">&raquo;</span>
+                        </a>
+                    </li>
+                </c:otherwise>
+            </c:choose>
+
+        </ul>
+
+
+
+
+        <%--<form:radiobutton path="newsPerPage" value="2"></form:radiobutton>
+        <form:radiobutton path="newsPerPage" value="4"></form:radiobutton>--%>
+
+
+        <%--<c:url var="first" value="/user/list"/>
+        <a href="${first}" class="btn btn-primary" role="button">First</a>
+
+        <c:url var="next" value="/user/list/${nextPage}"/>
+        <a href="${next}" class="btn btn-primary" role="button">Next</a>--%>
+
+
+        <%--<div id="pagination">
+
+            <c:url value="/home" var="prev">
+                <c:param name="page" value="${page-1}"/>
+            </c:url>
+            <c:if test="${page > 1}">
+                <a href="<c:out value="${prev}" />" class="pn prev">Prev</a>
+            </c:if>
+
+            <c:forEach begin="1" end="${maxPages}" step="1" varStatus="i">
+                <c:choose>
+                    <c:when test="${page == i.index}">
+                        <span>${i.index}</span>
+                    </c:when>
+                    <c:otherwise>
+                        <c:url value="/home" var="url">
+                            <c:param name="page" value="${i.index}"/>
+                        </c:url>
+                        <a href='<c:out value="${url}" />'>${i.index}</a>
+                    </c:otherwise>
+                </c:choose>
+            </c:forEach>
+            <c:url value="/home" var="next">
+                <c:param name="page" value="${page + 1}"/>
+            </c:url>
+            <c:if test="${page + 1 <= maxPages}">
+                <a href='<c:out value="${next}" />' class="pn next">Next</a>
+            </c:if>
+        </div>--%>
+
+
+
 </div>
 

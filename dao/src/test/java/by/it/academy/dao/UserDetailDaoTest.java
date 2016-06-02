@@ -32,7 +32,14 @@ public class UserDetailDaoTest {
         userDetail = new UserDetail();
         userDetail.setCountry("TestCountry");
         userDetail.setCity("TestCity");
-        userDetail.setUser(new User());
+
+        User user = new User();
+        user.setFirstName("Firstnametest");
+        user.setLastName("Lastnametest");
+        user.setEmail("emailtest@test.ru");
+        user.setPassword("44444444");
+
+        userDetail.setUser(user);
     }
 
     @Test

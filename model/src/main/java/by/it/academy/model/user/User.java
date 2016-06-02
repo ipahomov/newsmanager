@@ -1,6 +1,11 @@
 package by.it.academy.model.user;
 
+import org.hibernate.validator.constraints.Email;
+import org.hibernate.validator.constraints.Length;
+
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
@@ -15,10 +20,23 @@ public class User implements Serializable {
     private static final long serialVersionUID = 4L;
 
     private Long userId;
+
+    @NotNull(message = "Input firstname")
+    @Pattern(regexp="^[A-Z]+[a-z]+$", message="First name must be alphanumeric with no spaces and first capital")
     private String firstName;
+
+    @NotNull(message = "Input lastname")
+    @Pattern(regexp="^[A-Z]+[a-z]+$", message="Last name must be alphanumeric with no spaces and first capital")
     private String lastName;
+
+    @NotNull
+    @Email
     private String email;
+
+    @NotNull
+    @Length(min = 8, message = "Password must be minimum 8 symbols")
     private String password;
+
     private UserDetail userDetail;
     private Set<UserProfile> userProfiles = new HashSet<UserProfile>();
 

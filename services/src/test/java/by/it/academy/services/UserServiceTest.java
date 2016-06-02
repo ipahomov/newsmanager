@@ -28,10 +28,10 @@ public class UserServiceTest {
     @Before
     public void prepareUser(){
         user = new User();
-        user.setFirstName("FirstNameTestService");
-        user.setLastName("LastNameTestService");
-        user.setEmail("emailTestService@test.ru");
-        user.setPassword("1111");
+        user.setEmail("emailtest@test.ru");
+        user.setFirstName("Firstnametest");
+        user.setLastName("Lastnametest");
+        user.setPassword("44444444");
     }
 
     @Test
@@ -39,7 +39,7 @@ public class UserServiceTest {
         userService.save(user);
         log.info("Saved user by service method " + user);
 
-        String email = "emailTestService@test.ru";
+        String email = "emailtest@test.ru";
         User userTest = userService.getUserByEmail(email);
         assertNotNull(userTest);
         assertEquals("Equals:", email, userTest.getEmail());

@@ -4,7 +4,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Login</title>
     <!-- Bootstrap -->
-    <link href="/assets/css/signin.css" rel="stylesheet">
+    <link href="${pageContext.request.contextPath}/assets/css/signin.css" rel="stylesheet">
 </head>
 <c:url var="loginUrl" value="/login"/>
     <form action="${loginUrl}" method="post" class="form-signin">

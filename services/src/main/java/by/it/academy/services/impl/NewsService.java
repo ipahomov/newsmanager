@@ -47,9 +47,9 @@ public class NewsService extends BaseService<News, Long> implements INewsService
     public List<News> getNewsPagination(int firstResult, int newsPerPage) {
         List<News> newsList = Collections.EMPTY_LIST;
         if(firstResult < 1) firstResult = 0;
-        int startPosition = (firstResult-1)*newsPerPage;
+        //int startPosition = (firstResult-1)*newsPerPage;
         try {
-            newsList = newsDao.getNewsPagination(startPosition, newsPerPage);
+            newsList = newsDao.getNewsPagination(firstResult, newsPerPage);
         } catch (DaoException e) {
             log.error("Error get news pagination " + e);
         }

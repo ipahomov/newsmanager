@@ -3,8 +3,10 @@ package by.it.academy.model;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.annotations.Type;
+import org.hibernate.validator.constraints.Length;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.Set;
@@ -19,9 +21,19 @@ public class News implements Serializable {
 
     private Long newsId;
     private String categoryName;    //name of category
+
+    @NotNull(message = "Title must be not null or empty")
+    @Length(min = 5, message = "Too small title name. Minimum 5 symbols.")
     private String title;
+
     private String author;
+
+    @NotNull(message = "Annotation must be not null or empty")
+    @Length(min = 5, message = "Too small annotation. Minimum 5 symbols.")
     private String annotation;    //short text about news
+
+    @NotNull(message = "Main text must be not null or empty")
+    @Length(min = 5, message = "Too small main text. Minimum 5 symbols.")
     private String maintext;
     private Date releaseDate;   // add current time of add/edit operations
     private Set<Comment> comments;

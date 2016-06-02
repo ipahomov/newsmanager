@@ -28,7 +28,7 @@ public class AuthenticationService implements UserDetailsService{
 
     @Transactional(readOnly = true)
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        org.springframework.security.core.userdetails.User authUser = null;
+        AuthUser authUser = null;
         List<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
 
         if ((email != null) & (!email.isEmpty())) {
@@ -37,8 +37,8 @@ public class AuthenticationService implements UserDetailsService{
             if (user!=null){
                 log.info("User: " + user);
                 authorities = getGrantedAuthorities(user);
-                authUser = new org.springframework.security.core.userdetails.User(
-                        user.getEmail(), user.getPassword(), true,true,true,true, authorities);
+                authUser = new AuthUser(
+                        user.getFirstName(), user.getPassword(), true,true,true,true, authorities, user.getEmail(), user.getLastName());
             } else {
                 log.error("User not found");
                 throw new UsernameNotFoundException("User not found");
