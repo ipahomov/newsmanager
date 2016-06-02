@@ -50,38 +50,6 @@ public class NewsServiceTest {
     }
 
     @Test
-    public void testGetNewsByCategory() throws Exception {
-        newsService.save(news);
-        String categoryName = "testCategory";
-        List<News> newsList = newsService.getNewsByCategory(categoryName);
-
-        assertNotNull(newsList);
-        assertNotEquals("Not empty", 0, newsList.size());
-    }
-
-    @Test
-    public void testSave() throws Exception {
-        Long id = newsService.save(news);
-        assertNotNull(newsService.get(News.class, id));
-        log.info("Saved news: " + news);
-    }
-
-    @Test
-    public void testUpdate() throws Exception {
-        Long id = newsService.save(news);
-        log.info("Saved news: " + news);
-
-        News testNews = newsService.get(News.class, id);
-        testNews.setTitle("UpdatedTitle");
-        newsService.update(testNews);
-        News updatedNews = newsService.get(News.class, id);
-
-        assertNotNull(updatedNews);
-        assertEquals("UpdatedTitle", updatedNews.getTitle());
-        log.info("Updated news: " + updatedNews);
-    }
-
-    @Test
     public void testGet() throws Exception {
         Long id = newsService.save(news);
         News news = newsService.get(News.class, id);
@@ -95,5 +63,58 @@ public class NewsServiceTest {
 
         newsService.delete(testNews);
         assertNull(newsService.get(News.class, id));
+    }
+
+    @Test
+    public void testGetCountNews() throws Exception {
+        newsService.save(news);
+        int count = newsService.getCountNews();
+        assertEquals("Count:", 1, count);
+        log.info("Count of news: " + count);
+    }
+
+    @Test
+    public void testGetNewsPagination() throws Exception {
+        newsService.save(news);
+
+        List<News> newsList1 = newsService.getNewsPagination(0, 2);
+        assertNotNull(newsList1);
+        assertEquals(1, newsList1.size());
+        log.info(newsList1);
+
+    }
+
+    @Test
+    public void testGetNewsByCategory() throws Exception {
+        newsService.save(news);
+        newsService.save(news);
+        String categoryName = "testCategory";
+        List<News> newsList = newsService.getNewsByCategory(categoryName);
+
+        assertNotNull(newsList);
+        assertNotEquals("Not empty", 0, newsList.size());
+        log.info(newsList);
+    }
+
+    @Test
+    public void testSave() throws Exception {
+        Long id = newsService.save(news);
+        assertNotNull(newsService.get(News.class, id));
+        log.info("Saved news: " + news);
+    }
+
+    @Test
+    public void testUpdate() throws Exception {
+        Long savefId = newsService.save(news);
+        log.info("Saved news by service: " + news);
+
+        News testNews = newsService.get(News.class, savefId);
+        testNews.setTitle("UpdatedTitle");
+        newsService.update(testNews);
+        News updatedNews = newsService.get(News.class, savefId);
+
+        assertNotNull(updatedNews);
+        assertEquals("UpdatedTitle", updatedNews.getTitle());
+        log.info("Updated news: " + updatedNews);
     }
 }

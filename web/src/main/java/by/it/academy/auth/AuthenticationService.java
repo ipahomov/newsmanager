@@ -17,10 +17,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
+ * Service for user authentication through spring security
+ * Implements UserDetailsService and realize method loadUserByUsername
  * Created by IPahomov on 28.05.2016.
  */
 @Service("authService")
-public class AuthenticationService implements UserDetailsService{
+public class AuthenticationService implements UserDetailsService {
     private static final Logger log = Logger.getLogger(AuthenticationService.class);
 
     @Autowired
@@ -34,11 +36,11 @@ public class AuthenticationService implements UserDetailsService{
         if ((email != null) & (!email.isEmpty())) {
             User user = userService.getUserByEmail(email);
             log.info("User: " + user);
-            if (user!=null){
+            if (user != null) {
                 log.info("User: " + user);
                 authorities = getGrantedAuthorities(user);
                 authUser = new AuthUser(
-                        user.getFirstName(), user.getPassword(), true,true,true,true, authorities, user.getEmail(), user.getLastName());
+                        user.getFirstName(), user.getPassword(), true, true, true, true, authorities, user.getEmail(), user.getLastName());
             } else {
                 log.error("User not found");
                 throw new UsernameNotFoundException("User not found");

@@ -4,9 +4,12 @@
 <%@ taglib prefix="security" uri="http://www.springframework.org/security/tags" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8" %>
+
 <security:authorize access="isAuthenticated()">
     <security:authentication property="principal.username" var="username"/>
 </security:authorize>
+
+<%-- Navbar --%>
 <nav class="navbar navbar-inverse navbar-fixed-top">
     <div class="container">
         <div class="navbar-header">
@@ -36,8 +39,6 @@
 
         <p>This is all yours! Do what ever you want!</p>
 
-        <%--<p><a class="btn btn-primary btn-lg" href="#" role="button">Learn more »</a></p>--%>
-
         <p>
             <c:url value="/admin/addPage" var="addPage"/>
             <a href="${addPage}" class="btn btn-primary">Add News</a>
@@ -61,10 +62,10 @@
                             href="${categoryUrl}" class="list-group-item">${category.categoryName }</a>
                 </c:forEach>
 
-
             </div>
         </div><!--/.sidebar-offcanvas-->
 
+        <%-- News --%>
         <div class="col-xs-12 col-md-9" id="news">
             <c:if test="${!empty newslist}">
                 <c:forEach items="${newslist}" var="news">
@@ -81,7 +82,8 @@
 
                         <!-- Split button -->
                         <div class="btn-group">
-                            <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown"
+                                    aria-haspopup="true" aria-expanded="false">
                                 Action <span class="caret"></span>
                             </button>
                             <ul class="dropdown-menu">
@@ -92,10 +94,9 @@
                             </ul>
                         </div>
                     </div>
-
-
                 </c:forEach>
             </c:if>
+
         </div>
     </div>
 </div>

@@ -15,15 +15,14 @@
 
     <context:component-scan base-package="by.it.academy.controllers"/>
     <mvc:resources mapping="/assets/**" location="assets/"/>
-    <mvc:annotation-driven />
-    <mvc:default-servlet-handler />
+    <mvc:annotation-driven/>
+    <mvc:default-servlet-handler/>
 
+    <!-- Tiles view resolver -->
     <bean id="viewResolver"
           class="org.springframework.web.servlet.view.UrlBasedViewResolver">
         <property name="viewClass">
-            <value>
-                org.springframework.web.servlet.view.tiles3.TilesView
-            </value>
+            <value>org.springframework.web.servlet.view.tiles3.TilesView</value>
         </property>
     </bean>
 
@@ -36,6 +35,7 @@
         </property>
     </bean>
 
+    <!-- Localisation messages -->
     <bean id="messageSource"
           class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
         <property name="basename" value="classpath:i18n/messages"/>

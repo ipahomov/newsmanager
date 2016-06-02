@@ -6,8 +6,9 @@
     <div class="row-fluid">
         <div class="span12">
             <legend>Add or edit news</legend>
-            <c:url var="addAction" value="/admin/addNews" ></c:url>
-            <form:form action="${addAction}" modelAttribute="news" method="post" class="form-horizontal" style="width: 800px">
+            <c:url var="addAction" value="/admin/addNews"/>
+            <form:form action="${addAction}" modelAttribute="news" method="post" class="form-horizontal"
+                       style="width: 800px">
 
                 <form:input path="newsId" id="newsId" type="hidden"/>
 
@@ -15,18 +16,15 @@
                     <label for="category" class="col-sm-2 control-label">Category</label>
 
                     <div class="col-sm-7">
-                        <form:select path="categoryName" type="text" class="form-control" name="category" value="${news.categoryName}">
+                        <form:select path="categoryName" type="text" class="form-control" name="category"
+                                     value="${news.categoryName}">
                             <c:forEach var="category" items="${categories }">
                                 <form:option value="${category.categoryName }"/>
                             </c:forEach>
                         </form:select>
                     </div>
-                    <%--<div class="col-sm-3">
-                        <c:if test="${not empty errorCategory}">
-                            <span style="color: red"><c:out value="${errorCategory}"/></span>
-                        </c:if>
-                    </div>--%>
                 </div>
+
                 <div class="form-group">
                     <label for="title" class="col-sm-2 control-label">Title</label>
 
@@ -34,28 +32,29 @@
                         <form:errors path="title" cssStyle="color: red"/>
                         <form:input path="title" type="text" class="form-control" id="title" value="${news.title}"/>
                     </div>
-                    <%--<div class="col-sm-3">
-                        <c:if test="${not empty errorTitle}">
-                            <span style="color: red"><c:out value="${errorTitle}"/></span>
-                        </c:if>
-                    </div>--%>
                 </div>
+
                 <div class="form-group">
                     <label for="annotation" class="col-sm-2 control-label">Annotation</label>
 
                     <div class="col-sm-7">
                         <form:errors path="annotation" cssStyle="color: red"/>
-                        <form:input path="annotation" type="text" class="form-control" name="annotation" value="${news.annotation}"/>
+                        <form:input path="annotation" type="text" class="form-control" name="annotation"
+                                    value="${news.annotation}"/>
                     </div>
                 </div>
+
                 <div class="form-group">
                     <label for="maintext" class="col-sm-2 control-label">Maintext</label>
 
                     <div class="col-sm-7">
                         <form:errors path="maintext" cssStyle="color: red"/>
-                        <form:textarea path="maintext" rows="10" cols="100" class="form-control" name="maintext"></form:textarea>
+                        <form:textarea path="maintext" rows="10" cols="100" class="form-control"
+                                       name="maintext"/>
                     </div>
                 </div>
+
+                <%-- Buttons --%>
                 <div class="form-group">
                     <div class="col-sm-offset-2 col-sm-10">
                         <button type="submit" class="btn btn-primary">Submit</button>

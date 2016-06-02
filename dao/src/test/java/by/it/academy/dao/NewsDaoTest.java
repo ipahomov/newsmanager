@@ -55,21 +55,6 @@ public class NewsDaoTest {
     }
 
     @Test
-    public void testUpdate() throws Exception {
-        Long id = newsDao.save(news);
-        log.info("Saved news: " + news);
-
-        News testNews = newsDao.get(News.class, id);
-        testNews.setTitle("UpdatedTitle");
-        newsDao.update(testNews);
-
-        News updatedNews = newsDao.get(News.class, id);
-        assertNotNull(updatedNews);
-        assertEquals("UpdatedTitle", updatedNews.getTitle());
-        log.info("Updated news: " + updatedNews);
-    }
-
-    @Test
     public void testDelete() throws Exception {
         Long id = newsDao.save(news);
         News testNews = newsDao.get(News.class, id);
@@ -87,12 +72,45 @@ public class NewsDaoTest {
     }
 
     @Test
+    public void testGetNewsPagination() throws Exception {
+        newsDao.save(news);
+
+        List<News> newsList1 = newsDao.getNewsPagination(0, 1);
+        assertNotNull(newsList1);
+        assertEquals(1, newsList1.size());
+        log.info(newsList1);
+    }
+
+    @Test
+    public void testGetCountNews() throws Exception {
+        newsDao.save(news);
+        int count = newsDao.getCountNews();
+        assertEquals("Count:", 1, count);
+        log.info("Count of news: " + count);
+    }
+
+    @Test
     public void testGetNewsByCategory() throws Exception {
         newsDao.save(news);
         String categoryName = "testCategory";
         List<News> newsList = newsDao.getNewsByCategory(categoryName);
         assertNotNull(newsList);
         assertNotEquals("Not empty", 0, newsList.size());
-
     }
+
+    @Test
+    public void testUpdate() throws Exception {
+        Long id = newsDao.save(news);
+        log.info("Saved news: " + news);
+
+        News testNews = newsDao.get(News.class, id);
+        testNews.setTitle("UpdatedTitle");
+        newsDao.update(testNews);
+
+        News updatedNews = newsDao.get(News.class, id);
+        assertNotNull(updatedNews);
+        assertEquals("UpdatedTitle", updatedNews.getTitle());
+        log.info("Updated news: " + updatedNews);
+    }
+
 }

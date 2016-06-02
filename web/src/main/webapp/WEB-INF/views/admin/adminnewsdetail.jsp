@@ -2,13 +2,16 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8" %>
 <h1>${news.title}</h1>
-    <p>
-        <i>${news.annotation}</i>
-    </p>
-    <p>${news.maintext}</p>
-    <p>Author: ${news.author} | Date: ${news.releaseDate}</p>
 
+<p>
+    <strong>${news.annotation}</strong>
+</p>
 
+<h4>${news.maintext}</h4>
+
+<p>Author: ${news.author} | Date: ${news.releaseDate}</p>
+
+<%-- Buttons group --%>
 <spring:url value="/admin" var="back"/>
 <spring:url value="/admin/editNews/${news.newsId}" var="newsEdit"/>
 <spring:url value="/admin/deleteNews/${news.newsId}" var="newsDelete"/>

@@ -8,7 +8,6 @@ import by.it.academy.services.IUserService;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
@@ -20,12 +19,14 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import javax.validation.Valid;
 
 /**
+ * Controller for admin operations
+ * Access for all actions
  * Created by IPahomov on 29.05.2016.
  */
 @Controller
 @RequestMapping(value = "/admin")
 public class AdminController {
-    private static final Logger logger = Logger.getLogger(AdminController.class);
+    private static final Logger log = Logger.getLogger(AdminController.class);
 
     @Autowired
     private INewsService newsService;
@@ -36,31 +37,52 @@ public class AdminController {
     @Autowired
     private IUserService userService;
 
+    /**
+     * Show news sorted by category name
+     *
+     * @param name  of category
+     * @param model get news and categories lists
+     * @return admin main page
+     */
     @RequestMapping(value = "/showByCategory/{categoryName}", method = RequestMethod.GET)
-    public String getNewsByCategory(@PathVariable("categoryName") String name, ModelMap model){
+    public String getNewsByCategory(@PathVariable("categoryName") String name, ModelMap model) {
         model.addAttribute("newslist", newsService.getNewsByCategory(name));
         model.addAttribute("categories", categoryService.getCategoriesByParent("main"));
         return "admin/adminmenu";
     }
 
+    /**
+     * Page for add or edit news
+     *
+     * @param model get new news and categories list
+     * @return addEdit page
+     */
     @RequestMapping(value = "/addPage", method = RequestMethod.GET)
-    public String addEditPage(ModelMap model){
+    public String addEditPage(ModelMap model) {
         model.addAttribute("news", new News());
         model.addAttribute("categories", categoryService.getCategoriesByParent("main"));
         return "admin/addEdit";
     }
 
+    /**
+     * Adding or updating validated news. Show errors on page.
+     *
+     * @param news   for add or update
+     * @param result check valid requirements
+     * @param model  get categories list again if not validated news
+     * @return admin main page
+     */
     @RequestMapping(value = "/addNews", method = RequestMethod.POST)
-    public String addNews(@Valid @ModelAttribute("news") News news, BindingResult result, ModelMap model){
+    public String addNews(@Valid @ModelAttribute("news") News news, BindingResult result, ModelMap model) {
 
-        if(!result.hasErrors()){
-            if(news !=null){
+        if (!result.hasErrors()) {
+            if (news != null) {
                 news.setAuthor(currentUserLastName());
 
-                if(news.getNewsId() == null){
+                // save or update news
+                if (news.getNewsId() == null) {
                     this.newsService.save(news);
-                }
-                else {
+                } else {
                     this.newsService.update(news);
                 }
             }
@@ -72,44 +94,54 @@ public class AdminController {
         return "redirect:/admin";
     }
 
+    /**
+     * Delete chosen news
+     *
+     * @param newsId of news
+     * @return admin main page
+     */
     @RequestMapping(value = "/deleteNews/{newsId}")
-    public String deleteNews(@PathVariable("newsId") Long newsId){
+    public String deleteNews(@PathVariable("newsId") Long newsId) {
         News news = newsService.get(News.class, newsId);
         this.newsService.delete(news);
         return "redirect:/admin";
     }
 
+    /**
+     * Prepare to edit chosen news.
+     *
+     * @param id    of editting news
+     * @param model get existing data of news
+     * @return addEdit page
+     */
     @RequestMapping(value = "/editNews/{newsId}", method = RequestMethod.GET)
-    public String editNews(@PathVariable("newsId") Long id, ModelMap model){
+    public String editNews(@PathVariable("newsId") Long id, ModelMap model) {
         model.addAttribute("news", newsService.get(News.class, id));
         model.addAttribute("categories", categoryService.getCategoriesByParent("main"));
         return "admin/addEdit";
     }
 
+    /**
+     * Show news details on single page with options
+     *
+     * @param id    of news
+     * @param model get details of news
+     * @return single page with news
+     */
     @RequestMapping(value = "/shownews/{newsId}", method = RequestMethod.GET)
-    public String getNewsDetail(@PathVariable("newsId") Long id, ModelMap model){
-        model.addAttribute("news", newsService.get(News.class,id));
+    public String getNewsDetail(@PathVariable("newsId") Long id, ModelMap model) {
+        model.addAttribute("news", newsService.get(News.class, id));
         return "admin/newsdetail";
     }
 
-    public String currentUserLastName(){
+    /**
+     * Get last name of current admin/author to save it to news details
+     *
+     * @return String lastname
+     */
+    public String currentUserLastName() {
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        return ((AuthUser)principal).getLastname();
+        return ((AuthUser) principal).getLastname();
     }
-
-    private String getPrincipal(){
-        String userData = null;
-        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-
-        if (principal instanceof UserDetails) {
-            String email = ((UserDetails)principal).getUsername();
-            userData = userService.getUserByEmail(email).getLastName();
-        } else {
-            userData = principal.toString();
-        }
-        return userData;
-    }
-
-
 
 }
