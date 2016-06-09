@@ -1,63 +1,88 @@
 package by.it.academy.dao;
 
 import by.it.academy.model.Category;
-import org.junit.Ignore;
+import org.apache.log4j.Logger;
+import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
-import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.*;
 
 /**
- * Tests for category DAO layer
+ * Test category operations.
+ * Created by IPahomov on 04.05.2016.
  */
+@ContextConfiguration("/beans-TestDao.xml")
+@RunWith(SpringJUnit4ClassRunner.class)
+@Transactional
 public class CategoryDaoTest {
-    ICategoryDao categoryDao = CategoryDao.getCategoryDao();
+    private final static Logger log = Logger.getLogger(UserDaoTest.class);
+    private Category category;
 
-    @Test
-    public void testGetCategoryDao() throws Exception {
-        ICategoryDao categoryDao1 = CategoryDao.getCategoryDao();
-        assertEquals(categoryDao, categoryDao1);
+    @Autowired
+    ICategoryDao categoryDao;
+
+    @Before
+    public void prepareCategory() {
+        category = new Category();
+        category.setCategoryName("TestCategory");
+        category.setParentName("TestCategoryParent");
     }
 
-    @Test
-    public void testGetAllCategories() throws Exception {
-        List<Category> categoryList1 = categoryDao.getAllCategories();
-        List<Category> categoryList2 = categoryDao.getAllCategories();
-        assertEquals(categoryList1, categoryList2);
-    }
-
-    @Test
-    public void testGetCategoriesByParentId() throws Exception {
-        String categoryParent = "main";
-        List<Category> categoryList1 = categoryDao.getCategoriesByParentId(categoryParent);
-        List<Category> categoryList2 = categoryDao.getCategoriesByParentId(categoryParent);
-        assertEquals(categoryList1, categoryList2);
-    }
-
-    @Ignore
     @Test
     public void testAddCategory() throws Exception {
-        Category category = new Category();
-        category.setCatId("testId");
-        category.setParentId("testParentId");
-        int result = categoryDao.addCategory(category);
-        assertEquals(1, result);
+        Long id = categoryDao.save(category);
+        assertNotNull(id);
+        assertNotNull(categoryDao.get(Category.class, id));
+
+        log.info("Saved category: " + category);
+    }
+
+    @Test
+    public void testGetCategoriesByParent() throws Exception {
+        categoryDao.save(category);
+        List<Category> categories = categoryDao.getCategoriesByParent("TestCategoryParent");
+        log.info("Categories: " + categories.toString());
+        assertNotNull(categories);
+        assertEquals("Size", 1, categories.size());
+    }
+
+    @Test
+    public void testDeleteCategory() throws Exception {
+        Long id = categoryDao.save(category);
+        Category categoryTest = categoryDao.get(Category.class, id);
+
+        categoryDao.delete(categoryTest);
+        assertNull(categoryDao.get(Category.class, id));
     }
 
     @Test
     public void testGetCategory() throws Exception {
-        Category category = categoryDao.getCategory("sport");
-        assertEquals("sport", category.getCatId());
-
+        Long id = categoryDao.save(category);
+        Category category = categoryDao.get(Category.class, id);
+        assertNotNull(category);
+        log.info("Get category: " + category);
 
     }
 
-    @Ignore
     @Test
-    public void testDeleteCategory() throws Exception {
-        int result = categoryDao.deleteCategory("testId");
-        assertEquals(1, result);
-    }
+    public void testUpdateCategory() throws Exception {
+        Long id = categoryDao.save(category);
+        log.info("Saved category: " + category);
+        Category categoryTest = categoryDao.get(Category.class, id);
+        categoryTest.setCategoryName("testUpdate");
+        categoryTest.setParentName("testParentUpdate");
+        categoryDao.update(categoryTest);
 
+        Category updatedCategory = categoryDao.get(Category.class, id);
+        assertNotNull(updatedCategory);
+        assertEquals("testUpdate", updatedCategory.getCategoryName());
+        log.info(updatedCategory);
+    }
 }

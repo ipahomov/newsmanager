@@ -1,88 +1,120 @@
 package by.it.academy.services;
 
-import by.it.academy.dao.INewsDao;
-import by.it.academy.dao.NewsDao;
 import by.it.academy.model.News;
-import org.junit.Ignore;
+import org.apache.log4j.Logger;
+import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Date;
 import java.util.List;
 
-import static junit.framework.Assert.assertEquals;
+import static org.junit.Assert.*;
 
 /**
- * Test for news services layer
+ * Tests for news entity operations
+ * Created by IPahomov on 28.05.2016.
  */
+@ContextConfiguration("/beans-TestServices.xml")
+@RunWith(SpringJUnit4ClassRunner.class)
+@Transactional
 public class NewsServiceTest {
-    INewsService newsService = NewsService.getNewsService();
-    INewsDao newsDao = NewsDao.getNewsDao();
+    private final static Logger log = Logger.getLogger(NewsServiceTest.class);
+    private News news;
 
-    @Test
-    public void testGetNewsService() throws Exception {
-        assertEquals(newsService, NewsService.getNewsService());
+    @Autowired
+    private INewsService newsService;
+
+    @Before
+    public void prepareNews() {
+        news = new News();
+        news.setCategoryName("testCategory");
+        news.setTitle("testTitle");
+        news.setAnnotation("testAnnotation");
+        news.setAuthor("testAuthor");
+        news.setMaintext("testMainText");
+        news.setReleaseDate(new Date());
     }
-
-    @Ignore
-    @Test
-    public void testAddNews() throws Exception {
-        News news = new News();
-        news.setCategoryId("testAdd");
-        news.setAnnotation("testNewsServiceAdd");
-        news.setAuthor("testNewsServiceAdd");
-        news.setTitle("testNewsServiceAdd");
-        news.setMaintext("testNewsServiceAdd");
-        int result = newsService.addNews(news);
-        assertEquals(1, result);
-    }
-
-    @Test
-    public void testGetNews() throws Exception {
-        News lastNews = getTestNews();
-        News news = newsService.getNews(lastNews.getId());
-        assertEquals(lastNews, news);
-    }
-
-    @Ignore
-    @Test
-    public void testEditNews() throws Exception {
-        News news = getTestNews();
-        news.setCategoryId("testEdit");
-        news.setAnnotation("testNewsServiceEdit");
-        news.setAuthor("testNewsServiceEdit");
-        news.setTitle("testNewsServiceEdit");
-        news.setMaintext("testNewsServiceEdit");
-        int result = newsService.editNews(news);
-        assertEquals(1, result);
-    }
-
-    @Ignore
-    @Test
-    public void testDeleteNews() throws Exception {
-        News news = getTestNews();
-        int result = newsService.deleteNews(news.getId());
-        assertEquals(1, result);
-    }
-
 
     @Test
     public void testGetAllNews() throws Exception {
-        List<News> newsList1 = newsDao.getAllNews();
-        List<News> newsList2 = newsService.getAllNews();
-        assertEquals(newsList1, newsList2);
+        newsService.save(news);
+        List<News> newsList = newsService.getAllNews();
+        assertNotNull(newsList);
+        assertNotEquals(0, newsList.size());
+        log.info(newsList);
     }
 
     @Test
-    public void testGetNewsByCategoryId() throws Exception {
-        List<News> newsList1 = newsDao.getNewsByCategoryId("sport");
-        List<News> newsList2 = newsService.getNewsByCategoryId("sport");
-        assertEquals(newsList1, newsList2);
+    public void testGet() throws Exception {
+        Long id = newsService.save(news);
+        News news = newsService.get(News.class, id);
+        assertNotNull(news);
     }
 
-    public News getTestNews() {
-        List<News> newsList = newsService.getAllNews();
-        int lastNewsIndex = newsList.size();
-        News lastNews = newsList.get(lastNewsIndex - 1);
-        return lastNews;
+    @Test
+    public void testDelete() throws Exception {
+        Long id = newsService.save(news);
+        News testNews = newsService.get(News.class, id);
+
+        newsService.delete(testNews);
+        assertNull(newsService.get(News.class, id));
     }
 
+    @Test
+    public void testGetCountNews() throws Exception {
+        newsService.save(news);
+        int count = newsService.getCountNews();
+        assertEquals("Count:", 1, count);
+        log.info("Count of news: " + count);
+    }
+
+    @Test
+    public void testGetNewsPagination() throws Exception {
+        newsService.save(news);
+
+        List<News> newsList1 = newsService.getNewsPagination(0, 2);
+        assertNotNull(newsList1);
+        assertEquals(1, newsList1.size());
+        log.info(newsList1);
+
+    }
+
+    @Test
+    public void testGetNewsByCategory() throws Exception {
+        newsService.save(news);
+        newsService.save(news);
+        String categoryName = "testCategory";
+        List<News> newsList = newsService.getNewsByCategory(categoryName);
+
+        assertNotNull(newsList);
+        assertNotEquals("Not empty", 0, newsList.size());
+        log.info(newsList);
+    }
+
+    @Test
+    public void testSave() throws Exception {
+        Long id = newsService.save(news);
+        assertNotNull(newsService.get(News.class, id));
+        log.info("Saved news: " + news);
+    }
+
+    @Test
+    public void testUpdate() throws Exception {
+        Long savefId = newsService.save(news);
+        log.info("Saved news by service: " + news);
+
+        News testNews = newsService.get(News.class, savefId);
+        testNews.setTitle("UpdatedTitle");
+        newsService.update(testNews);
+        News updatedNews = newsService.get(News.class, savefId);
+
+        assertNotNull(updatedNews);
+        assertEquals("UpdatedTitle", updatedNews.getTitle());
+        log.info("Updated news: " + updatedNews);
+    }
 }

@@ -5,33 +5,9 @@ import by.it.academy.model.News;
 import java.util.List;
 
 /**
- * interface for news service
+ * Interface for news service
  */
-public interface INewsService {
-
-    /**
-     * Add service for news
-     *
-     * @param news adding to list
-     * @return int result of adding result (if > 0 - successfully)
-     */
-    int addNews(News news);
-
-    /**
-     * Delete service for news
-     *
-     * @param id of deleting news
-     * @return int result of deleting result (if > 0 - successfully)
-     */
-    int deleteNews(int id);
-
-    /**
-     * Edit service for news
-     *
-     * @param news editing
-     * @return int result of editing result ( >0 - successfully)
-     */
-    int editNews(News news);
+public interface INewsService extends IBaseService<News, Long> {
 
     /**
      * Getting all news
@@ -46,14 +22,20 @@ public interface INewsService {
      * @param category of news
      * @return List Collection of news sorted  by category
      */
-    List<News> getNewsByCategoryId(String category);
+    List<News> getNewsByCategory(String category);
 
     /**
-     * Getting one news by id
-     *
-     * @param id of news which want to get
-     * @return News one news
+     * Get news list with pagination
+     * @param firstResult first news from list
+     * @param newsPerPage maximum news per page
+     * @return list news
      */
-    News getNews(int id);
+    List<News> getNewsPagination(int firstResult, int newsPerPage);
+
+    /**
+     * Get count of all news in database.
+     * @return int count of news
+     */
+    int getCountNews();
 
 }

@@ -1,86 +1,116 @@
 package by.it.academy.dao;
 
 import by.it.academy.model.News;
-import org.junit.Ignore;
+import org.apache.log4j.Logger;
+import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Date;
 import java.util.List;
 
-import static junit.framework.Assert.assertEquals;
+import static org.junit.Assert.*;
 
 /**
- * Tests for news DAO layer
+ * Tests news operations.
+ * Created by IPahomov on 03.05.2016.
  */
+@ContextConfiguration("/beans-TestDao.xml")
+@RunWith(SpringJUnit4ClassRunner.class)
+@Transactional
 public class NewsDaoTest {
-    INewsDao newsDao = NewsDao.getNewsDao();
+    private final static Logger log = Logger.getLogger(UserDaoTest.class);
+    private News news;
 
-    @Test
-    public void testGetNewsDao() throws Exception {
-        INewsDao newsDao1 = NewsDao.getNewsDao();
-        assertEquals(newsDao, newsDao1);
+    @Autowired
+    INewsDao newsDao;
 
+    @Before
+    public void prepareNews() {
+        news = new News();
+        news.setTitle("testTitle");
+        news.setCategoryName("testCategory");
+        news.setAnnotation("testAnnotation");
+        news.setAuthor("testAuthor");
+        news.setMaintext("testMainText");
+        news.setReleaseDate(new Date());
     }
 
-    @Ignore
     @Test
     public void testAddNews() throws Exception {
-        News news = new News();
-        news.setCategoryId("testDao");
-        news.setTitle("testDao");
-        news.setAuthor("testDao");
-        news.setAnnotation("testDao");
-        news.setMaintext("testDao");
-        int result = newsDao.addNews(news);
-        assertEquals(1, result);
+        Long id = newsDao.save(news);
+        assertNotNull(newsDao.get(News.class, id));
+        log.info("Saved news: " + news);
     }
 
     @Test
     public void testGetNews() throws Exception {
-        News lastNews = getTestNews();
-        News news = newsDao.getNews(lastNews.getId());
-        assertEquals(lastNews, news);
+        Long id = newsDao.save(news);
+        News news = newsDao.get(News.class, id);
+        assertNotNull(news);
     }
 
-    @Ignore
     @Test
-    public void testEditNews() throws Exception {
-        News news = getTestNews();
-        news.setCategoryId("testDaoEdit");
-        news.setTitle("testDaoEdit");
-        news.setAuthor("testDaoEdit");
-        news.setAnnotation("testDaoEdit");
-        news.setMaintext("testDaoEdit");
-        int result = newsDao.editNews(news);
-        assertEquals(1, result);
-    }
+    public void testDelete() throws Exception {
+        Long id = newsDao.save(news);
+        News testNews = newsDao.get(News.class, id);
 
-    @Ignore
-    @Test
-    public void testDeleteNews() throws Exception {
-        News news = getTestNews();
-        int result = newsDao.deleteNews(news.getId());
-        assertEquals(1, result);
+        newsDao.delete(testNews);
+        assertNull(newsDao.get(News.class, id));
     }
 
     @Test
     public void testGetAllNews() throws Exception {
-        List<News> newsList1 = newsDao.getAllNews();
-        List<News> newsList2 = newsDao.getAllNews();
-        assertEquals(newsList1, newsList2);
+        newsDao.save(news);
+        List<News> newsList = newsDao.getAllNews();
+        assertNotNull(newsList);
+        assertNotEquals("Not empty", 0, newsList.size());
     }
 
     @Test
-    public void testGetNewsByCategoryId() throws Exception {
-        List<News> newsList1 = newsDao.getNewsByCategoryId("sport");
-        List<News> newsList2 = newsDao.getNewsByCategoryId("sport");
-        assertEquals(newsList1, newsList2);
+    public void testGetNewsPagination() throws Exception {
+        newsDao.save(news);
+
+        List<News> newsList1 = newsDao.getNewsPagination(0, 1);
+        assertNotNull(newsList1);
+        assertEquals(1, newsList1.size());
+        log.info(newsList1);
     }
 
-    public News getTestNews() {
-        List<News> newsList = newsDao.getAllNews();
-        int lastNewsIndex = newsList.size();
-        News lastNews = newsList.get(lastNewsIndex - 1);
-
-        return lastNews;
+    @Test
+    public void testGetCountNews() throws Exception {
+        newsDao.save(news);
+        int count = newsDao.getCountNews();
+        assertEquals("Count:", 1, count);
+        log.info("Count of news: " + count);
     }
+
+    @Test
+    public void testGetNewsByCategory() throws Exception {
+        newsDao.save(news);
+        String categoryName = "testCategory";
+        List<News> newsList = newsDao.getNewsByCategory(categoryName);
+        assertNotNull(newsList);
+        assertNotEquals("Not empty", 0, newsList.size());
+    }
+
+    @Test
+    public void testUpdate() throws Exception {
+        Long id = newsDao.save(news);
+        log.info("Saved news: " + news);
+
+        News testNews = newsDao.get(News.class, id);
+        testNews.setTitle("UpdatedTitle");
+        newsDao.update(testNews);
+
+        News updatedNews = newsDao.get(News.class, id);
+        assertNotNull(updatedNews);
+        assertEquals("UpdatedTitle", updatedNews.getTitle());
+        log.info("Updated news: " + updatedNews);
+    }
+
 }
